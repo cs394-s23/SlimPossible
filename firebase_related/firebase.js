@@ -1,8 +1,11 @@
-import firebase from "firebase/app";
-import "firebase/auth"; // If you plan to use authentication
-import "firebase/firestore"; // If you plan to use Firestore as the database
-import "firebase/storage"; // If you plan to use Firebase Storage
-import { GoogleAuthProvider } from "firebase/auth";
+import "firebase/compat/auth";
+import "firebase/compat/messaging";
+import "firebase/compat/firestore";
+
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDE9nF_Ghno85E9jdPY3qf5ASxTc3odNVM",
@@ -14,11 +17,9 @@ const firebaseConfig = {
   appId: "1:858747206804:web:2567fcbd6f40a1fbcb0881",
 };
 
-const app = initializeApp(firebaseConfig);
-firebase.initializeApp(firebaseConfig);
-
 // Export Firebase services for use in other parts of your app
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
-export const storage = firebase.storage();
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const firestore = getFirestore();
+export const storage = getStorage(app);
 export const provider = new GoogleAuthProvider();

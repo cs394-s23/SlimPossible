@@ -1,30 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import Logo from "./Logo.png";
-// import { auth, provider } from "../../../firebase_related/firebase";
+import { auth, provider } from "../../../firebase_related/firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [img, setImg] = useState("");
 
-  // const signinWithGoogle = () => {
-  //   auth()
-  //     .signInWithRedirect(provider)
-  //     .then((result) => {
-  //       const userName = result.user.displayName;
-  //       var userEmail = result.user.email;
-  //       var imgUrl = result.user.photoURL;
+  const signinWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const userName = result.user.displayName;
+        var userEmail = result.user.email;
+        var imgUrl = result.user.photoURL;
 
-  //       setEmail(userEmail);
-  //       setImg(imgUrl);
-  //       setName(userName);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       return;
-  //     });
-  // };
+        setEmail(userEmail);
+        setImg(imgUrl);
+        setName(userName);
+
+        console.log(userEmail, imgUrl, userName);
+      })
+      .catch((error) => {
+        console.log(error);
+        return;
+      });
+  };
 
   return (
     <div className="loginPage">
@@ -35,7 +37,7 @@ const Login = () => {
       <form>
         <button
           type="button"
-          // onClick={signinWithGoogle}
+          onClick={signinWithGoogle}
           className="login-with-google-btn"
         >
           Sign in with Google
