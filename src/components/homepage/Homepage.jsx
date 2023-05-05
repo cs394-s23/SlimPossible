@@ -4,64 +4,74 @@ import { useState, useReducer, useEffect } from "react";
 import { Chart } from "react-google-charts";
 
 import Block from "./Block";
+import B_select from "./B_select";
 
 const Homepage = () => {
 
     // 1. State variables initialization
+    const [calories, setCalories] = useState(0);
+    const [carbohydrates, setCarbohydrates] = useState(0);
+    const [protein, setProtein] = useState(0);
+    const [fat, setFat] = useState(0);
+
     const [blocks, setBlocks] = useState([]);
     const [pieDataNew, setPieDataNew] = useState({});
     const [pieDataOld, setPieDataOld] = useState({});
+    const [diffData, setDiffData] = useState({});
+
     const [dataFetched, setDataFetched] = useState(false);
+    const [dineOptions, setDineOptions] = useState([]);
 
     // 2. Fake data
     var block1 = {
         title: "Breakfast",
         ingredients: [
-            {
-                emoji: "🍞",
-                name: "Ingredient 1",
-                num: 100,
-                calories: 267,
-                unit: "g"
-            },
-            {
-                emoji: "🥚",
-                name: "Ingredient 2",
-                num: 200,
-                calories: 155,
-                unit: "g"
-            }
+            {emoji: "🍞", name: "Bread", num: 100, calories: 267, protein: 8, fat: 3, carbohydrates: 51, unit: "g"},
+            {emoji: "🥚", name: "Egg", num: 200, calories: 310, protein: 26, fat: 23, carbohydrates: 2, unit: "g"}
         ]
-    };
+    };   
 
     var block2 = {
         title: "Lunch",
         ingredients: [
-            {
-                emoji: "🍔",
-                name: "Beef Patty",
-                num: 1,
-                calories: 250,
-                unit: "serving"
-            },
-            {
-                emoji: "🍟",
-                name: "French Fries",
-                num: 150,
-                calories: 312,
-                unit: "g"
-            },
-            {
-                emoji: "🥤",
-                name: "Soda",
-                num: 1,
-                calories: 150,
-                unit: "can"
-            }
+          {emoji: "🍔", name: "Beef Patty", num: 1, calories: 250, protein: 20, fat: 20, carbohydrates: 0, unit: "serving"},
+          {emoji: "🍟", name: "French Fries", num: 150, calories: 312, protein: 4, fat: 15, carbohydrates: 42, unit: "g"},
+          {emoji: "🥤", name: "Soda", num: 1, calories: 150, protein: 0, fat: 0, carbohydrates: 39, unit: "can"}
         ]
     };
+      
 
+    var choice1 = {
+        emoji: "🥩",
+        title: "Steak Dinner",
+        ingredients: [
+          {'name': 'Ribeye Steak', 'num': 1, 'unit': 'serving', 'calories': 700, 'protein': 200, 'fat': 55, 'carbohydrates': 0},
+          {'name': 'Baked Potato', 'num': 1, 'unit': 'serving', 'calories': 250, 'protein': 1, 'fat': 0, 'carbohydrates': 50},
+          {'name': 'Green Beans', 'num': 1, 'unit': 'cup', 'calories': 35, 'protein': 2, 'fat': 0, 'carbohydrates': 7},
+          {'name': 'Garlic Bread', 'num': 1, 'unit': 'slice', 'calories': 120, 'protein': 3, 'fat': 4, 'carbohydrates': 100},
+          {'name': 'Red Wine', 'num': 1, 'unit': 'glass', 'calories': 125, 'protein': 0, 'fat': 0, 'carbohydrates': 4}
+        ]
+    }
+      
+
+    var choice2 = {
+        emoji: "🍝",
+        title: "Spaghetti Bolognese",
+        ingredients: [
+          { name: "Ground Beef", num: 1, unit: "serving", calories: 250, protein: 18, fat: 12, carbohydrates: 5 },
+          { name: "Spaghetti Noodles", num: 2, unit: "ounces", calories: 210, protein: 70, fat: 1, carbohydrates: 43 },
+          { name: "Tomato Sauce", num: 0.5, unit: "cup", calories: 50, protein: 2, fat: 1, carbohydrates: 10 },
+          { name: "Parmesan Cheese", num: 2, unit: "tablespoons", calories: 44, protein: 3, fat: 3, carbohydrates: 0 },
+          { name: "Olive Oil", num: 1, unit: "tablespoon", calories: 120, protein: 0, fat: 140, carbohydrates: 0 },
+          { name: "Garlic", num: 2, unit: "cloves", calories: 8, protein: 0, fat: 0, carbohydrates: 2 },
+        ],
+      };
+      
+      
+
+    
     var blocks_new = [block1, block2];
+    var choices_new = [choice1, choice2];
 
     // 3. Add styles to the data that came in
     const addStyles = (blocks) => {
@@ -71,50 +81,50 @@ const Homepage = () => {
             // 3.1. Add custom style to each block
             if (block.title != undefined && block.title.toLowerCase() === "Breakfast".toLowerCase()) {
                 block.customStyle = {
-                    "border-color": "#7ACDFF",
+                    borderColor: "#7ACDFF",
                     backgroundColor: "#EAF7FF",
                     color: "#4ABBFF"
                 }
 
                 block.stringsStyle = {
-                    "border-color": "#7ACDFF",
+                    borderColor: "#7ACDFF",
                     backgroundColor: '#C3E8FF'
                 }
 
                 block.mealInfoStyle = {
-                    "border-color": "#7ACDFF",
+                    borderColor: "#7ACDFF",
                 }
 
             } else if (block.title != undefined && block.title.toLowerCase() === "Lunch".toLowerCase()) {
                 block.customStyle = {
-                    "border-color": "#FF6735",
+                    borderColor: "#FF6735",
                     backgroundColor: "#FFE1D7",
                     color: "#CA3200"
                 }
 
                 block.stringsStyle = {
-                    "border-color": "#FF6735",
+                    borderColor: "#FF6735",
                     backgroundColor: '#FFCDBD'
                 }
 
                 block.mealInfoStyle = {
-                    "border-color": "#FF6735",
+                    borderColor: "#FF6735",
                 }
 
             } else if (block.title != undefined && block.title.toLowerCase() === "Dinner".toLowerCase()) {
                 block.customStyle = {
-                    "border-color": "#2D48FF",
+                    borderColor: "#2D48FF",
                     backgroundColor: "#D9DEFF",
                     color: "#00128C"
                 }
 
                 block.stringsStyle = {
-                    "border-color": "#2D48FF",
+                    borderColor: "#2D48FF",
                     backgroundColor: '#C3CBFF'
                 }
 
                 block.mealInfoStyle = {
-                    "border-color": "#2D48FF",
+                    borderColor: "#2D48FF",
                 }
 
             }
@@ -129,39 +139,68 @@ const Homepage = () => {
         setBlocks(blocks_new);
     }
 
-    
-    
+    if (dineOptions.length == 0){
+        setDineOptions(choices_new);
+    }
+
+    // 4. Some Helper Functions
 
     const changePieDataNew = () => {
-        var data = [
-            ["Major", "Degrees"],
-            ["Business", 358293],
-            ["Education", 101265],
-            ["Social Sciences &amp; History", 172780],
-            ["Health", 129634],
-            ["Psychology", 97216],
-        ]
+        var data = [  
+        ["Type", "Item"],
+        ["Protein", 835],
+        ["Fat", 560],
+        ["Carbohydrates", 320],
+      ];
 
         setPieDataNew(data);
     }
 
     const changePieDataOld = () => {
-        var data = [
-            ["Major", "Degrees"],
-            ["Business", 256070],
-            ["Education", 108034],
-            ["Social Sciences &amp; History", 127101],
-            ["Health", 81863],
-            ["Psychology", 74194],
-        ]
+        var data = [  
+            ["Type", "Item"],
+            ["Protein", 835],
+            ["Fat", 560],
+            ["Carbohydrates", 320],
+        ];
+      
 
         setPieDataOld(data);
     }
 
-    const diffdata = {
-        old: pieDataOld,
-        new: pieDataNew,
-    };
+    function mealOptionChange(newData){
+
+        var data = {};
+
+        // If the box was unchecked
+        if (Object.keys(newData).length === 0){
+            data = pieDataOld
+        } else {
+            // Change meal data
+            // 1. Get all calories
+            var protein = pieDataOld[1][1] + newData.protein;
+            var fat = pieDataOld[2][1] + newData.fat;
+            var carbohydrates = pieDataOld[3][1] + newData.carbohydrates;
+
+            // 2. Change the pie chart data withe the previous data values as well
+            var data = [
+                ["Type", "Item"],
+                ["Protein", protein],
+                ["Fat", fat],
+                ["Carbohydrates", carbohydrates],
+            ];
+        }
+
+        // 3. Set new data
+        setPieDataNew(data);
+        setDiffData({
+            old: pieDataOld,
+            new: data,
+        })
+    }
+
+
+    // 5. Pie Chart Data
 
     const options = {
         width: "70%",
@@ -186,13 +225,49 @@ const Homepage = () => {
         console.log("Pie data changed");
     }
 
+    // 6. Initialize Data for the first time
+    useEffect(() => {
+        if (Object.keys(diffData).length === 0) {
+            setDiffData({
+                old: pieDataOld,
+                new: pieDataNew,
+            });
+        }
+    }, [pieDataNew, pieDataOld])
+
+    // Render the variables by extracting data from the blocks
+    useEffect(() => {
+        if (blocks.length != 0) {
+            var protein = 0;
+            var fat = 0;
+            var carbohydrates = 0;
+            var calories = 0;
+
+            blocks.forEach((block, index) => {
+                block.ingredients.forEach((ingredient, index) => {
+                    protein += ingredient.protein;
+                    fat += ingredient.fat;
+                    carbohydrates += ingredient.carbohydrates;
+                    calories += ingredient.calories;
+                })
+            })
+        }
+
+        // Set the state variables here
+        setCalories(calories);
+        setProtein(protein);
+        setFat(fat);
+        setCarbohydrates(carbohydrates);
+    }, [blocks])
+
+
     return (
         <div className="homepage">
             <div className="header">
                 <div className="info_box">
                     <Chart
                         chartType="PieChart"
-                        diffdata={diffdata}
+                        diffdata={diffData}
                         options={options}/>
 
                     <div className="seperator"></div>
@@ -200,26 +275,29 @@ const Homepage = () => {
                     <div className="info">
                         <div className="info_item">
                             <h3>Calories: </h3>
-                            <p>2156</p>
+                            <p>{calories}</p>
                         </div>
                         <div className="info_item">
-                            <h3>Macro-Nutrients: </h3>
-                            <p>456</p>
+                            <h3>Carbohydrates: </h3>
+                            <p>{carbohydrates}</p>
                         </div>
                         <div className="info_item">
                             <h3>Fat: </h3>
-                            <p>300</p>
+                            <p>{fat}</p>
                         </div>
                         <div className="info_item">
                             <h3>Protein: </h3>
-                            <p>50</p>
+                            <p>{protein}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="content">
                 {blocks.map((obj, index) => (<Block key={index} block={obj} />))}
+                {dineOptions.map((obj, index) => (<B_select key={index} option={obj} tryMealOption={mealOptionChange} />))}
             </div>
+            
+
 
             {/* note: the button pencil emote may not appear here */}
             <button className="form_add">✏️</button>

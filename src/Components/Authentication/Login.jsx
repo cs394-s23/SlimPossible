@@ -17,7 +17,7 @@ const Login = () => {
         localStorage.setItem("image", imgUrl);
         localStorage.setItem("email", userEmail);
 
-        Navigate("/");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);

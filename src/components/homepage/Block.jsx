@@ -58,7 +58,7 @@ const Block = (props) => {
                     chartType="PieChart"
                     data={pieData}
                     options={options}
-                    />
+                />
             </div> 
         </div>
     );

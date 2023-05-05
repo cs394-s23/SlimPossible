@@ -1,17 +1,29 @@
 import "./App.css";
-import Login from "./Components/Authentication/Login";
-import Homepage from "./Homepage/Homepage";
+import Login from "/src/components/Authentication/Login";
+import Homepage from "/src/components/homepage/Homepage";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </BrowserRouter>
-  );
+
+  const name = localStorage.getItem("name");
+
+  if (name) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  } else {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
 };
 
 export default App;
