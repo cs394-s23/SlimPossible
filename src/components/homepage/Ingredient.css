@@ -1,0 +1,32 @@
+.Ingredient{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ing_top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 0px;
+}
+
+.ing_top p{
+    margin: 0;
+    margin-left: 5px;
+}
+
+.ing_top h3{
+    /* padding: 0; */
+    margin: 0;
+}
+
+.ing_bottom {
+    color: rgb(120, 120, 120);
+}
+
+.ing_bottom p {
+    margin: 0;
+}
