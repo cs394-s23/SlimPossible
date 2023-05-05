@@ -3,9 +3,11 @@ import "./Login.css";
 import Logo from "./Logo.png";
 import { auth, provider } from "../../../firebase_related/firebase";
 import { signInWithPopup } from "firebase/auth";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const Navigate = useNavigate();
+
   const signinWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -17,7 +19,7 @@ const Login = () => {
         localStorage.setItem("image", imgUrl);
         localStorage.setItem("email", userEmail);
 
-        navigate("/");
+        Navigate("/");
       })
       .catch((error) => {
         console.log(error);

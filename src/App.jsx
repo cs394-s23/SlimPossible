@@ -4,26 +4,20 @@ import Homepage from "/src/components/homepage/Homepage";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 const App = () => {
+  const userName = localStorage.getItem("name");
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
 
-  const name = localStorage.getItem("name");
-
-  if (name) {
-    return (
-      <BrowserRouter>
-        <Routes>
+        {userName ? (
           <Route path="/" element={<Homepage />} />
-        </Routes>
-      </BrowserRouter>
-    );
-  } else {
-    return (
-      <BrowserRouter>
-        <Routes>
+        ) : (
           <Route path="/" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
-    );
-  }
+        )}
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export default App;

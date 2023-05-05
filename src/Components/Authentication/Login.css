@@ -1,11 +1,18 @@
-.app-logo {
-  padding: 0px;
+.loginPage {
+  background-color: rgba(43, 43, 43, 255);
+  text-align: center;
+  margin: auto;
+  height: 150vw;
 }
 
-.app-logo img {
-  margin-top: -10px;
-  width: 400px;
-  height: 400px;
+.app-logo {
+  text-align: center;
+}
+
+.loginPage .app-logo img {
+  width: 64% !important;
+  height: 40% !important;
+  margin-top: 3vw !important;
 }
 
 /* sign in button */
@@ -42,8 +49,8 @@
     0 0 0 3px #c8dafc;
 }
 
-/* iphones */
-@media only screen and (min-width: 390px) {
+/* mobile phone */
+@media screen and (max-width: 768px) {
   .loginPage {
     text-align: center;
     padding-top: 2rem;
