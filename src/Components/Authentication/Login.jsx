@@ -6,12 +6,13 @@ import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const Navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   const signinWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        const userName = result.user.displayName;
+        var userName = result.user.displayName;
         var userEmail = result.user.email;
         var imgUrl = result.user.photoURL;
 
@@ -19,7 +20,9 @@ const Login = () => {
         localStorage.setItem("image", imgUrl);
         localStorage.setItem("email", userEmail);
 
-        Navigate("/");
+        navigate("/");
+
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);

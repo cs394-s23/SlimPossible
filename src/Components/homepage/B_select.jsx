@@ -54,7 +54,7 @@ const B_select = (props) => {
 
     return (
         <div className="block">
-            <input type="checkbox" onChange={tryMealOptionThis}></input>
+            <input id="mealCheckBox" type="checkbox" onChange={tryMealOptionThis}></input>
             <div className="block-title">
                 <h1>{option.emoji}{option.title}</h1>
             </div>

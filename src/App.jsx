@@ -5,19 +5,32 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 const App = () => {
   const userName = localStorage.getItem("name");
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
 
-        {userName ? (
-          <Route path="/" element={<Homepage />} />
-        ) : (
-          <Route path="/" element={<Login />} />
-        )}
-      </Routes>
-    </BrowserRouter>
-  );
+  const name = localStorage.getItem("name");
+
+  console.log("name: " + name);
+
+  if (name) {
+    return (
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    );
+  }
 };
 
 export default App;

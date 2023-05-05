@@ -2,6 +2,7 @@ import "./Homepage.css";
 import { useLocation } from "react-router-dom";
 import { useState, useReducer, useEffect } from "react";
 import { Chart } from "react-google-charts";
+import { Link } from "react-router-dom";
 
 import Block from "./Block";
 import B_select from "./B_select";
@@ -10,6 +11,7 @@ const Homepage = () => {
 
     // 1. State variables initialization
     const [calories, setCalories] = useState(0);
+    const [oldCalories, setOldCalories] = useState(0);
     const [carbohydrates, setCarbohydrates] = useState(0);
     const [protein, setProtein] = useState(0);
     const [fat, setFat] = useState(0);
@@ -45,10 +47,10 @@ const Homepage = () => {
         emoji: "🥩",
         title: "Steak Dinner",
         ingredients: [
-          {'name': 'Ribeye Steak', 'num': 1, 'unit': 'serving', 'calories': 700, 'protein': 200, 'fat': 55, 'carbohydrates': 0},
+          {'name': 'Ribeye Steak', 'num': 1, 'unit': 'serving', 'calories': 700, 'protein': 20, 'fat': 300, 'carbohydrates': 0},
           {'name': 'Baked Potato', 'num': 1, 'unit': 'serving', 'calories': 250, 'protein': 1, 'fat': 0, 'carbohydrates': 50},
           {'name': 'Green Beans', 'num': 1, 'unit': 'cup', 'calories': 35, 'protein': 2, 'fat': 0, 'carbohydrates': 7},
-          {'name': 'Garlic Bread', 'num': 1, 'unit': 'slice', 'calories': 120, 'protein': 3, 'fat': 4, 'carbohydrates': 100},
+          {'name': 'Garlic Bread', 'num': 1, 'unit': 'slice', 'calories': 120, 'protein': 3, 'fat': 4, 'carbohydrates': 500},
           {'name': 'Red Wine', 'num': 1, 'unit': 'glass', 'calories': 125, 'protein': 0, 'fat': 0, 'carbohydrates': 4}
         ]
     }
@@ -58,12 +60,12 @@ const Homepage = () => {
         emoji: "🍝",
         title: "Spaghetti Bolognese",
         ingredients: [
-          { name: "Ground Beef", num: 1, unit: "serving", calories: 250, protein: 18, fat: 12, carbohydrates: 5 },
+          { name: "Ground Beef", num: 1, unit: "serving", calories: 250, protein: 200, fat: 12, carbohydrates: 5 },
           { name: "Spaghetti Noodles", num: 2, unit: "ounces", calories: 210, protein: 70, fat: 1, carbohydrates: 43 },
           { name: "Tomato Sauce", num: 0.5, unit: "cup", calories: 50, protein: 2, fat: 1, carbohydrates: 10 },
           { name: "Parmesan Cheese", num: 2, unit: "tablespoons", calories: 44, protein: 3, fat: 3, carbohydrates: 0 },
           { name: "Olive Oil", num: 1, unit: "tablespoon", calories: 120, protein: 0, fat: 140, carbohydrates: 0 },
-          { name: "Garlic", num: 2, unit: "cloves", calories: 8, protein: 0, fat: 0, carbohydrates: 2 },
+          { name: "Garlic", num: 2, unit: "cloves", calories: 8, protein: 0, fat: 0, carbohydrates: 250 },
         ],
       };
       
@@ -145,6 +147,12 @@ const Homepage = () => {
 
     // 4. Some Helper Functions
 
+    // logout
+    const handleLogOut = (event) => {
+        localStorage.clear();
+        window.location.reload();
+    };
+
     const changePieDataNew = () => {
         var data = [  
         ["Type", "Item"],
@@ -172,15 +180,27 @@ const Homepage = () => {
 
         var data = {};
 
+        var protein = 0;
+        var fat = 0;
+        var carbohydrates = 0;
+        var calories = 0;
+
         // If the box was unchecked
         if (Object.keys(newData).length === 0){
             data = pieDataOld
+
+            protein = pieDataOld[1][1];
+            fat = pieDataOld[2][1];
+            carbohydrates = pieDataOld[3][1];
+            calories = oldCalories;
+
         } else {
             // Change meal data
             // 1. Get all calories
-            var protein = pieDataOld[1][1] + newData.protein;
-            var fat = pieDataOld[2][1] + newData.fat;
-            var carbohydrates = pieDataOld[3][1] + newData.carbohydrates;
+            protein = pieDataOld[1][1] + newData.protein;
+            fat = pieDataOld[2][1] + newData.fat;
+            carbohydrates = pieDataOld[3][1] + newData.carbohydrates;
+            calories = newData.calories + oldCalories;
 
             // 2. Change the pie chart data withe the previous data values as well
             var data = [
@@ -192,6 +212,11 @@ const Homepage = () => {
         }
 
         // 3. Set new data
+        setProtein(protein);
+        setFat(fat);
+        setCarbohydrates(carbohydrates);
+        setCalories(calories);
+
         setPieDataNew(data);
         setDiffData({
             old: pieDataOld,
@@ -254,7 +279,8 @@ const Homepage = () => {
         }
 
         // Set the state variables here
-        setCalories(calories);
+        setOldCalories(calories);
+        setCalories(calories)
         setProtein(protein);
         setFat(fat);
         setCarbohydrates(carbohydrates);
@@ -300,7 +326,7 @@ const Homepage = () => {
 
 
             {/* note: the button pencil emote may not appear here */}
-            <button className="form_add">✏️</button>
+            <Link className="form_add" to="/" onClick={handleLogOut}>✏️</Link>
         </div>
     );
 };
