@@ -18,6 +18,16 @@
   margin-bottom: 70px;
 }
 
+.profile {
+  margin-top: 10px;
+  border-right: 3px solid white;
+  padding-left: 10px;
+}
+
+.profile p {
+  color: white;
+}
+
 .info_box {
   display: flex;
   flex-direction: row;

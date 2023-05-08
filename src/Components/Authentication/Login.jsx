@@ -6,7 +6,6 @@ import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-
   const navigate = useNavigate();
 
   const signinWithGoogle = () => {
@@ -21,7 +20,6 @@ const Login = () => {
         localStorage.setItem("email", userEmail);
 
         navigate("/");
-
         window.location.reload();
       })
       .catch((error) => {
