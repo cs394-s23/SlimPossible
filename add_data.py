@@ -501,5 +501,5 @@ obj3 = {"weights": [
 weights = [obj1, obj2, obj3]
 
 
-for record in weights:
-    db.collection(u'weights').add(record)
+# for record in weights:
+#     db.collection(u'weights').add(record)
