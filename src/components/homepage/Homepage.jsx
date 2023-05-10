@@ -381,34 +381,7 @@ const Homepage = () => {
             {/* note: the button pencil emote may not appear here */}
             <Link className="form_add" to="/form">✏️</Link>
         </div>
-
-        {/* profile */}
-        {/* {name ? (
-          <div className="profile" style={{ height: "400px;" }}>
-            <img src={profilePic} />
-            <p> Welcome {name}</p>
-            <button onClick={handleLogOut}>Log Out</button>
-          </div>
-        ) : (
-          ""
-        )} */}
-      </div>
-      <div className="content">
-        {blocks.map((obj, index) => (
-          <Block key={index} block={obj} />
-        ))}
-
-        {dineOptions.map((obj, index) => (
-          <B_select key={index} option={obj} tryMealOption={mealOptionChange} />
-        ))}
-      </div>
-
-      {/* note: the button pencil emote may not appear here */}
-      <Link className="form_add" to="/form">
-        ✏️
-      </Link>
-    </div>
-  );
+    );
 };
 
 export default Homepage;
