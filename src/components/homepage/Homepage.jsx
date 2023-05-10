@@ -295,10 +295,11 @@ const Homepage = () => {
         changePieDataNew();
         changePieDataOld();
         setDataFetched(true);
-        Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
-            // Data fetched, now call recommendMeals
-            recommendMeals(allMeals, totalCaloriesSum);
-          });
+        // uncomment later
+        // Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
+        //     // Data fetched, now call recommendMeals
+        //     recommendMeals(allMeals, totalCaloriesSum);
+        //   });
         
         console.log("Pie data changed");
     }

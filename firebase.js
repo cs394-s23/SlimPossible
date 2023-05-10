@@ -20,14 +20,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+const DbTitle = "users";
+
 // Export Firebase services for use in other parts of your application
 export default db;
 export {app};
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 export const provider = new GoogleAuthProvider();
-
-export default db;
-export const storage = getStorage(firebaseApp);
-export { auth, provider };
-export { DbTitle} ;
+export { DbTitle } ;
