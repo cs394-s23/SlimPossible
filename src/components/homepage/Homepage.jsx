@@ -381,9 +381,6 @@ const Homepage = () => {
             {/* note: the button pencil emote may not appear here */}
             <Link className="form_add" to="/form">✏️</Link>
         </div>
-<<<<<<< HEAD
-    );
-=======
 
         {/* profile */}
         {/* {name ? (
@@ -412,7 +409,6 @@ const Homepage = () => {
       </Link>
     </div>
   );
->>>>>>> bcc9679 (Form done)
 };
 
 export default Homepage;
