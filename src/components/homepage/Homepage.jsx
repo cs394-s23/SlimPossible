@@ -3,7 +3,9 @@ import { useLocation } from "react-router-dom";
 import { useState, useReducer, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { Link } from "react-router-dom";
-
+import db from "../../..//firebase.js";
+import { collection, getDocs } from 'firebase/firestore';
+import { DbTitle } from "../../..//firebase.js";
 import Block from "./Block";
 import B_select from "./B_select";
 
@@ -23,6 +25,11 @@ const Homepage = () => {
 
     const [dataFetched, setDataFetched] = useState(false);
     const [dineOptions, setDineOptions] = useState([]);
+
+    const [collectionName, setCollectionName] = useState(DbTitle);
+    const [recMeals, setRecMeals] = useState([]);
+
+    const totalDailyCalories = 1800;
 
     // 2. Fake data
     var block1 = {
@@ -70,10 +77,51 @@ const Homepage = () => {
       };
       
       
-
-    
     var blocks_new = [block1, block2];
     var choices_new = [choice1, choice2];
+
+
+    // Fetch data from firebase
+    // Counting calories for all meals in logged_meal right now, NEED TO CONSIDER LOGGED_DATES LATER
+    const Fetchdata = async () => {
+        setDataFetched(true);
+    
+        try {
+          const allMealsSnapshot = await getDocs(collection(db, 'users', 'user1', 'all_meals'));
+          const allMeals = allMealsSnapshot.docs.map((doc) => doc.data());
+
+          const loggedMealsSnapshot = await getDocs(collection(db, 'users', 'user1', 'logged_meals'));
+          const loggedMeals = loggedMealsSnapshot.docs.map((doc) => doc.data());
+
+          let totalCaloriesSum = 0;
+          loggedMeals.forEach((meal) => {
+            const totalcalories = meal.totalcalories;
+            totalCaloriesSum += totalcalories;
+        });
+
+        console.log('Total Calories Sum:', totalCaloriesSum);
+        console.log(allMeals);
+        console.log(loggedMeals);
+        return { allMeals: allMeals, totalCaloriesSum: totalCaloriesSum };
+        } catch (error) {
+          console.log(error);
+        }
+    };
+
+
+    const recommendMeals = (allMeals, totalCaloriesSum) => {
+        const remainingCalories = totalDailyCalories - totalCaloriesSum;
+        if (Array.isArray(allMeals)) {
+            allMeals.forEach((meal) => {
+              if (meal.totalcalories <= remainingCalories) {
+                setRecMeals((recMeals) => [...recMeals, meal]);
+              }
+            });
+        }
+        console.log(recMeals);
+        console.log("hi");
+    }
+
 
     // 3. Add styles to the data that came in
     const addStyles = (blocks) => {
@@ -247,6 +295,11 @@ const Homepage = () => {
         changePieDataNew();
         changePieDataOld();
         setDataFetched(true);
+        Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
+            // Data fetched, now call recommendMeals
+            recommendMeals(allMeals, totalCaloriesSum);
+          });
+        
         console.log("Pie data changed");
     }
 
@@ -326,7 +379,7 @@ const Homepage = () => {
 
 
             {/* note: the button pencil emote may not appear here */}
-            <Link className="form_add" to="/" onClick={handleLogOut}>✏️</Link>
+            <Link className="form_add" to="/form">✏️</Link>
         </div>
     );
 };

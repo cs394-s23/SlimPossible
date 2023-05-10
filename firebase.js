@@ -27,11 +27,11 @@ const provider = new GoogleAuthProvider();
 
 // Test if the app is currently in production mode
 
-console.log(import.meta.env.NODE_ENV)
-console.log(window.EMULATION)
+// console.log(import.meta.env.NODE_ENV)
+// console.log(window.EMULATION)
 
 // Exporting DB Title
-const DbTitle = "ccTesting";
+const DbTitle = "users";
 
 export default db;
 export const storage = getStorage(firebaseApp);
