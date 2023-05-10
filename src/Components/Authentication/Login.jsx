@@ -1,7 +1,7 @@
 import React from "react";
 import "./Login.css";
 import Logo from "./Logo.png";
-import { auth, provider } from "../../../firebase_related/firebase";
+import { auth, provider } from "../../../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 

@@ -8,7 +8,7 @@
   },
   "hosting": {
     "site": "slimpossible-34902",
-    "public": "build",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
