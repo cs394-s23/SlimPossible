@@ -1,0 +1,88 @@
+* {
+  font-size: 16px;
+}
+
+.container {
+  justify-content: center;
+  align-items: center;
+  padding: 100px;
+  margin: auto;
+}
+
+.container .addMeals input {
+  padding: 10px;
+  border-radius: 10px;
+  width: 25%;
+}
+
+.container .addMeals .MealInputField {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px 0px;
+}
+
+.container .addMeals .buttons-List {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.container .addMeals .buttons-List button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: blue;
+  border: none;
+  color: #ffffff;
+  text-align: center;
+  font-size: 16px;
+  padding: 5px 7px;
+}
+
+.container .addMeals .deleteMeal {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: blue;
+  border: none;
+  color: #ffffff;
+  text-align: center;
+  font-size: 16px;
+  padding: 5px 7px;
+}
+
+.container .addMeals .buttons-List button:hover {
+  color: darkblue;
+  cursor: pointer;
+}
+
+/* mobile friendly */
+
+@media (max-width: 768px) {
+  .container .addMeals .MealInputField {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 10px 30px;
+  }
+
+  .container .addMeals input {
+    width: 100%;
+  }
+
+  .container .addMeals .deleteMeal {
+    margin-top: 5px;
+    width: 50%;
+    text-align: center;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+  }
+
+  label.checkInput {
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0px;
+  }
+}
