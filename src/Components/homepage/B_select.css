@@ -1,84 +1,77 @@
-.block{
-    border: 5px solid #2D48FF;
-    width: 90%;
-    background-color: #e7efff;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0);
-    transition: all 0.3s ease;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    padding: 30px;
-    padding-left: 50px;
-    margin-bottom: 50px;
-    color: #00128C;
+.block {
+  border: 2px solid #2d48ff;
+  width: 90%;
+  background-color: #e7efff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  color: #00128c;
 }
 
-.block:hover{
-    box-shadow: 0px 0px 20px rgba(64, 184, 254, 0.3);
-    transform: translateY(-5px);
-    cursor: pointer;
+.block:hover {
+  box-shadow: 0px 0px 20px rgba(64, 184, 254, 0.3);
+  transform: translateY(-5px);
+  cursor: pointer;
 }
 
-.block:active{
-    box-shadow: 0px 0px 20px rgba(64, 184, 254, 0.6);
-    transform: translateY(-5px);
-    cursor: pointer;
+.block:active {
+  box-shadow: 0px 0px 20px rgba(64, 184, 254, 0.6);
+  transform: translateY(-5px);
+  cursor: pointer;
 }
 
-.block-title{
-    font-family: 'Varela Round', sans-serif;
+.block-title {
+  font-family: "Varela Round", sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 82%;
 }
 
-.block-content{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.block-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.strings{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid #2D48FF;
-    background-color: #dde2ff;
-    border-radius: 10px;
-    padding: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin-right: 30%;
+.strings {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #2d48ff;
+  background-color: #dde2ff;
+  border-radius: 10px;
+  margin-right: 30%;
 }
 
-.strings h2{
-    margin-right: 15px;
+.strings h2 {
+  margin-right: 15px;
 }
 
-#mealCheckBox{
-    width: 50px;
-    height: 50px;
-    margin-left: 80%;
-    margin-bottom: 0;
+#mealCheckBox {
+  margin-bottom: 0;
 }
 
 @media (max-width: 768px) {
+  .block {
+    width: 90%;
+    align-items: center;
+  }
 
-    .block{
-        width: 90%;
-        padding: 5px;
-        align-items: center;
-    }
+  .block-content {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+  }
 
-    .block-content{
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 90%;
-    }
-
-    .strings{
-        margin-right: 0;
-        margin-bottom: 20px;
-        width: 90%;
-    }
+  .strings {
+    margin-right: 0;
+    margin-bottom: 20px;
+    width: 90%;
+  }
 }

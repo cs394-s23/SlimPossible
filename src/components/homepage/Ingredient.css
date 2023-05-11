@@ -1,32 +1,23 @@
-.Ingredient{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10px;
+.Ingredient {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: -18px;
+  width: 100%;
+  padding: 0px 5px;
 }
 
-.ing_top{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0;
-    margin-bottom: 0px;
+/* same width */
+.Ingredient > p {
+  flex-grow: 1;
+  flex-basis: 30%;
+  padding: 5px;
 }
 
-.ing_top p{
-    margin: 0;
-    margin-left: 5px;
+.ingredient-emoji {
+  margin-right: 8px;
 }
 
-.ing_top h3{
-    /* padding: 0; */
-    margin: 0;
-}
-
-.ing_bottom {
-    color: rgb(120, 120, 120);
-}
-
-.ing_bottom p {
-    margin: 0;
+.Ingredient p.calories {
+  opacity: 0.5;
+  color: black;
 }
