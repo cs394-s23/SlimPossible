@@ -27,9 +27,9 @@ const Homepage = () => {
     const [dineOptions, setDineOptions] = useState([]);
 
     const [collectionName, setCollectionName] = useState(DbTitle);
-    const [recMeals, setRecMeals] = useState([]);
 
     const totalDailyCalories = 1800;
+    const [RecMeals, setFilterInfo] = useState([]);
 
     // 2. Fake data
     var block1 = {
@@ -111,15 +111,20 @@ const Homepage = () => {
 
     const recommendMeals = (allMeals, totalCaloriesSum) => {
         const remainingCalories = totalDailyCalories - totalCaloriesSum;
+        const recMeals = [];
+
         if (Array.isArray(allMeals)) {
             allMeals.forEach((meal) => {
               if (meal.totalcalories <= remainingCalories) {
-                setRecMeals((recMeals) => [...recMeals, meal]);
+                console.log(meal);
+                recMeals.push(meal);
               }
             });
         }
-        console.log(recMeals);
+        const slicedRecMeals = recMeals.slice(0, 3);
+        console.log(slicedRecMeals);
         console.log("hi");
+        setFilterInfo(slicedRecMeals);
     }
 
 
@@ -190,7 +195,7 @@ const Homepage = () => {
     }
 
     if (dineOptions.length == 0){
-        setDineOptions(choices_new);
+        setDineOptions(RecMeals);
     }
 
     // 4. Some Helper Functions
