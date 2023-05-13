@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import db from "../../../firebase.js";
-import { collection, doc, getFirestore, addDoc } from "firebase/firestore"; 
+import { collection, doc, getFirestore, addDoc } from "firebase/firestore";
 import "./Form.css";
 
 function SearchForm() {
   const [searchQuery, setSearchQuery] = useState("");
   const [options, setOptions] = useState([]);
-  const [apiKey, setApiKey] = useState("7PjqZ2PBp4plWIxuk3AtA6KUTsYooEKx9ospWyLG");
+  const [apiKey, setApiKey] = useState(
+    "7PjqZ2PBp4plWIxuk3AtA6KUTsYooEKx9ospWyLG"
+  );
 
   const [mealIngredientsArray, setMealArray] = useState([]);
-
   const [mealName, setMealName] = useState("");
   const [favMeal, setFavMeal] = useState(false);
 
-  const [submitButton, setSubmitButton] = useState("🍔 Submit Entry 🍔");
+  const [errorMessages, setErrorMessages] = useState([]);
 
+  const [submitButton, setSubmitButton] = useState("🍔 Submit Entry 🍔");
   const handleSubmit = (event) => {
     event.preventDefault();
     // Clear all options before
@@ -30,40 +32,39 @@ function SearchForm() {
 
   // Pull data from USDA Search API
   const getFoodData = () => {
-
     if (searchQuery != "") {
       // Search for the query
       console.log("Searching for: " + searchQuery);
 
-      const tempQuery = searchQuery.split(", ")
-      const foodName = tempQuery[0]
-      var brandName = tempQuery[1]
+      const tempQuery = searchQuery.split(", ");
+      const foodName = tempQuery[0];
+      var brandName = tempQuery[1];
 
       if (brandName == null) {
-        brandName = ""
+        brandName = "";
       }
 
       const params = new URLSearchParams({
-        'api_key':apiKey, 
-        'query': foodName, 
-        'pageSize': 10, 
-        'pageNumber': 1, 
-        'brandOwner': brandName
-      })
+        api_key: apiKey,
+        query: foodName,
+        pageSize: 10,
+        pageNumber: 1,
+        brandOwner: brandName,
+      });
 
       fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?${params}`)
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           // Parse in the data
           console.log(data);
           console.log(data.foods);
           setOptions(data.foods);
         })
-        .catch(error => {
-          console.error('Error fetching data:', error);
+        .catch((error) => {
+          console.error("Error fetching data:", error);
         });
     }
-  }
+  };
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -106,7 +107,7 @@ function SearchForm() {
       carbohydrates: carbohydrates,
       protein: protein,
       fat: fat,
-      borderColor: {borderColor: randomHexColor()}
+      borderColor: { borderColor: randomHexColor() },
     };
 
     mealArray.push(nutritionObject);
@@ -114,32 +115,49 @@ function SearchForm() {
     setMealArray(mealArray);
 
     console.log(mealArray);
-    
+
     // Now we change the state of the check box and CLEAR the options
     setTimeout(() => {
       e.target.checked = false;
       setOptions([]);
       setSearchQuery("");
     }, 1000);
-  }
+  };
 
-  async function submitFormToFirebase (e) {
+  async function submitFormToFirebase(e) {
     // Now we submit the form to firebase
     // First we need to get the user id
     const userId = localStorage.getItem("email");
 
-    // Now we need to get the current date
+    // form validation
+    if (mealName == "") {
+      let messages = [...errorMessages];
+      let newErrorMessage = "The meal name can't be empty!";
+      messages.push(newErrorMessage);
+      setErrorMessages(messages);
+      return;
+    }
+
+    if (!isNaN(mealName)) {
+      let messages = [...errorMessages];
+      let newErrorMessage = "The meal name must be a string!";
+      messages.push(newErrorMessage);
+      setErrorMessages(messages);
+      return;
+    }
+
     const name = mealName;
+    // Now we need to get the current date
     const date = new Date();
-  
+
     // Now we need to get the meal ingredients
     var ingredients = [];
     var totalCalories = 0;
     var totalmacros = {
       carbs: 0,
       protein: 0,
-      fat: 0
-    }
+      fat: 0,
+    };
 
     for (var i = 0; i < mealIngredientsArray.length; i++) {
       const ingredient = {
@@ -147,11 +165,11 @@ function SearchForm() {
         macros: {
           carbs: mealIngredientsArray[i].carbohydrates,
           protein: mealIngredientsArray[i].protein,
-          fat: mealIngredientsArray[i].fat
+          fat: mealIngredientsArray[i].fat,
         },
         grams: 0,
-        calories: mealIngredientsArray[i].calories
-      }
+        calories: mealIngredientsArray[i].calories,
+      };
 
       ingredients.push(ingredient);
 
@@ -169,27 +187,30 @@ function SearchForm() {
       totalCalories: totalCalories,
       totalmacros: totalmacros,
       favmeal: favMeal,
-      date: date
-    }
+      date: date,
+    };
 
     const submissionWithoutDate = {
       name: name,
       ingredients: ingredients,
       totalCalories: totalCalories,
       totalmacros: totalmacros,
-      favmeal: favMeal
-    }
+      favmeal: favMeal,
+    };
 
     // Now we need to submit the data to firebase
     // Find user document first, then add to the subarray
-    const userRef = doc(db, "users", userId)
-    const userRefAllMeals = collection(userRef, 'all_meals')
-    const userRerLoggedMeals = collection(userRef, 'logged_meals')
+    const userRef = doc(db, "users", userId);
+    const userRefAllMeals = collection(userRef, "all_meals");
+    const userRerLoggedMeals = collection(userRef, "logged_meals");
 
     await setSubmitButton("Submitting...");
 
-    const docRefAll = await addDoc(userRefAllMeals, submission)
-    const docRefLogged = await addDoc(userRerLoggedMeals, submissionWithoutDate)
+    const docRefAll = await addDoc(userRefAllMeals, submission);
+    const docRefLogged = await addDoc(
+      userRerLoggedMeals,
+      submissionWithoutDate
+    );
 
     await setSubmitButton("✅ Submitted! ✅");
 
@@ -198,14 +219,18 @@ function SearchForm() {
       console.log("Delayed for 1 seconds");
       window.location.href = "/";
     }, "1000");
-  
-  };
-
+  }
 
   return (
     <div className="overallForm">
+      {errorMessages.length > 0
+        ? errorMessages.map((x) => <p style={{ color: "red" }}> {x}</p>)
+        : ""}
+
       <form className="submitForm" onSubmit={handleSubmit}>
-        <button className="slimPossibleSubmit" onClick={submitFormToFirebase}>{submitButton}</button>
+        <button className="slimPossibleSubmit" onClick={submitFormToFirebase}>
+          {submitButton}
+        </button>
 
         <input
           className="meal-input"
@@ -213,6 +238,7 @@ function SearchForm() {
           placeholder="Your meal name"
           onChange={(e) => setMealName(e.target.value)}
           value={mealName}
+          required
         />
 
         <div className="searchBar">
@@ -223,7 +249,13 @@ function SearchForm() {
             onChange={handleSearchChange}
             placeholder="Ingredient name, brand name(optional)"
           />
-          <button className="searchIngredient" type="submit" onClick={handleSubmit}>🔎</button>
+          <button
+            className="searchIngredient"
+            type="submit"
+            onClick={handleSubmit}
+          >
+            🔎
+          </button>
         </div>
         <div className="favMeal">
           <p> ✨ Favourite Meal? </p>
@@ -234,39 +266,46 @@ function SearchForm() {
             onChange={(e) => setFavMeal(e.target.checked)}
           />
         </div>
-
       </form>
       <div className="ingredient-options">
         {mealIngredientsArray.map((ingredient) => (
-          <div key={ingredient.name} className="ingredient-option" style={ingredient.borderColor}>
+          <div
+            key={ingredient.name}
+            className="ingredient-option"
+            style={ingredient.borderColor}
+          >
             <h2>{ingredient.name}:</h2>
             <p>{ingredient.calories} kcal</p>
           </div>
         ))}
-      </div>  
+      </div>
       <div className="search-results">
         {options.map((option) => (
           <div key={option.fdcId} className="search-result-card">
-            <input id="mealCheckBox" type="checkbox" onChange={(e) => addItemToMeal(e, option)}></input>
+            <input
+              id="mealCheckBox"
+              type="checkbox"
+              onChange={(e) => addItemToMeal(e, option)}
+            ></input>
             <h2>{option.description}</h2>
-            <div className='search-result-each'>
-              <h2>Brand:</h2> 
+            <div className="search-result-each">
+              <h2>Brand:</h2>
               <p>{option.brandOwner}</p>
             </div>
-            <div className='search-result-each'>
-              <h2>Calories:</h2> 
+            <div className="search-result-each">
+              <h2>Calories:</h2>
               <p>{option.foodNutrients[3].value}</p>
             </div>
-            <div className='search-result-each'>
-              <h2>Protein:</h2> 
+            <div className="search-result-each">
+              <h2>Protein:</h2>
               <p>{option.foodNutrients[0].value}</p>
             </div>
-            <div className='search-result-each'>
-              <h2>Fat:</h2> 
+            <div className="search-result-each">
+              <h2>Fat:</h2>
               <p>{option.foodNutrients[1].value}</p>
             </div>
-            <div className='search-result-each'>
-              <h2>Carbs:</h2> 
+            <div className="search-result-each">
+              <h2>Carbs:</h2>
               <p>{option.foodNutrients[2].value}</p>
             </div>
           </div>

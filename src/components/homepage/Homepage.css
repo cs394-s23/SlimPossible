@@ -54,6 +54,7 @@
   top: 19%;
   left: 60%;
   font-family: "Merriweather Sans", sans-serif;
+  display: flex;
 }
 
 .content {
@@ -71,6 +72,7 @@
   align-items: center;
   height: 30px;
   color: white;
+  flex-grow: 1;
 }
 
 .info_item h3 {
