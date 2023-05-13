@@ -30,6 +30,12 @@ const Homepage = () => {
 
   const totalDailyCalories = 1800;
 
+  const colorForPieChart = {
+    carbohydrates: "#3164f7",
+    protein: "#e0c342",
+    fat: "#ff4766",
+  }
+
   // 2. Fake data
   var block1 = {
     title: "Breakfast",
@@ -405,19 +411,27 @@ const Homepage = () => {
   // 5. Pie Chart Data
 
   const options = {
-    width: "70%",
+    width: "100%",
     height: "160px",
+    legend: "none",
     pieSliceText: "none",
     backgroundColor: "transparent",
-    chartArea: { width: "60%", height: "90%" },
-    legend: { textStyle: { color: "white", fontSize: 16 } },
+    chartArea: { width: "100%", height: "90%" },
+    slices: {
+      0: { color: colorForPieChart.protein },
+      1: { color: colorForPieChart.fat },
+      2: { color: colorForPieChart.carbohydrates },
+      3: { color: colorForPieChart.protein }, // more slices for inner slices
+      4: { color: colorForPieChart.fat },
+      5: { color: colorForPieChart.carbohydrates },
+
+    }
   };
 
   if (window.innerWidth <= 768) {
     options.height = "130px";
-    (options.width = "90%"), (options.legend.textStyle.fontSize = 10);
     options.chartArea.width = "90%";
-  }
+  };
 
   if (!dataFetched) {
     changePieDataNew();
@@ -471,27 +485,27 @@ const Homepage = () => {
   return (
     <div className="homepage">
       <div className="header">
-        <div className="info_box">
-          <Chart chartType="PieChart" diffdata={diffData} options={options} />
-          <div className="seperator"></div>
+        <div id="calories_and_macro_graph">
+          <Chart chartType="PieChart" diffdata={diffData} options={options} id="calories_and_macro_graph"/>
+        </div>
+        <div className="seperator"></div>
 
-          <div className="info">
-            <div className="info_item">
-              <h3>Calories: </h3>
-              <p>{calories}</p>
-            </div>
-            <div className="info_item">
-              <h3>Carbohydrates: </h3>
-              <p>{carbohydrates}</p>
-            </div>
-            <div className="info_item">
-              <h3>Fat: </h3>
-              <p>{fat}</p>
-            </div>
-            <div className="info_item">
-              <h3>Protein: </h3>
-              <p>{protein}</p>
-            </div>
+        <div className="info">
+          <div className="info_item">
+            <h3>Calories: </h3>
+            <p>{calories}</p>
+          </div>
+          <div className="info_item">
+            <h3 style={{'color': colorForPieChart.carbohydrates}}>Carbohydrates: </h3>
+            <p>{carbohydrates}</p>
+          </div>
+          <div className="info_item">
+            <h3 style={{'color': colorForPieChart.fat}}>Fat: </h3>
+            <p>{fat}</p>
+          </div>
+          <div className="info_item">
+            <h3 style={{'color': colorForPieChart.protein}}>Protein: </h3>
+            <p>{protein}</p>
           </div>
         </div>
       </div>
