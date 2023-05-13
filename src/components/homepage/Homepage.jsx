@@ -506,7 +506,7 @@ const Homepage = () => {
 
       {/* note: the button pencil emote may not appear here */}
       <Link className="form_add" to="/form">
-        ✏️
+        <img id="add_img" src="src/components/homepage/add.png"></img>
       </Link>
     </div>
   );

@@ -84,7 +84,7 @@
   bottom: 30px;
   right: 10px;
   z-index: 1;
-  background-color: rgba(0, 0, 255, 0.2);
+  background-color: rgba(33, 55, 99, 0.8);
   border: 7px solid #213763;
   border-radius: 50%;
   width: 100px;
@@ -101,13 +101,17 @@
 }
 
 .form_add:hover {
-  background-color: rgba(0, 0, 255, 0.5);
+  background-color: rgba(33, 55, 99, 0.85);
   transform: scaleX(1.1) scaleY(1.1);
 }
 
 .form_add:active {
-  background-color: rgba(0, 0, 255, 0.8);
+  background-color: rgba(33, 55, 99, 0.95);
   transform: scaleX(0.8) scaleY(0.8);
+}
+
+#add_img {
+  width: 60%;
 }
 
 @media (max-width: 768px) {
