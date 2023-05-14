@@ -28,7 +28,7 @@ const Homepage = () => {
   const [collectionName, setCollectionName] = useState(DbTitle);
   const [recMeals, setRecMeals] = useState([]);
 
-  const totalDailyCalories = 1800;
+  const [totalDailyCalories, setTotalDailyCalories] = useState();
 
   const colorForPieChart = {
     carbohydrates: "#3164f7",
@@ -424,7 +424,6 @@ const Homepage = () => {
       3: { color: colorForPieChart.protein }, // more slices for inner slices
       4: { color: colorForPieChart.fat },
       5: { color: colorForPieChart.carbohydrates },
-
     }
   };
 
@@ -484,29 +483,34 @@ const Homepage = () => {
 
   return (
     <div className="homepage">
-      <div className="header">
-        <div id="calories_and_macro_graph">
-          <Chart chartType="PieChart" diffdata={diffData} options={options} id="calories_and_macro_graph"/>
-        </div>
-        <div className="seperator"></div>
+      <div className="upper">
+        <div className="header">
+          <div id="calories_and_macro_graph">
+            <Chart chartType="PieChart" diffdata={diffData} options={options} id="calories_and_macro_graph"/>
+          </div>
+          <div className="seperator"></div>
 
-        <div className="info">
-          <div className="info_item">
-            <h3>Calories: </h3>
-            <p>{calories}</p>
+          <div className="info">
+            <div className="info_item">
+              <h3>Calories: </h3>
+              <p>{calories}</p>
+            </div>
+            <div className="info_item">
+              <h3 style={{'color': colorForPieChart.carbohydrates}}>Carbohydrates: </h3>
+              <p>{carbohydrates}</p>
+            </div>
+            <div className="info_item">
+              <h3 style={{'color': colorForPieChart.fat}}>Fat: </h3>
+              <p>{fat}</p>
+            </div>
+            <div className="info_item">
+              <h3 style={{'color': colorForPieChart.protein}}>Protein: </h3>
+              <p>{protein}</p>
+            </div>
           </div>
-          <div className="info_item">
-            <h3 style={{'color': colorForPieChart.carbohydrates}}>Carbohydrates: </h3>
-            <p>{carbohydrates}</p>
-          </div>
-          <div className="info_item">
-            <h3 style={{'color': colorForPieChart.fat}}>Fat: </h3>
-            <p>{fat}</p>
-          </div>
-          <div className="info_item">
-            <h3 style={{'color': colorForPieChart.protein}}>Protein: </h3>
-            <p>{protein}</p>
-          </div>
+        </div>
+        <div className="calorie_goal">
+          <input type="number" value={totalDailyCalories} placeholder="Enter Your Calorie Goal Today (kcal)..." />
         </div>
       </div>
       <div className="content">
@@ -517,8 +521,6 @@ const Homepage = () => {
           <B_select key={index} option={obj} tryMealOption={mealOptionChange} />
         ))}
       </div>
-
-      {/* note: the button pencil emote may not appear here */}
       <Link className="form_add" to="/form">
         <img id="add_img" src="src/components/homepage/add.png"></img>
       </Link>

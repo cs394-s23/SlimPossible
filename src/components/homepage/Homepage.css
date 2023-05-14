@@ -1,7 +1,16 @@
-.header {
+.upper{
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -9,8 +18,8 @@
   height: 200px;
   margin-bottom: 50px;
   width: 100%;
-  z-index: 1;
   background-color: #966F33;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .header::before{
@@ -19,11 +28,50 @@
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;
+	height: 200px;
   background-image: url("bg.jpg");
   background-size: cover;
   opacity: 0.2;
   z-index: -1;
+}
+
+.calorie_goal{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  font-size: 1rem;
+  width: 300px;
+  background-color: rgba(150, 111, 51, 0.1);
+}
+
+.calorie_goal input{
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 1rem;
+  text-align: center;
+  background-color: transparent;
+  color: rgba(150, 111, 51, 1);
+}
+
+.calorie_goal input::placeholder{
+  color: rgba(150, 111, 51, 1);
+}
+
+.calorie_goal input:focus{
+  background-color: rgba(150, 111, 51, 0.8);
+  color: white;
+}
+
+.calorie_goal input:focus::placeholder{
+  color: transparent;
 }
 
 .homepage {
@@ -116,9 +164,6 @@
 
 @media (max-width: 768px) {
   .header {
-    position: fixed;
-    top: 0;
-    left: 0;
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
@@ -159,7 +204,7 @@
   }
 
   .content {
-    margin-top: 220px;
+    margin-top: 270px;
   }
 
   .form_add {

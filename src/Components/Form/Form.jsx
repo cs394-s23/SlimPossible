@@ -241,8 +241,8 @@ function SearchForm() {
           ))
         : ""}
 
-      <Link className="form_add" to="/">
-        🏠
+      <Link className="ret_home" to="/">
+        <img id="ret_home_img" src="src/components/homepage/home.png"></img>
       </Link>
 
       <form className="submitForm" onSubmit={handleSubmit}>
