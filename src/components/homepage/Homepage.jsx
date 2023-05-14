@@ -1,5 +1,4 @@
 import "./Homepage.css";
-import { useLocation } from "react-router-dom";
 import { useState, useReducer, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { Link } from "react-router-dom";
@@ -34,7 +33,7 @@ const Homepage = () => {
     carbohydrates: "#3164f7",
     protein: "#e0c342",
     fat: "#ff4766",
-  }
+  };
 
   // 2. Fake data
   var block1 = {
@@ -424,13 +423,13 @@ const Homepage = () => {
       3: { color: colorForPieChart.protein }, // more slices for inner slices
       4: { color: colorForPieChart.fat },
       5: { color: colorForPieChart.carbohydrates },
-    }
+    },
   };
 
   if (window.innerWidth <= 768) {
     options.height = "130px";
     options.chartArea.width = "90%";
-  };
+  }
 
   if (!dataFetched) {
     changePieDataNew();
@@ -486,7 +485,12 @@ const Homepage = () => {
       <div className="upper">
         <div className="header">
           <div id="calories_and_macro_graph">
-            <Chart chartType="PieChart" diffdata={diffData} options={options} id="calories_and_macro_graph"/>
+            <Chart
+              chartType="PieChart"
+              diffdata={diffData}
+              options={options}
+              id="calories_and_macro_graph"
+            />
           </div>
           <div className="seperator"></div>
 
@@ -496,21 +500,27 @@ const Homepage = () => {
               <p>{calories}</p>
             </div>
             <div className="info_item">
-              <h3 style={{'color': colorForPieChart.carbohydrates}}>Carbohydrates: </h3>
+              <h3 style={{ color: colorForPieChart.carbohydrates }}>
+                Carbohydrates:{" "}
+              </h3>
               <p>{carbohydrates}</p>
             </div>
             <div className="info_item">
-              <h3 style={{'color': colorForPieChart.fat}}>Fat: </h3>
+              <h3 style={{ color: colorForPieChart.fat }}>Fat: </h3>
               <p>{fat}</p>
             </div>
             <div className="info_item">
-              <h3 style={{'color': colorForPieChart.protein}}>Protein: </h3>
+              <h3 style={{ color: colorForPieChart.protein }}>Protein: </h3>
               <p>{protein}</p>
             </div>
           </div>
         </div>
         <div className="calorie_goal">
-          <input type="number" value={totalDailyCalories} placeholder="Enter Your Calorie Goal Today (kcal)..." />
+          <input
+            type="number"
+            value={totalDailyCalories}
+            placeholder="Enter Your Calorie Goal Today (kcal)..."
+          />
         </div>
       </div>
       <div className="content">

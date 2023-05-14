@@ -6,16 +6,15 @@
   padding: 0px 5px;
 }
 
-/* same width */
 .Ingredient > p {
   flex-grow: 1;
   flex-basis: 30%;
   padding: 5px;
 }
 
-.ingredient-emoji {
+/* .ingredient-emoji {
   margin-right: 8px;
-}
+} */
 
 .Ingredient p.calories {
   opacity: 0.5;

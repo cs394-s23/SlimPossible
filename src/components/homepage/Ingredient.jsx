@@ -6,7 +6,7 @@ const Ingredient = (props) => {
   return (
     <div className="Ingredient">
       <p>
-        <span className="ingredient-emoji">{ingredient.emoji}</span>
+        {/* <span className="ingredient-emoji">{ingredient.emoji}</span> */}
         <span>{ingredient.name}:</span>
       </p>
       <p>

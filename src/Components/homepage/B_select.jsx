@@ -1,9 +1,7 @@
 import "./B_select.css";
 import Ingredient from "./Ingredient";
-import { useState, useReducer, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
 import React from "react";
-import { Chart } from "react-google-charts";
 
 const B_select = (props) => {
   // state variables initialization
