@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import db from "../../../firebase.js";
 import { collection, doc, getFirestore, addDoc } from "firebase/firestore";
 import "./Form.css";
+import { Link } from "react-router-dom";
 
 function SearchForm() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -9,20 +10,20 @@ function SearchForm() {
   const [apiKey, setApiKey] = useState(
     "7PjqZ2PBp4plWIxuk3AtA6KUTsYooEKx9ospWyLG"
   );
-
   const [mealIngredientsArray, setMealArray] = useState([]);
   const [mealName, setMealName] = useState("");
   const [favMeal, setFavMeal] = useState(false);
-
   const [errorMessages, setErrorMessages] = useState([]);
-
   const [submitButton, setSubmitButton] = useState("🍔 Submit Entry 🍔");
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // Clear all options before
     setOptions([]);
+    setErrorMessages([]);
 
     // Get food data
+
     getFoodData();
   };
 
@@ -32,38 +33,43 @@ function SearchForm() {
 
   // Pull data from USDA Search API
   const getFoodData = () => {
-    if (searchQuery != "") {
-      // Search for the query
-      console.log("Searching for: " + searchQuery);
-
-      const tempQuery = searchQuery.split(", ");
-      const foodName = tempQuery[0];
-      var brandName = tempQuery[1];
-
-      if (brandName == null) {
-        brandName = "";
-      }
-
-      const params = new URLSearchParams({
-        api_key: apiKey,
-        query: foodName,
-        pageSize: 10,
-        pageNumber: 1,
-        brandOwner: brandName,
-      });
-
-      fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?${params}`)
-        .then((response) => response.json())
-        .then((data) => {
-          // Parse in the data
-          console.log(data);
-          console.log(data.foods);
-          setOptions(data.foods);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+    if (searchQuery === "") {
+      let messages = [...errorMessages];
+      let newErrorMessage = "The search query can't be empty!";
+      messages.push(newErrorMessage);
+      setErrorMessages(messages);
+      return;
     }
+    // Search for the query
+    console.log("Searching for: " + searchQuery);
+
+    const tempQuery = searchQuery.split(", ");
+    const foodName = tempQuery[0];
+    var brandName = tempQuery[1];
+
+    if (brandName == null) {
+      brandName = "";
+    }
+
+    const params = new URLSearchParams({
+      api_key: apiKey,
+      query: foodName,
+      pageSize: 10,
+      pageNumber: 1,
+      brandOwner: brandName,
+    });
+
+    fetch(`https://api.nal.usda.gov/fdc/v1/foods/search?${params}`)
+      .then((response) => response.json())
+      .then((data) => {
+        // Parse in the data
+        console.log(data);
+        console.log(data.foods);
+        setOptions(data.foods);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   };
 
   const handleSearchChange = (event) => {
@@ -146,6 +152,10 @@ function SearchForm() {
       return;
     }
 
+    if (searchQuery == "") {
+      return;
+    }
+
     const name = mealName;
     // Now we need to get the current date
     const date = new Date();
@@ -224,8 +234,16 @@ function SearchForm() {
   return (
     <div className="overallForm">
       {errorMessages.length > 0
-        ? errorMessages.map((x) => <p style={{ color: "red" }}> {x}</p>)
+        ? errorMessages.map((x, idx) => (
+            <p key={idx} style={{ color: "red" }}>
+              {x}
+            </p>
+          ))
         : ""}
+
+      <Link className="form_add" to="/">
+        🏠
+      </Link>
 
       <form className="submitForm" onSubmit={handleSubmit}>
         <button className="slimPossibleSubmit" onClick={submitFormToFirebase}>
