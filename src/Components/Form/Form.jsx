@@ -14,16 +14,14 @@ function SearchForm() {
   const [mealName, setMealName] = useState("");
   const [favMeal, setFavMeal] = useState(false);
   const [errorMessages, setErrorMessages] = useState([]);
-  const [submitButton, setSubmitButton] = useState("🍔 Submit Entry 🍔");
+  const [submitButton, setSubmitButton] = useState("submit");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Clear all options before
     setOptions([]);
     setErrorMessages([]);
-
     // Get food data
-
     getFoodData();
   };
 
@@ -214,7 +212,7 @@ function SearchForm() {
     const userRefAllMeals = collection(userRef, "all_meals");
     const userRerLoggedMeals = collection(userRef, "logged_meals");
 
-    await setSubmitButton("Submitting...");
+    await setSubmitButton("submitting...");
 
     const docRefAll = await addDoc(userRefAllMeals, submission);
     const docRefLogged = await addDoc(
@@ -222,7 +220,7 @@ function SearchForm() {
       submissionWithoutDate
     );
 
-    await setSubmitButton("✅ Submitted! ✅");
+    await setSubmitButton("submitted!");
 
     // wait 1 second
     await setTimeout(() => {
@@ -230,6 +228,11 @@ function SearchForm() {
       window.location.href = "/";
     }, "1000");
   }
+
+  // helper
+  var titleCase = function (string) {
+    return string[0].toUpperCase() + string.slice(1).toLowerCase();
+  };
 
   return (
     <div className="overallForm">
@@ -246,7 +249,14 @@ function SearchForm() {
       </Link>
 
       <form className="submitForm" onSubmit={handleSubmit}>
-        <button className="slimPossibleSubmit" onClick={submitFormToFirebase}>
+        <button
+          className={
+            submitButton === "submit"
+              ? "slimPossibleSubmit"
+              : ".slimPossibleSubmitted"
+          }
+          onClick={submitFormToFirebase}
+        >
           {submitButton}
         </button>
 
@@ -300,31 +310,36 @@ function SearchForm() {
       <div className="search-results">
         {options.map((option) => (
           <div key={option.fdcId} className="search-result-card">
-            <input
-              id="mealCheckBox"
-              type="checkbox"
-              onChange={(e) => addItemToMeal(e, option)}
-            ></input>
-            <h2>{option.description}</h2>
-            <div className="search-result-each">
-              <h2>Brand:</h2>
-              <p>{option.brandOwner}</p>
+            <div className="src-title">
+              <h3>{titleCase(option.description)}</h3>
+              <input
+                id="mealCheckBox"
+                type="checkbox"
+                onChange={(e) => addItemToMeal(e, option)}
+              ></input>
             </div>
-            <div className="search-result-each">
-              <h2>Calories:</h2>
-              <p>{option.foodNutrients[3].value}</p>
-            </div>
-            <div className="search-result-each">
-              <h2>Protein:</h2>
-              <p>{option.foodNutrients[0].value}</p>
-            </div>
-            <div className="search-result-each">
-              <h2>Fat:</h2>
-              <p>{option.foodNutrients[1].value}</p>
-            </div>
-            <div className="search-result-each">
-              <h2>Carbs:</h2>
-              <p>{option.foodNutrients[2].value}</p>
+
+            <div className="sr-each">
+              <div className="search-result-each">
+                <h2>Brand:</h2>
+                <p>{option.brandOwner}</p>
+              </div>
+              <div className="search-result-each">
+                <h2>Calories:</h2>
+                <p>{option.foodNutrients[3].value}</p>
+              </div>
+              <div className="search-result-each">
+                <h2>Protein:</h2>
+                <p>{option.foodNutrients[0].value}</p>
+              </div>
+              <div className="search-result-each">
+                <h2>Fat:</h2>
+                <p>{option.foodNutrients[1].value}</p>
+              </div>
+              <div className="search-result-each">
+                <h2>Carbs:</h2>
+                <p>{option.foodNutrients[2].value}</p>
+              </div>
             </div>
           </div>
         ))}

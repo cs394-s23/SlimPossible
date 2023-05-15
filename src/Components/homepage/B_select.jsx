@@ -50,10 +50,7 @@ const B_select = (props) => {
   return (
     <div className="block">
       <div className="block-title">
-        <h1 style={{ marginLeft: "27%" }}>
-          {option.emoji}
-          {option.title}
-        </h1>
+        <h1>{option.title}</h1>
         <input
           id="mealCheckBox"
           type="checkbox"

@@ -427,7 +427,6 @@ const Homepage = () => {
               id="calories_and_macro_graph"
             />
           </div>
-          {/* <div className="seperator"></div> */}
 
           <div className="info">
             <div className="info_item">

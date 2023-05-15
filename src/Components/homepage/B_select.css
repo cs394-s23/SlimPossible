@@ -24,7 +24,8 @@
   font-family: "Varela Round", sans-serif;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  text-align: center;
+  justify-content: center;
   width: 82%;
   font-size: 19px;
 }
@@ -49,7 +50,8 @@
 }
 
 #mealCheckBox {
-  margin-bottom: 0;
+  margin-bottom: 2px;
+  margin-left: 8px;
 }
 
 @media (max-width: 768px) {
@@ -62,7 +64,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 90%;
+    width: 100%;
   }
 
   .strings {
