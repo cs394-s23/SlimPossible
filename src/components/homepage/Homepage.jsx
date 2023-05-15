@@ -258,72 +258,7 @@ const Homepage = () => {
     console.log("hi");
   };
 
-  // 3. Add styles to the data that came in
-  const addStyles = (blocks) => {
-    blocks.forEach((block, index) => {
-      // 3.1. Add custom style to each block
-      if (
-        block.title != undefined &&
-        block.title.toLowerCase() === "Breakfast".toLowerCase()
-      ) {
-        block.customStyle = {
-          borderColor: "#7ACDFF",
-          backgroundColor: "#EAF7FF",
-          color: "#4ABBFF",
-        };
-
-        block.stringsStyle = {
-          borderColor: "#7ACDFF",
-          backgroundColor: "#C3E8FF",
-        };
-
-        block.mealInfoStyle = {
-          borderColor: "#7ACDFF",
-        };
-      } else if (
-        block.title != undefined &&
-        block.title.toLowerCase() === "Lunch".toLowerCase()
-      ) {
-        block.customStyle = {
-          borderColor: "#FF6735",
-          backgroundColor: "#FFE1D7",
-          color: "#CA3200",
-        };
-
-        block.stringsStyle = {
-          borderColor: "#FF6735",
-          backgroundColor: "#FFCDBD",
-        };
-
-        block.mealInfoStyle = {
-          borderColor: "#FF6735",
-        };
-      } else if (
-        block.title != undefined &&
-        block.title.toLowerCase() === "Dinner".toLowerCase()
-      ) {
-        block.customStyle = {
-          borderColor: "#2D48FF",
-          backgroundColor: "#D9DEFF",
-          color: "#00128C",
-        };
-
-        block.stringsStyle = {
-          borderColor: "#2D48FF",
-          backgroundColor: "#C3CBFF",
-        };
-
-        block.mealInfoStyle = {
-          borderColor: "#2D48FF",
-        };
-      }
-    });
-
-    return blocks;
-  };
-
   if (blocks.length == 0) {
-    blocks_new = addStyles(blocks_new);
     setBlocks(blocks_new);
   }
 
@@ -492,7 +427,7 @@ const Homepage = () => {
               id="calories_and_macro_graph"
             />
           </div>
-          <div className="seperator"></div>
+          {/* <div className="seperator"></div> */}
 
           <div className="info">
             <div className="info_item">

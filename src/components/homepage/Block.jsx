@@ -52,7 +52,7 @@ const Block = (props) => {
           {ingredients_html}
         </div>
         <Chart
-          style={{ height: "22vh" }}
+          style={{ height: "22vh", marginLeft: "8px" }}
           chartType="PieChart"
           data={pieData}
           options={options}
