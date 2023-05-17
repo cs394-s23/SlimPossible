@@ -312,34 +312,12 @@ function SearchForm() {
           <div key={option.fdcId} className="search-result-card">
             <div className="src-title">
               <h3>{titleCase(option.description)}</h3>
+              <p>{option.brandOwner}</p>
               <input
                 id="mealCheckBox"
                 type="checkbox"
                 onChange={(e) => addItemToMeal(e, option)}
               ></input>
-            </div>
-
-            <div className="sr-each">
-              <div className="search-result-each">
-                <h2>Brand:</h2>
-                <p>{option.brandOwner}</p>
-              </div>
-              <div className="search-result-each">
-                <h2>Calories:</h2>
-                <p>{option.foodNutrients[3].value}</p>
-              </div>
-              <div className="search-result-each">
-                <h2>Protein:</h2>
-                <p>{option.foodNutrients[0].value}</p>
-              </div>
-              <div className="search-result-each">
-                <h2>Fat:</h2>
-                <p>{option.foodNutrients[1].value}</p>
-              </div>
-              <div className="search-result-each">
-                <h2>Carbs:</h2>
-                <p>{option.foodNutrients[2].value}</p>
-              </div>
             </div>
           </div>
         ))}
