@@ -29,8 +29,7 @@ const Homepage = () => {
   const [recMeals, setRecMeals] = useState([]);
   const [filteredMeals, setFilterInfo] = useState([]);
 
-  const totalDailyCalories = 1800;
-  // const [totalDailyCalories, setTotalDailyCalories] = useState();
+  const [totalDailyCalories, setTotalDailyCalories] = useState();
 
   const colorForPieChart = {
     carbohydrates: "#3164f7",
