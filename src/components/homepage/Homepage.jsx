@@ -1,4 +1,5 @@
 import "./Homepage.css";
+import { useLocation } from "react-router-dom";
 import { useState, useReducer, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { Link } from "react-router-dom";
@@ -26,8 +27,10 @@ const Homepage = () => {
 
   const [collectionName, setCollectionName] = useState(DbTitle);
   const [recMeals, setRecMeals] = useState([]);
+  const [filteredMeals, setFilterInfo] = useState([]);
 
-  const [totalDailyCalories, setTotalDailyCalories] = useState();
+  const totalDailyCalories = 1800;
+  // const [totalDailyCalories, setTotalDailyCalories] = useState();
 
   const colorForPieChart = {
     carbohydrates: "#3164f7",
@@ -250,12 +253,14 @@ const Homepage = () => {
     if (Array.isArray(allMeals)) {
       allMeals.forEach((meal) => {
         if (meal.totalcalories <= remainingCalories) {
-          setRecMeals((recMeals) => [...recMeals, meal]);
+          recMeals.push(meal);
         }
       });
     }
-    console.log(recMeals);
-    console.log("hi");
+
+    const slicedRecMeals = recMeals.slice(0, 3);
+    setFilterInfo(slicedRecMeals);
+    setDineOptions(filteredMeals);
   };
 
   if (blocks.length == 0) {
@@ -371,10 +376,10 @@ const Homepage = () => {
     changePieDataOld();
     setDataFetched(true);
     // uncomment later
-    // Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
-    //     // Data fetched, now call recommendMeals
-    //     recommendMeals(allMeals, totalCaloriesSum);
-    //   });
+    Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
+      // Data fetched, now call recommendMeals
+      recommendMeals(allMeals, totalCaloriesSum);
+    });
 
     console.log("Pie data changed");
   }
@@ -414,6 +419,12 @@ const Homepage = () => {
     setFat(fat);
     setCarbohydrates(carbohydrates);
   }, [blocks]);
+
+  // Change dining options
+  useEffect(() => {
+    setDineOptions(filteredMeals);
+    console.log(filteredMeals);
+  }, [filteredMeals]);
 
   return (
     <div className="homepage">
