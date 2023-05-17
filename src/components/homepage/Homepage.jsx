@@ -4,7 +4,7 @@ import { useState, useReducer, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { Link } from "react-router-dom";
 import db from "../../..//firebase.js";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getFirestore, addDoc, getDocs, getDoc, updateDoc } from "firebase/firestore";
 import { DbTitle } from "../../..//firebase.js";
 import Block from "./Block";
 import B_select from "./B_select";
@@ -347,8 +347,73 @@ const Homepage = () => {
     });
   }
 
-  // 5. Pie Chart Data
+  // Function to fetch data from the database regarding user daily calorie goal
 
+  const handleCalorieGoalChange = (e) => {
+    setTotalDailyCalories(e.target.value);
+  };
+
+  const fetchCalorieGoal = async () => {
+    try {
+      const userId = localStorage.getItem("email");
+      const userRef = doc(db, "users", userId);
+      
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        console.log("No such document!");
+        return;
+      }
+
+      const user = userSnap.data();
+
+      if (user.daily_calorie_goal == null) {
+        console.log("User daily calorie goal is null");
+        return;
+      }
+
+      console.log("User daily calorie goal: ", user.daily_calorie_goal);
+      setTotalDailyCalories(parseInt(user.daily_calorie_goal)); // set the total daily calories
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Function to update the database with the new calorie goal
+  const updateCalorieGoal = async () => {
+
+    if (totalDailyCalories == null) {
+      console.log("Total daily calories is null");
+      return;
+    }
+
+    try {
+      const userId = localStorage.getItem("email");
+      const userRef = doc(db, "users", userId);
+
+      console.log("Updating data base with calorie goal: ", totalDailyCalories);
+
+      const userSnap = await updateDoc(userRef, {
+        daily_calorie_goal: totalDailyCalories
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Start up, fetch the calorie goal
+  useEffect(() => {
+    fetchCalorieGoal();
+  }, []);
+
+  // Update the calorie goal
+  useEffect(() => {
+    updateCalorieGoal();
+  }, [totalDailyCalories]);
+
+
+  // 5. Pie Chart Data
   const options = {
     width: "100%",
     height: "160px",
@@ -463,8 +528,9 @@ const Homepage = () => {
         <div className="calorie_goal">
           <input
             type="number"
-            value={totalDailyCalories}
+            value={totalDailyCalories || ""}
             placeholder="Enter Your Calorie Goal Today (kcal)..."
+            onChange={(e) => setTotalDailyCalories(e.target.value)}
           />
         </div>
       </div>
