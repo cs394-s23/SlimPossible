@@ -13,70 +13,81 @@ app = firebase_admin.initialize_app(cred)
 # Create a Firestore client
 db = firestore.client()
 
+# meal1 = {
+#     "name": "Costco Cheese Pizza Slice",
+#     "ingredients": [
+#         {
+#             "name": "Pizza Slice",
+#             "macros": {
+#                 "protein": 40,
+#                 "fat": 30,
+#                 "carbs": 80
+#             },
+#             "calories": 760
+#         }
+#     ],
+#     "totalcalories": 760,
+#     "totalmacros": {
+#         "totalprotein": 40,
+#         "totalfat": 30,
+#         "totalcarbs": 80
+#     },
+#     "favmeal": True,
+#     "datestamp": datetime.now().date().isoformat()
+# }
+
 meal1 = {
-    "name": "Costco Cheese Pizza Slice",
+    "name": "Eggs Benedict",
     "ingredients": [
         {
-            "name": "Pizza Slice",
+            "name": "Eggs",
             "macros": {
-                "protein": 40,
-                "fat": 30,
-                "carbs": 80
+                "protein": 12,
+                "fat": 10,
+                "carbs": 1
             },
-            "calories": 760
+            "calories": 140
+        },
+        {
+            "name": "Ham",
+            "macros": {
+                "protein": 18,
+                "fat": 7,
+                "carbs": 1
+            },
+            "calories": 110
+        },
+        {
+            "name": "English Muffin",
+            "macros": {
+                "protein": 5,
+                "fat": 1,
+                "carbs": 26
+            },
+            "calories": 150
+        },
+        {
+            "name": "Hollandaise Sauce",
+            "macros": {
+                "protein": 1,
+                "fat": 24,
+                "carbs": 2
+            },
+            "calories": 220
         }
     ],
-    "totalcalories": 760,
+    "totalcalories": 620,
     "totalmacros": {
-        "totalprotein": 40,
-        "totalfat": 30,
-        "totalcarbs": 80
+        "totalprotein": 36,
+        "totalfat": 42,
+        "totalcarbs": 30
     },
-    "favmeal": True
+    "favmeal": True,
+    "datestamp": datetime.now().date().isoformat()
 }
 
 meal2 = {
-    "name": "Rice w/ Chicken and Broccoli",
-    "ingredients": [
-        {
-            "name": "Jasmine Rice",
-            "macros": {
-                "protein": 4.3,
-                "fat": 0.4,
-                "carbs": 45
-            },
-            "calories": 205
-        },
-        {
-            "name": "Chicken",
-            "macros": {
-                "protein": 37,
-                "fat": 4.3,
-                "carbs": 0
-            },
-            "calories": 198
-        },
-        {
-            "name": "Broccoli",
-            "macros": {
-                "protein": 2.4,
-                "fat": 7.2,
-                "carbs": 80
-            },
-            "calories": 35
-        }
-    ],
-    "totalcalories": 438,
-    "totalmacros": {
-        "totalprotein": 43.7,
-        "totalfat": 11.9,
-        "totalcarbs": 125
-    },
-    "favmeal": False
-}
-
-meal3 = {
-    "name": "Salmon and Asparagus",
+    "name": "Teriyaki Salmon",
     "ingredients": [
         {
             "name": "Salmon Fillet",
@@ -88,44 +99,129 @@ meal3 = {
             "calories": 300
         },
         {
-            "name": "Asparagus",
+            "name": "Teriyaki Sauce",
+            "macros": {
+                "protein": 0,
+                "fat": 10,
+                "carbs": 20
+            },
+            "calories": 150
+        },
+        {
+            "name": "Green Beans",
             "macros": {
                 "protein": 2,
                 "fat": 0,
                 "carbs": 4
             },
             "calories": 20
-        },
-        {
-            "name": "Lemon",
-            "macros": {
-                "protein": 0,
-                "fat": 0,
-                "carbs": 2
-            },
-            "calories": 10
-        },
-        {
-            "name": "Olive Oil",
-            "macros": {
-                "protein": 0,
-                "fat": 14,
-                "carbs": 0
-            },
-            "calories": 120
         }
     ],
-    "totalcalories": 450,
+    "totalcalories": 470,
     "totalmacros": {
         "totalprotein": 32,
-        "totalfat": 29,
-        "totalcarbs": 6
+        "totalfat": 25,
+        "totalcarbs": 24
     },
-    "favmeal": True
+    "favmeal": False,
+    "datestamp": datetime.now().date().isoformat()
 }
 
 
-meals = [meal1, meal2, meal3]
+
+# meal2 = {
+#     "name": "Rice w/ Chicken and Broccoli",
+#     "ingredients": [
+#         {
+#             "name": "Jasmine Rice",
+#             "macros": {
+#                 "protein": 4.3,
+#                 "fat": 0.4,
+#                 "carbs": 45
+#             },
+#             "calories": 205
+#         },
+#         {
+#             "name": "Chicken",
+#             "macros": {
+#                 "protein": 37,
+#                 "fat": 4.3,
+#                 "carbs": 0
+#             },
+#             "calories": 198
+#         },
+#         {
+#             "name": "Broccoli",
+#             "macros": {
+#                 "protein": 2.4,
+#                 "fat": 7.2,
+#                 "carbs": 80
+#             },
+#             "calories": 35
+#         }
+#     ],
+#     "totalcalories": 438,
+#     "totalmacros": {
+#         "totalprotein": 43.7,
+#         "totalfat": 11.9,
+#         "totalcarbs": 125
+#     },
+#     "favmeal": False,
+#     "datestamp": datetime.now().date().isoformat() 
+# }
+
+# meal3 = {
+#     "name": "Salmon and Asparagus",
+#     "ingredients": [
+#         {
+#             "name": "Salmon Fillet",
+#             "macros": {
+#                 "protein": 30,
+#                 "fat": 15,
+#                 "carbs": 0
+#             },
+#             "calories": 300
+#         },
+#         {
+#             "name": "Asparagus",
+#             "macros": {
+#                 "protein": 2,
+#                 "fat": 0,
+#                 "carbs": 4
+#             },
+#             "calories": 20
+#         },
+#         {
+#             "name": "Lemon",
+#             "macros": {
+#                 "protein": 0,
+#                 "fat": 0,
+#                 "carbs": 2
+#             },
+#             "calories": 10
+#         },
+#         {
+#             "name": "Olive Oil",
+#             "macros": {
+#                 "protein": 0,
+#                 "fat": 14,
+#                 "carbs": 0
+#             },
+#             "calories": 120
+#         }
+#     ],
+#     "totalcalories": 450,
+#     "totalmacros": {
+#         "totalprotein": 32,
+#         "totalfat": 29,
+#         "totalcarbs": 6
+#     },
+#     "favmeal": True,
+#     "datestamp": datetime.now().date().isoformat() 
+# }
+
+
+meals = [meal1, meal2]
 
 for meal in meals:
     db.collection(u'meals').add(meal)
