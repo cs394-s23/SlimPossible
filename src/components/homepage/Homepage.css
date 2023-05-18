@@ -18,7 +18,7 @@
   height: 200px;
   margin-bottom: 50px;
   width: 100%;
-  background-color: #a17636;
+  background-color: black;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
@@ -131,8 +131,7 @@
   bottom: 30px;
   right: 10px;
   z-index: 1;
-  background-color: rgba(33, 55, 99, 0.8);
-  border: 7px solid #213763;
+  background-color: black;
   border-radius: 50%;
   width: 100px;
   height: 100px;
@@ -207,7 +206,7 @@
   }
 
   .form_add {
-    border: 5px solid #213763;
+   background-color: black;
     width: 61px;
     height: 57px;
     font-size: 33px;

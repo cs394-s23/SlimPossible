@@ -225,7 +225,7 @@
   bottom: 30px;
   right: 10px;
   z-index: 1;
-  background-color: rgba(33, 55, 99, 0.8);
+  background-color: black;
   border-radius: 50%;
   cursor: pointer;
   padding: 0;
@@ -234,7 +234,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 5px solid #213763;
+ 
   width: 61px;
   height: 57px;
   font-size: 33px;
