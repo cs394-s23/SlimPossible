@@ -32,7 +32,7 @@ const Homepage = () => {
   const [totalDailyCalories, setTotalDailyCalories] = useState();
 
   const colorForPieChart = {
-    carbohydrates: "#3164f7",
+    carbohydrates: "#245dff",
     protein: "#e0c342",
     fat: "#ff4766",
   };

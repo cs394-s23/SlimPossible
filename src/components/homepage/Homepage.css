@@ -18,8 +18,10 @@
   height: 200px;
   margin-bottom: 50px;
   width: 100%;
-  background-color: black;
+  background-color: rgba(161, 118, 54, 0.6);
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+  padding-left: 10px;
+  padding-right: 6px;
 }
 
 .header::before {
@@ -98,6 +100,10 @@
 .info {
   font-family: "Merriweather Sans", sans-serif;
   display: flex;
+  border: 2px solid white;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(161, 118, 54, 0.5);
 }
 
 .content {
@@ -116,6 +122,7 @@
   height: 30px;
   color: white;
   flex-grow: 1;
+  margin-right: 0;
 }
 
 .info_item h3 {
@@ -172,7 +179,7 @@
 
   #calories_and_macro_graph {
     margin-left: 10px;
-    width: 100%;
+    width: 40%;
   }
 
   .info_box {
@@ -193,12 +200,7 @@
     flex-direction: column;
     top: 61%;
     left: 10%;
-    width: 85%;
     margin-top: 0;
-  }
-
-  .info_item {
-    margin-right: 20px;
   }
 
   .content {
