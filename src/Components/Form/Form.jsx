@@ -14,15 +14,13 @@ function SearchForm() {
   const [mealName, setMealName] = useState("");
   const [favMeal, setFavMeal] = useState(false);
   const [errorMessages, setErrorMessages] = useState([]);
-  const [submitButton, setSubmitButton] = useState("submit");
+  const [submitButton, setSubmitButton] = useState("Submit");
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Clear all options before
     setOptions([]);
     setErrorMessages([]);
-    // Get food data
-    getFoodData();
   };
 
   const randomHexColor = () => {
@@ -132,6 +130,7 @@ function SearchForm() {
     // Now we submit the form to firebase
     // First we need to get the user id
     const userId = localStorage.getItem("email");
+    console.log("Submitting to firebase for user: " + userId);
 
     // form validation
     if (mealName == "") {
@@ -147,10 +146,6 @@ function SearchForm() {
       let newErrorMessage = "The meal name must be a string!";
       messages.push(newErrorMessage);
       setErrorMessages(messages);
-      return;
-    }
-
-    if (searchQuery == "") {
       return;
     }
 
@@ -251,9 +246,9 @@ function SearchForm() {
       <form className="submitForm" onSubmit={handleSubmit}>
         <button
           className={
-            submitButton === "submit"
+            submitButton.toLowerCase() === "Submit".toLowerCase()
               ? "slimPossibleSubmit"
-              : ".slimPossibleSubmitted"
+              : "slimPossibleSubmitted"
           }
           onClick={submitFormToFirebase}
         >
@@ -280,7 +275,7 @@ function SearchForm() {
           <button
             className="searchIngredient"
             type="submit"
-            onClick={handleSubmit}
+            onClick={getFoodData}
           >
             🔎
           </button>
@@ -311,8 +306,18 @@ function SearchForm() {
         {options.map((option) => (
           <div key={option.fdcId} className="search-result-card">
             <div className="src-title">
-              <h3>{titleCase(option.description)}</h3>
-              <p>{option.brandOwner}</p>
+              {
+                option.brandOwner != null && option.brandOwner != "" ? (
+                  <h3>{titleCase(option.description)}</h3>
+                ): (
+                  <h3 style={{width: '68%'}}>{titleCase(option.description)}</h3>
+                )
+              }
+              {
+                option.brandOwner != null && option.brandOwner != "" ? (
+                  <p>{option.brandOwner}</p>
+                ): ""
+              }
               <input
                 id="mealCheckBox"
                 type="checkbox"

@@ -138,7 +138,9 @@
   bottom: 30px;
   right: 10px;
   z-index: 1;
-  background-color: black;
+  background-color: rgb(161, 118, 54);
+  border: 2px solid rgb(142, 94, 23);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 50%;
   width: 100px;
   height: 100px;
@@ -154,13 +156,13 @@
 }
 
 .form_add:hover {
-  background-color: rgba(33, 55, 99, 0.85);
+  background-color: rgba(161, 118, 54, 0.85);
   transform: scaleX(1.1) scaleY(1.1);
 }
 
 .form_add:active {
-  background-color: rgba(33, 55, 99, 0.95);
-  transform: scaleX(0.8) scaleY(0.8);
+  background-color: rgba(161, 118, 54, 0.95);
+  transform: scaleX(0.7) scaleY(0.7);
 }
 
 #add_img {
@@ -208,7 +210,6 @@
   }
 
   .form_add {
-   background-color: black;
     width: 61px;
     height: 57px;
     font-size: 33px;
