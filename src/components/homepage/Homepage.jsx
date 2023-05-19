@@ -4,10 +4,19 @@ import { useState, useReducer, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { Link } from "react-router-dom";
 import db from "../../..//firebase.js";
-import { collection, doc, getFirestore, addDoc, getDocs, getDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getFirestore,
+  addDoc,
+  getDocs,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { DbTitle } from "../../..//firebase.js";
 import Block from "./Block";
 import B_select from "./B_select";
+import Carousel from "react-bootstrap/Carousel";
 
 const Homepage = () => {
   // 1. State variables initialization
@@ -30,6 +39,7 @@ const Homepage = () => {
   const [filteredMeals, setFilterInfo] = useState([]);
 
   const [totalDailyCalories, setTotalDailyCalories] = useState();
+  const [renderSubmitBtn, setRenderSubmitBtn] = useState(false);
 
   const colorForPieChart = {
     carbohydrates: "#245dff",
@@ -271,6 +281,11 @@ const Homepage = () => {
   }
 
   // 4. Some Helper Functions
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
 
   // logout
   const handleLogOut = (event) => {
@@ -301,6 +316,8 @@ const Homepage = () => {
   };
 
   function mealOptionChange(newData) {
+    setRenderSubmitBtn(!renderSubmitBtn);
+
     var data = {};
 
     var protein = 0;
@@ -356,7 +373,7 @@ const Homepage = () => {
     try {
       const userId = localStorage.getItem("email");
       const userRef = doc(db, "users", userId);
-      
+
       const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) {
@@ -373,7 +390,6 @@ const Homepage = () => {
 
       console.log("User daily calorie goal: ", user.daily_calorie_goal);
       setTotalDailyCalories(parseInt(user.daily_calorie_goal)); // set the total daily calories
-      
     } catch (error) {
       console.log(error);
     }
@@ -381,7 +397,6 @@ const Homepage = () => {
 
   // Function to update the database with the new calorie goal
   const updateCalorieGoal = async () => {
-
     if (totalDailyCalories == null) {
       console.log("Total daily calories is null");
       return;
@@ -394,7 +409,7 @@ const Homepage = () => {
       console.log("Updating data base with calorie goal: ", totalDailyCalories);
 
       const userSnap = await updateDoc(userRef, {
-        daily_calorie_goal: totalDailyCalories
+        daily_calorie_goal: totalDailyCalories,
       });
     } catch (error) {
       console.log(error);
@@ -410,7 +425,6 @@ const Homepage = () => {
   useEffect(() => {
     updateCalorieGoal();
   }, [totalDailyCalories]);
-
 
   // 5. Pie Chart Data
   const options = {
@@ -490,6 +504,12 @@ const Homepage = () => {
     console.log(filteredMeals);
   }, [filteredMeals]);
 
+  // submit meal option
+  const [submit, setSubmit] = useState(false);
+  const handleSubmit = () => {
+    setSubmit(!submit);
+  };
+
   return (
     <div className="homepage">
       <div className="upper">
@@ -537,10 +557,56 @@ const Homepage = () => {
         {blocks.map((obj, index) => (
           <Block key={index} block={obj} />
         ))}
-        {dineOptions.map((obj, index) => (
-          <B_select key={index} option={obj} tryMealOption={mealOptionChange} />
-        ))}
+        <h3 className="dinner-recs-heading">Dinner recommendations:</h3>
+
+        <Carousel
+          activeIndex={index}
+          onSelect={handleSelect}
+          slide="false"
+          interval={null}
+          touch="true"
+        >
+          {dineOptions.map((obj, index) => (
+            <Carousel.Item>
+              <B_select
+                key={index}
+                option={obj}
+                tryMealOption={mealOptionChange}
+              />
+              {renderSubmitBtn ? (
+                <Carousel.Caption>
+                  {submit ? (
+                    <button
+                      onClick={handleSubmit}
+                      className="slimPossibleSubmitted"
+                    >
+                      submitted!
+                    </button>
+                  ) : (
+                    <button
+                      className="slimPossibleSubmit"
+                      onClick={handleSubmit}
+                    >
+                      submit
+                    </button>
+                  )}
+                </Carousel.Caption>
+              ) : (
+                ""
+              )}
+            </Carousel.Item>
+          ))}
+        </Carousel>
       </div>
+
+      <Link
+        className="exit-app"
+        to="/login"
+        onClick={handleLogOut}
+        style={{ marginTop: "10px" }}
+      >
+        <img className="add_img" src="src/components/homepage/exit.png"></img>
+      </Link>
       <Link className="form_add" to="/form">
         <img id="add_img" src="src/components/homepage/add.png"></img>
       </Link>
