@@ -17,8 +17,7 @@ function SearchForm() {
   const [submitButton, setSubmitButton] = useState("Submit");
   const [allMeals, setAllMeals] = useState([]);
 
-  const fetchAllMeals = () => {
-
+  const fetchAllMeals = async () => {
     const username = localStorage.getItem("email");
 
     const allMealsSnapshot = await getDocs(
@@ -26,7 +25,7 @@ function SearchForm() {
     );
 
     const allMeals = allMealsSnapshot.docs.map((doc) => doc.data());
-    console.log("All user meals fetched!")
+    console.log("All user meals fetched!");
 
     setAllMeals(allMeals);
   };
@@ -35,9 +34,7 @@ function SearchForm() {
     fetchAllMeals();
   }
 
-  const handleAutoMealSelection = (e) => {
-  } // TODO HERE
-
+  const handleAutoMealSelection = (e) => {}; // TODO HERE
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -329,18 +326,18 @@ function SearchForm() {
         {options.map((option) => (
           <div key={option.fdcId} className="search-result-card">
             <div className="src-title">
-              {
-                option.brandOwner != null && option.brandOwner != "" ? (
-                  <h3>{titleCase(option.description)}</h3>
-                ): (
-                  <h3 style={{width: '68%'}}>{titleCase(option.description)}</h3>
-                )
-              }
-              {
-                option.brandOwner != null && option.brandOwner != "" ? (
-                  <p>{option.brandOwner}</p>
-                ): ""
-              }
+              {option.brandOwner != null && option.brandOwner != "" ? (
+                <h3>{titleCase(option.description)}</h3>
+              ) : (
+                <h3 style={{ width: "68%" }}>
+                  {titleCase(option.description)}
+                </h3>
+              )}
+              {option.brandOwner != null && option.brandOwner != "" ? (
+                <p>{option.brandOwner}</p>
+              ) : (
+                ""
+              )}
               <input
                 id="mealCheckBox"
                 type="checkbox"
