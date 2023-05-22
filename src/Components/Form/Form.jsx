@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import db from "../../../firebase.js";
-import { collection, doc, getFirestore, addDoc } from "firebase/firestore";
+import { collection, doc, getFirestore, addDoc, getDocs } from "firebase/firestore";
 import "./Form.css";
 import { Link, useLocation } from "react-router-dom";
 
@@ -18,16 +18,25 @@ function SearchForm() {
   const [allMeals, setAllMeals] = useState([]);
 
   const fetchAllMeals = async () => {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 615604d (Vite test file added)
     const username = localStorage.getItem("email");
 
     const allMealsSnapshot = await getDocs(
-      collection(db, "users", username, "all_meals")
+      collection(db, "users", "user1", "all_meals")
     );
 
+<<<<<<< HEAD
     const allMeals = allMealsSnapshot.docs.map((doc) => doc.data());
     console.log("All user meals fetched!");
+=======
+    const allMealsFromFirebase = await allMealsSnapshot.docs.map((doc) => doc.data());
+    console.log("All user meals fetched!")
+>>>>>>> 615604d (Vite test file added)
 
-    setAllMeals(allMeals);
+    setAllMeals(allMealsFromFirebase);
   };
 
   if (allMeals.length == 0) {
