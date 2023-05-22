@@ -18,23 +18,14 @@ function SearchForm() {
   const [allMeals, setAllMeals] = useState([]);
 
   const fetchAllMeals = async () => {
-<<<<<<< HEAD
-=======
-
->>>>>>> 615604d (Vite test file added)
     const username = localStorage.getItem("email");
 
     const allMealsSnapshot = await getDocs(
       collection(db, "users", "user1", "all_meals")
     );
 
-<<<<<<< HEAD
-    const allMeals = allMealsSnapshot.docs.map((doc) => doc.data());
-    console.log("All user meals fetched!");
-=======
     const allMealsFromFirebase = await allMealsSnapshot.docs.map((doc) => doc.data());
     console.log("All user meals fetched!")
->>>>>>> 615604d (Vite test file added)
 
     setAllMeals(allMealsFromFirebase);
   };
