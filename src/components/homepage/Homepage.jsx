@@ -37,6 +37,7 @@ const Homepage = () => {
   const [collectionName, setCollectionName] = useState(DbTitle);
   const [recMeals, setRecMeals] = useState([]);
   const [filteredMeals, setFilterInfo] = useState([]);
+  const [allMeals, setAllMeals] = useState([]);
 
   const [totalDailyCalories, setTotalDailyCalories] = useState();
   const [renderSubmitBtn, setRenderSubmitBtn] = useState(false);
@@ -230,6 +231,9 @@ const Homepage = () => {
   // Counting calories for all meals in logged_meal right now, NEED TO CONSIDER LOGGED_DATES LATER
   const Fetchdata = async () => {
     setDataFetched(true);
+
+    // TODO: MAKE SURE TO CHANGE THE USER NAME FROM "user1" to the current user's email
+    const username = localStorage.getItem("email");
 
     try {
       const allMealsSnapshot = await getDocs(
@@ -455,6 +459,10 @@ const Homepage = () => {
     setDataFetched(true);
     // uncomment later
     Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
+
+      // Save all meals here
+      setAllMeals(allMeals);
+
       // Data fetched, now call recommendMeals
       recommendMeals(allMeals, totalCaloriesSum);
     });

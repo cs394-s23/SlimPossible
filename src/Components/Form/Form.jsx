@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import db from "../../../firebase.js";
 import { collection, doc, getFirestore, addDoc } from "firebase/firestore";
 import "./Form.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function SearchForm() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -15,6 +15,29 @@ function SearchForm() {
   const [favMeal, setFavMeal] = useState(false);
   const [errorMessages, setErrorMessages] = useState([]);
   const [submitButton, setSubmitButton] = useState("Submit");
+  const [allMeals, setAllMeals] = useState([]);
+
+  const fetchAllMeals = () => {
+
+    const username = localStorage.getItem("email");
+
+    const allMealsSnapshot = await getDocs(
+      collection(db, "users", username, "all_meals")
+    );
+
+    const allMeals = allMealsSnapshot.docs.map((doc) => doc.data());
+    console.log("All user meals fetched!")
+
+    setAllMeals(allMeals);
+  };
+
+  if (allMeals.length == 0) {
+    fetchAllMeals();
+  }
+
+  const handleAutoMealSelection = (e) => {
+  } // TODO HERE
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
