@@ -304,6 +304,17 @@
   text-align: center;
 }
 
+.option-meal-suggested-close-button{
+  position: absolute;
+  top: 11.6%;
+  left: 82%;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  color: rgb(165, 165, 165);
+}
+
 .modal-item{
   position: fixed;
   z-index: 9999;

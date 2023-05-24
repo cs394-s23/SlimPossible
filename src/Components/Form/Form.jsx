@@ -188,6 +188,10 @@ function SearchForm() {
     setSearchQuery(event.target.value);
   };
 
+  const handleRemoveSuggestedMeals = () => {
+    setSuggestedMeals([]);
+  };
+
   const handleAddMeal = (e, option) => {
     // First set modal to be true
     setModalOpen(true);
@@ -370,6 +374,7 @@ function SearchForm() {
   return (
     <div className="overallForm">
 
+      {/* Modal */}
       {modalOpen ? (
         <div className="modal-item">
           <div className="modal-content">
@@ -455,6 +460,13 @@ function SearchForm() {
             </div>
           ))}
         </div>
+        
+        {
+          suggestedMeals.length > 0 ?
+          (<button className="option-meal-suggested-close-button" onClick={handleRemoveSuggestedMeals}>x</button>)
+          :
+          ("")
+        }
 
         <div className="searchBar">
           <input
