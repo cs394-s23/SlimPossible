@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import db from "../../../firebase.js";
-import { collection, doc, getFirestore, addDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getFirestore,
+  addDoc,
+  getDocs,
+} from "firebase/firestore";
 import "./Form.css";
 import { Link, useLocation } from "react-router-dom";
 
@@ -24,8 +30,10 @@ function SearchForm() {
       collection(db, "users", "user1", "all_meals")
     );
 
-    const allMealsFromFirebase = await allMealsSnapshot.docs.map((doc) => doc.data());
-    console.log("All user meals fetched!")
+    const allMealsFromFirebase = await allMealsSnapshot.docs.map((doc) =>
+      doc.data()
+    );
+    console.log("All user meals fetched!");
 
     setAllMeals(allMealsFromFirebase);
   };

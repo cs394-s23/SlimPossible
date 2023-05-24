@@ -4,6 +4,8 @@ import Logo from "./Logo.png";
 import { auth, provider } from "../../../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import db from "../../../firebase.js";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,8 +21,23 @@ const Login = () => {
         localStorage.setItem("image", imgUrl);
         localStorage.setItem("email", userEmail);
 
-        navigate("/");
-        window.location.reload();
+        // create a document firebase;
+        const userIdsDocRef = doc(db, "users", userEmail);
+
+        const newData = {
+          userdailycalorie: null,
+        };
+
+        setDoc(userIdsDocRef, newData)
+          .then(() => {
+            console.log('Document "userIds" created successfully');
+          })
+          .catch((error) => {
+            console.error("Error creating document: ", error);
+          });
+
+        // navigate("/");
+        // window.location.reload();
       })
       .catch((error) => {
         console.log(error);
