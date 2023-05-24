@@ -86,7 +86,7 @@ function SearchForm() {
         filteredOptions.push(option);
       }
     }
-
+    console.log(filteredOptions);
     setSuggestedMeals(filteredOptions);
   };
 
@@ -460,7 +460,8 @@ function SearchForm() {
               className="option-meal-suggested"
               onClick={() => handleOptionClick(option)}
             >
-              {option.name}
+              <div> {option.favmeal? "❤️" : ""} {option.name} </div>
+              <h4> {option.totalCalories || option.totalcalories} kcal </h4>
             </div>
           ))}
         </div>

@@ -290,7 +290,7 @@
 
 .option-meal-suggested{
   width: 82%;
-  height: 80px;
+  margin: 5px;
   padding: 5px;
   margin-top: 5px;
   margin-bottom: 10px;
@@ -303,6 +303,11 @@
   justify-content: center;
   text-align: center;
 }
+
+.option-meal-suggested div{
+  font-size: 20px;
+}
+
 
 .option-meal-suggested-close-button{
   position: absolute;
