@@ -283,10 +283,13 @@
   background-color: white;
   border-radius: 5px;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .option-meal-suggested{
-  width: 100%;
+  width: 82%;
   height: 80px;
   padding: 5px;
   margin-top: 5px;
