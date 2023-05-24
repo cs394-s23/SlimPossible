@@ -23,6 +23,21 @@ function SearchForm() {
   const [submitButton, setSubmitButton] = useState("Submit");
   const [allMeals, setAllMeals] = useState([]);
 
+  const [suggestedMeals, setSuggestedMeals] = useState([]);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalData, setModalData] = useState({});
+  const [modalMultiplier, setModalMultiplier] = useState();
+  const [modalSubmit, setModalSubmit] = useState("Add to meal");
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const fetchAllMeals = async () => {
     const username = localStorage.getItem("email");
 
@@ -30,10 +45,9 @@ function SearchForm() {
       collection(db, "users", "user1", "all_meals")
     );
 
-    const allMealsFromFirebase = await allMealsSnapshot.docs.map((doc) =>
-      doc.data()
-    );
+    const allMealsFromFirebase = await allMealsSnapshot.docs.map((doc) => doc.data());
     console.log("All user meals fetched!");
+    console.log(allMealsFromFirebase);
 
     setAllMeals(allMealsFromFirebase);
   };
@@ -42,8 +56,82 @@ function SearchForm() {
     fetchAllMeals();
   }
 
-  const handleAutoMealSelection = (e) => {}; // TODO HERE
 
+  // Handle auto selection
+  const suggestOptions = (event) => { 
+
+    if (mealName == ""){
+      setSuggestedMeals([]);
+      return
+    }
+
+    var filteredOptions = [];
+
+    for (var i = 0; i < allMeals.length; i++) {
+      var option = allMeals[i];
+
+      // Check to see if option is already in filterdOptions, check names
+      var alreadyInFilteredOptions = false;
+      for (var j = 0; j < filteredOptions.length; j++) {
+        var filteredOption = filteredOptions[j];
+
+        if (filteredOption.name == option.name) {
+          alreadyInFilteredOptions = true;
+          break;
+        }
+      }
+
+      // Check to see if the name is included in the meal name
+      if (!alreadyInFilteredOptions && option.name.toLowerCase().includes(mealName.toLowerCase())) {
+        filteredOptions.push(option);
+      }
+    }
+
+    setSuggestedMeals(filteredOptions);
+  };
+
+  function handleOptionClick(option) {
+    // Reset all the inputs
+    setMealName(option.name);
+    setSuggestedMeals([]);
+
+    console.log("Option clicked!");
+    console.log(option);
+
+    // Add ingredients to the ingredients list
+    var ingredients_arr = [];
+    option.ingredients.forEach((ingredient) => {
+
+      var servingSize = "n/a"; // default serving size, we may need to change this
+
+      // Check if the serving size is null, if they are, set them to ""
+      if (ingredient.grams != null) {
+        servingSize = ingredient.grams;
+      }
+
+
+      ingredients_arr.push({
+        name: ingredient.name,
+        calories: ingredient.calories,
+        carbohydrates: ingredient.macros.carbs,
+        protein: ingredient.macros.protein,
+        fat: ingredient.macros.fat,
+        grams: servingSize,
+        borderColor: { borderColor: randomHexColor() },
+      });
+    });
+
+    console.log("Updating ingredients array...")
+    setMealArray(ingredients_arr);
+
+    // Check to see if meal is a favorite meal
+    if (option.favmeal) {
+      setFavMeal(true);
+    }
+  }
+
+
+  // Handle submission of the form
   const handleSubmit = (event) => {
     event.preventDefault();
     // Clear all options before
@@ -78,7 +166,7 @@ function SearchForm() {
     const params = new URLSearchParams({
       api_key: apiKey,
       query: foodName,
-      pageSize: 10,
+      pageSize: 50,
       pageNumber: 1,
       brandOwner: brandName,
     });
@@ -100,7 +188,25 @@ function SearchForm() {
     setSearchQuery(event.target.value);
   };
 
-  const addItemToMeal = (e, option) => {
+  const handleAddMeal = (e, option) => {
+    // First set modal to be true
+    setModalOpen(true);
+
+    // Set modal data
+    setModalData(option);
+  }
+
+  // Add the ingredient to the meal submit form
+  const addItemToMeal = () => {
+
+    var option = modalData;
+
+    // Rest modal data
+    setModalData({});
+    setModalOpen(false);
+    setModalSubmit("Add to meal");
+    setModalMultiplier(null);
+
     // Now extract the data from the option
     const foodName = option.description;
     var calories = 0;
@@ -131,12 +237,14 @@ function SearchForm() {
     // Set the meal array now
     var mealArray = mealIngredientsArray;
 
+    // Now we add the object to the meal array, with multiplier
     var nutritionObject = {
       name: foodName,
-      calories: calories,
-      carbohydrates: carbohydrates,
-      protein: protein,
-      fat: fat,
+      calories: calories * modalMultiplier,
+      carbohydrates: carbohydrates * modalMultiplier,
+      protein: protein * modalMultiplier,
+      fat: fat * modalMultiplier,
+      grams: option.servingSize * modalMultiplier,
       borderColor: { borderColor: randomHexColor() },
     };
 
@@ -148,10 +256,9 @@ function SearchForm() {
 
     // Now we change the state of the check box and CLEAR the options
     setTimeout(() => {
-      e.target.checked = false;
       setOptions([]);
       setSearchQuery("");
-    }, 1000);
+    }, 500);
   };
 
   async function submitFormToFirebase(e) {
@@ -198,7 +305,7 @@ function SearchForm() {
           protein: mealIngredientsArray[i].protein,
           fat: mealIngredientsArray[i].fat,
         },
-        grams: 0,
+        grams: mealIngredientsArray[i].grams,
         calories: mealIngredientsArray[i].calories,
       };
 
@@ -228,6 +335,9 @@ function SearchForm() {
       totalmacros: totalmacros,
       favmeal: favMeal,
     };
+
+    console.log("Submitting the following data:");
+    console.log(submission);
 
     // Now we need to submit the data to firebase
     // Find user document first, then add to the subarray
@@ -259,6 +369,48 @@ function SearchForm() {
 
   return (
     <div className="overallForm">
+
+      {modalOpen ? (
+        <div className="modal-item">
+          <div className="modal-content">
+            <span className="close" onClick={closeModal}>&times;</span>
+            <h2>{modalData.description}</h2>
+            {
+              modalData.brandOwner ? 
+                (<h6>{modalData.brandOwner}</h6>) 
+                : 
+                ("")
+            }
+            <p></p>
+            {
+              modalData.servingSize && modalData.servingSizeUnit ?
+                (<p>{modalData.servingSize} {modalData.servingSizeUnit} per serving</p>)
+                :
+                (<p> No serving size/unit data aviailable</p>)
+            }
+            <p></p>
+            <input
+              type="number"
+              className="modal-search-input"
+              value={modalMultiplier || ""}
+              onChange={(e) => setModalMultiplier(e.target.value)}
+              placeholder="Enter your serving size here"
+            />
+            <button
+              className={
+                modalSubmit.toLowerCase() === "Add to meal".toLowerCase()
+                  ? "slimPossibleSubmit"
+                  : "slimPossibleSubmitted"
+              }
+              onClick={addItemToMeal}
+
+              > {modalSubmit} </button>
+
+          </div>
+        </div>
+      ):("")}
+
+
       {errorMessages.length > 0
         ? errorMessages.map((x, idx) => (
             <p key={idx} style={{ color: "red" }}>
@@ -288,9 +440,21 @@ function SearchForm() {
           name="name"
           placeholder="Your meal name"
           onChange={(e) => setMealName(e.target.value)}
+          onKeyUp={suggestOptions}
           value={mealName}
           required
         />
+        <div id={mealName === "" ? "" : "dropdown-menu"}>
+          {suggestedMeals.map((option, ind) => (
+            <div
+              key={ind}
+              className="option-meal-suggested"
+              onClick={() => handleOptionClick(option)}
+            >
+              {option.name}
+            </div>
+          ))}
+        </div>
 
         <div className="searchBar">
           <input
@@ -332,7 +496,7 @@ function SearchForm() {
       </div>
       <div className="search-results">
         {options.map((option) => (
-          <div key={option.fdcId} className="search-result-card">
+          <div key={option.fdcId} className="search-result-card" onClick={(e) => handleAddMeal(e, option)}>
             <div className="src-title">
               {option.brandOwner != null && option.brandOwner != "" ? (
                 <h3>{titleCase(option.description)}</h3>
@@ -346,11 +510,6 @@ function SearchForm() {
               ) : (
                 ""
               )}
-              <input
-                id="mealCheckBox"
-                type="checkbox"
-                onChange={(e) => addItemToMeal(e, option)}
-              ></input>
             </div>
           </div>
         ))}
