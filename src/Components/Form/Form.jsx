@@ -399,7 +399,11 @@ function SearchForm() {
               className="modal-search-input"
               value={modalMultiplier || ""}
               onChange={(e) => setModalMultiplier(e.target.value)}
-              placeholder="Enter your serving size here"
+              placeholder={
+                modalData.servingSize && modalData.servingSizeUnit ? 
+                "Enter your serving size here" :
+                "Enter your amount here"
+              }
             />
             <button
               className={
