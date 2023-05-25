@@ -225,7 +225,7 @@ meal14 = {
         "fat": 26,
         "carbs": 21
       },
-      "sandwiches": 1.75,
+      "oz": 8,
       "calories": 490
     }
   ],
@@ -249,7 +249,7 @@ meal15 = {
         "fat": 17,
         "carbs": 51
       },
-      "grams": 135,
+      "oz": 5,
       "calories": 371
     },
     {
@@ -259,7 +259,7 @@ meal15 = {
         "fat": 20,
         "carbs": 22
       },
-      "sandwiches": 1.2,
+      "oz": 8,
       "calories": 536
     }
   ],
@@ -283,7 +283,7 @@ meal16 = {
         "fat": 90,
         "carbs": 78
       },
-      "burgers": 2,
+      "oz": 16,
       "calories": 1160
     },
     {
@@ -293,7 +293,7 @@ meal16 = {
         "fat": 8,
         "carbs": 11
       },
-      "buns": 1.5,
+      "oz": 4.25,
       "calories": 165
     }
   ],
@@ -317,7 +317,7 @@ meal17 = {
         "fat": 60,
         "carbs": 42
       },
-      "cups": 1,
+      "oz": 15,
       "calories": 1060
     }
   ],
@@ -341,7 +341,7 @@ meal18 = {
         "fat": 3,
         "carbs": 16
       },
-      "cobs": 0.5,
+      "oz": 1.6,
       "calories": 100
     },
     {
@@ -351,7 +351,7 @@ meal18 = {
         "fat": 40,
         "carbs": 54
       },
-      "skillets": 1,
+      "oz": 10,
       "calories": 880
     }
   ],
@@ -375,7 +375,7 @@ meal19 = {
         "fat": 8,
         "carbs": 26
       },
-      "containers": 0.5,
+      "oz": 1.75,
       "calories": 177
     },
     {
@@ -385,7 +385,7 @@ meal19 = {
         "fat": 27,
         "carbs": 20
       },
-      "sandwiches": 1,
+      "oz": 5,
       "calories": 480
     }
   ],
@@ -405,11 +405,11 @@ meal21 = {
     {
       "name": "Chicken Leg",
       "macros": {
-        "protein": 4,
-        "fat": 24,
+        "protein": 24,
+        "fat": 4,
         "carbs": 0
       },
-      "legs": 1.5,
+      "oz": 3.75,
       "calories": 140
     },
     {
@@ -419,14 +419,14 @@ meal21 = {
         "fat": 0,
         "carbs": 7
       },
-      "cup": 0.6,
+      "oz": 2.5,
       "calories": 384
     }
   ],
   "totalcalories": 524,
   "totalmacros": {
-    "totalprotein": 4,
-    "totalfat": 24,
+    "totalprotein": 24,
+    "totalfat": 4,
     "totalcarbs": 7
   },
   "favmeal": False,
@@ -443,7 +443,7 @@ meal22 = {
         "fat": 3,
         "carbs": 0
       },
-      "tbsp": 0.5,
+      "oz": 0.25,
       "calories": 25
     },
     {
@@ -453,7 +453,7 @@ meal22 = {
         "fat": 17,
         "carbs": 7
       },
-      "sides": 1,
+      "oz": 6,
       "calories": 305
     },
     {
@@ -487,7 +487,7 @@ meal23 = {
         "fat": 3,
         "carbs": 0
       },
-      "tbsp": 0.5,
+      "oz": 0.25,
       "calories": 25
     },
     {
@@ -497,7 +497,7 @@ meal23 = {
         "fat": 4,
         "carbs": 15
       },
-      "loaves": 1,
+      "oz": 16,
       "calories": 277
     },
     {
@@ -507,7 +507,7 @@ meal23 = {
         "fat": 4,
         "carbs": 2
       },
-      "servings": 1,
+      "oz": 4,
       "calories": 52
     },
     {
@@ -541,7 +541,7 @@ meal24 = {
         "fat": 29,
         "carbs": 30
       },
-      "pizzas": 1,
+      "oz": 11,
       "calories": 660
     }
   ],
@@ -575,7 +575,7 @@ meal25 = {
         "fat": 6,
         "carbs": 0
       },
-      "tbsp": 0.4,
+      "oz": 0.2,
       "calories": 48
     },
     {
@@ -585,7 +585,7 @@ meal25 = {
         "fat": 0,
         "carbs": 1
       },
-      "cup": 0.05,
+      "oz": 0.4,
       "calories": 32
     },
     {
@@ -595,7 +595,7 @@ meal25 = {
         "fat": 0,
         "carbs": 0
       },
-      "cup": 0.1,
+      "oz": 0.8,
       "calories": 1
     },
     {
@@ -605,7 +605,7 @@ meal25 = {
         "fat": 0,
         "carbs": 0
       },
-      "cup": 0.05,
+      "oz": 0.4,
       "calories": 2
     }
   ],
