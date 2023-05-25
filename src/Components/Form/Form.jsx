@@ -476,6 +476,7 @@ function SearchForm() {
         <div className="searchBar">
           <input
             type="text"
+            data-testid="ingredient-search-input"
             className="search-input"
             value={searchQuery}
             onChange={handleSearchChange}
@@ -483,6 +484,7 @@ function SearchForm() {
           />
           <button
             className="searchIngredient"
+            data-testid="ingredient-search-button"
             type="submit"
             onClick={getFoodData}
           >
