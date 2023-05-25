@@ -27,6 +27,8 @@ const Homepage = () => {
   const [fat, setFat] = useState(0);
 
   const [blocks, setBlocks] = useState([]);
+  // const [todayMeals, setTodayMeals] = useState([]);
+
   const [pieDataNew, setPieDataNew] = useState({});
   const [pieDataOld, setPieDataOld] = useState({});
   const [diffData, setDiffData] = useState({});
@@ -237,29 +239,53 @@ const Homepage = () => {
 
     try {
       const allMealsSnapshot = await getDocs(
-        collection(db, "users", "user1", "all_meals")
+        collection(db, "users", username, "all_meals")
       );
       const allMeals = allMealsSnapshot.docs.map((doc) => doc.data());
 
       const loggedMealsSnapshot = await getDocs(
-        collection(db, "users", "user1", "logged_meals")
+        collection(db, "users", username, "logged_meals")
       );
       const loggedMeals = loggedMealsSnapshot.docs.map((doc) => doc.data());
 
+      // get all the meals eaten today from logged meals
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const today = new Date().toLocaleDateString("en-US", {
+        timeZone: userTimeZone,
+      });
+
+      const [month, day, year] = today.split("/"); // Assuming the default format is MM/DD/YYYY
+      const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+        2,
+        "0"
+      )}`;
+
+      console.log(formattedDate);
       let totalCaloriesSum = 0;
+      const mealsToday = [];
       loggedMeals.forEach((meal) => {
         const totalcalories = meal.totalcalories;
         totalCaloriesSum += totalcalories;
+        // add today's meals
+        if (meal.datestamp === formattedDate) {
+          mealsToday.push(meal);
+        }
       });
 
+      // add the macros up too
+      setBlocks(mealsToday);
       console.log("Total Calories Sum:", totalCaloriesSum);
-      console.log(allMeals);
-      console.log(loggedMeals);
+      // console.log(allMeals);
+      // console.log(loggedMeals);
       return { allMeals: allMeals, totalCaloriesSum: totalCaloriesSum };
     } catch (error) {
       console.log(error);
     }
   };
+
+  // need to go through logged meals and get all meals matching today's date
+
+  // console.log(filteredMeals);
 
   const recommendMeals = (allMeals, totalCaloriesSum) => {
     const remainingCalories = totalDailyCalories - totalCaloriesSum;
@@ -276,13 +302,13 @@ const Homepage = () => {
     setDineOptions(filteredMeals);
   };
 
-  if (blocks.length == 0) {
-    setBlocks(blocks_new);
-  }
+  // if (blocks.length == 0) {
+  //   setBlocks(blocks_new);
+  // }
 
-  if (dineOptions.length == 0) {
-    setDineOptions(choices_new);
-  }
+  // if (dineOptions.length == 0) {
+  //   setDineOptions(choices_new);
+  // }
 
   // 4. Some Helper Functions
   const [index, setIndex] = useState(0);
@@ -459,7 +485,6 @@ const Homepage = () => {
     setDataFetched(true);
     // uncomment later
     Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
-
       // Save all meals here
       setAllMeals(allMeals);
 
@@ -490,9 +515,9 @@ const Homepage = () => {
 
       blocks.forEach((block, index) => {
         block.ingredients.forEach((ingredient, index) => {
-          protein += ingredient.protein;
-          fat += ingredient.fat;
-          carbohydrates += ingredient.carbohydrates;
+          protein += ingredient.macros.protein;
+          fat += ingredient.macros.fat;
+          carbohydrates += ingredient.macros.carbs;
           calories += ingredient.calories;
         });
       });

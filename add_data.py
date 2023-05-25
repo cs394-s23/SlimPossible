@@ -14,436 +14,6 @@ app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 meal1 = {
-    "name": "Costco Cheese Pizza Slice",
-    "ingredients": [
-        {
-            "name": "Pizza Slice",
-            "macros": {
-                "protein": 40,
-                "fat": 30,
-                "carbs": 80
-            },
-            "oz": 10.9,
-            "calories": 760
-        }
-    ],
-    "totalcalories": 760,
-    "totalmacros": {
-        "totalprotein": 40,
-        "totalfat": 30,
-        "totalcarbs": 80
-    },
-    "favmeal": True,
-    "date": "2023-05-09T00:00:00Z"
-}
-
-meal2 = {
-    "name": "Pesto Pasta with Roasted Tomatoes",
-    "ingredients": [
-        {
-            "name": "Pasta",
-            "macros": {
-                "protein": 8,
-                "fat": 2,
-                "carbs": 45
-            },
-            "oz": 3.0,
-            "calories": 220
-        },
-        {
-            "name": "Basil Pesto",
-            "macros": {
-                "protein": 2,
-                "fat": 12,
-                "carbs": 4
-            },
-            "oz": 1.0,
-            "calories": 140
-        },
-        {
-            "name": "Cherry Tomatoes",
-            "macros": {
-                "protein": 1,
-                "fat": 0,
-                "carbs": 3
-            },
-            "oz": 3.0,
-            "calories": 20
-        },
-        {
-            "name": "Parmesan Cheese",
-            "macros": {
-                "protein": 5,
-                "fat": 4,
-                "carbs": 1
-            },
-            "oz": 0.5,
-            "calories": 50
-        },
-        {
-            "name": "Olive Oil",
-            "macros": {
-                "protein": 0,
-                "fat": 14,
-                "carbs": 0
-            },
-            "oz": 1.0,
-            "calories": 120
-        }
-    ],
-    "totalcalories": 550,
-    "totalmacros": {
-        "totalprotein": 16,
-        "totalfat": 32,
-        "totalcarbs": 53
-    },
-    "favmeal": True,
-    "date": "2023-05-09T00:00:00Z"
-}
-
-meal3 = {
-    "name": "Salmon and Asparagus",
-    "ingredients": [
-        {
-            "name": "Salmon Fillet",
-            "macros": {
-                "protein": 30,
-                "fat": 15,
-                "carbs": 0
-            },
-            "calories": 300
-        },
-        {
-            "name": "Asparagus",
-            "macros": {
-                "protein": 2,
-                "fat": 0,
-                "carbs": 4
-            },
-            "calories": 20
-        },
-        {
-            "name": "Lemon",
-            "macros": {
-                "protein": 0,
-                "fat": 0,
-                "carbs": 2
-            },
-            "calories": 10
-        },
-        {
-            "name": "Olive Oil",
-            "macros": {
-                "protein": 0,
-                "fat": 14,
-                "carbs": 0
-            },
-            "calories": 120
-        }
-    ],
-    "totalcalories": 450,
-    "totalmacros": {
-        "totalprotein": 32,
-        "totalfat": 29,
-        "totalcarbs": 6
-    },
-    "favmeal": True,
-    "date": "2023-05-09T00:00:00Z"
-}
-
-meal4 = {
-    "name": "Big Mac Combo Meal",
-    "ingredients": [
-        {
-            "name": "Big Mac",
-            "macros": {
-                "protein": 25,
-                "fat": 34,
-                "carbs": 46
-            },
-            "oz": 7.6,
-            "calories": 590
-        },
-        {
-            "name": "Medium Fries",
-            "macros": {
-                "protein": 5,
-                "fat": 15,
-                "carbs": 43
-            },
-            "oz": 4.1,
-            "calories": 320
-        },
-        {
-            "name": "Medium Coke",
-            "macros": {
-                "protein": 0,
-                "fat": 0,
-                "carbs": 56
-            },
-            "calories": 210
-        }
-    ],
-    "totalcalories": 1120,
-    "totalmacros": {
-        "totalprotein": 30,
-        "totalfat": 49,
-        "totalcarbs": 145
-    },
-    "favmeal": True,
-    "date": "2023-05-09T00:00:00Z"
-}
-
-meal5 = {
-    "name": "Grilled Chicken with Sweet Potato and Broccoli",
-    "ingredients": [
-        {
-            "name": "Grilled Chicken",
-            "macros": {
-                "protein": 28,
-                "fat": 7,
-                "carbs": 0
-            },
-            "oz": 5.0,
-            "calories": 140
-        },
-        {
-            "name": "Roasted Sweet Potato",
-            "macros": {
-                "protein": 2,
-                "fat": 0,
-                "carbs": 22
-            },
-            "oz": 4.0,
-            "calories": 90
-        },
-        {
-            "name": "Steamed Broccoli",
-            "macros": {
-                "protein": 4,
-                "fat": 0,
-                "carbs": 6
-            },
-            "oz": 4.0,
-            "calories": 50
-        }
-    ],
-    "totalcalories": 280,
-    "totalmacros": {
-        "totalprotein": 34,
-        "totalfat": 7,
-        "totalcarbs": 28
-    },
-    "favmeal": True,
-    "date": "2023-05-09T00:00:00Z"
-}
-
-
-meal6 = {
-  "name": "Chicken Caesar Salad",
-  "ingredients": [
-    {
-      "name": "Grilled Chicken Breast",
-      "macros": {
-        "protein": 25,
-        "fat": 4,
-        "carbs": 0
-      },
-      "oz": 4.5,
-      "calories": 140
-    },
-    {
-      "name": "Romaine Lettuce",
-      "macros": {
-        "protein": 1,
-        "fat": 0,
-        "carbs": 2
-      },
-      "oz": 2.5,
-      "calories": 15
-    },
-    {
-      "name": "Caesar Dressing",
-      "macros": {
-        "protein": 1,
-        "fat": 6,
-        "carbs": 2
-      },
-      "oz": 1.5,
-      "calories": 70
-    },
-    {
-      "name": "Parmesan Cheese",
-      "macros": {
-        "protein": 5,
-        "fat": 3,
-        "carbs": 1
-      },
-      "oz": 1,
-      "calories": 45
-    },
-    {
-      "name": "Croutons",
-      "macros": {
-        "protein": 2,
-        "fat": 1,
-        "carbs": 7
-      },
-      "oz": 1.2,
-      "calories": 60
-    }
-  ],
-  "totalcalories": 330,
-  "totalmacros": {
-    "totalprotein": 34,
-    "totalfat": 14,
-    "totalcarbs": 12
-  },
-  "favmeal": False,
-  "date": "2023-05-08T00:00:00Z"
-}
-
-
-meal7 = {
-  "name": "Pasta Bolognese",
-  "ingredients": [
-    {
-      "name": "Ground Beef",
-      "macros": {
-        "protein": 26,
-        "fat": 18,
-        "carbs": 0
-      },
-      "oz": 5.5,
-      "calories": 240
-    },
-    {
-      "name": "Pasta",
-      "macros": {
-        "protein": 8,
-        "fat": 1,
-        "carbs": 41
-      },
-      "oz": 4,
-      "calories": 200
-    },
-    {
-      "name": "Tomato Sauce",
-      "macros": {
-        "protein": 2,
-        "fat": 1,
-        "carbs": 8
-      },
-      "oz": 6,
-      "calories": 60
-    },
-    {
-      "name": "Parmesan Cheese",
-      "macros": {
-        "protein": 5,
-        "fat": 3,
-        "carbs": 1
-      },
-      "oz": 1,
-      "calories": 45
-    },
-    {
-      "name": "Garlic",
-      "macros": {
-        "protein": 0,
-        "fat": 0,
-        "carbs": 1
-      },
-      "oz": 0.2,
-      "calories": 10
-    },
-    {
-      "name": "Olive Oil",
-      "macros": {
-        "protein": 0,
-        "fat": 14,
-        "carbs": 0
-      },
-      "oz": 0.5,
-      "calories": 120
-    }
-  ],
-  "totalcalories": 675,
-  "totalmacros": {
-    "totalprotein": 41,
-    "totalfat": 37,
-    "totalcarbs": 51
-  },
-  "favmeal": True,
-  "date": "2023-05-07T00:00:00Z"
-}
-
-
-meal8 = {
-    "name": "Pesto Pasta with Roasted Tomatoes",
-    "ingredients": [
-        {
-            "name": "Pasta",
-            "macros": {
-                "protein": 8,
-                "fat": 2,
-                "carbs": 45
-            },
-            "oz": 3.0,
-            "calories": 220
-        },
-        {
-            "name": "Basil Pesto",
-            "macros": {
-                "protein": 2,
-                "fat": 12,
-                "carbs": 4
-            },
-            "oz": 1.0,
-            "calories": 140
-        },
-        {
-            "name": "Cherry Tomatoes",
-            "macros": {
-                "protein": 1,
-                "fat": 0,
-                "carbs": 3
-            },
-            "oz": 3.0,
-            "calories": 20
-        },
-        {
-            "name": "Parmesan Cheese",
-            "macros": {
-                "protein": 5,
-                "fat": 4,
-                "carbs": 1
-            },
-            "oz": 0.5,
-            "calories": 50
-        },
-        {
-            "name": "Olive Oil",
-            "macros": {
-                "protein": 0,
-                "fat": 14,
-                "carbs": 0
-            },
-            "oz": 1.0,
-            "calories": 120
-        }
-    ],
-    "totalcalories": 550,
-    "totalmacros": {
-        "totalprotein": 16,
-        "totalfat": 32,
-        "totalcarbs": 53
-    },
-    "favmeal": True,
-    "date": "2023-05-09T00:00:00Z"
-}
-
-meal9 = {
   "name": "Malabar Parantha with Beef Roast",
   "ingredients": [
     {
@@ -474,11 +44,11 @@ meal9 = {
     "totalcarbs": 6
   },
   "favmeal": False,
-  "datestamp": "2023-05-09"
+  "datestamp": "2023-05-25"
 }
 
 
-meal10 = {
+meal2 = {
   "name": "Moong Dal with Fish and Jasmine Rice",
   "ingredients": [
     {
@@ -528,12 +98,12 @@ meal10 = {
     "totalfat": 15,
     "totalcarbs": 4
   },
-  "favmeal": False,
-  "datestamp": "2023-05-09"
+  "favmeal": True,
+  "datestamp": "2023-05-25"
 }
 
 
-meal11 = {
+meal3 = {
   "name": "PF Chang's Chicken Chow Mein with Vegetables",
   "ingredients": [
     {
@@ -564,7 +134,7 @@ meal11 = {
     "totalcarbs": 9
   },
   "favmeal": False,
-  "datestamp": "2023-05-09"
+  "datestamp": "2023-05-25"
 }
 
 meal12 = {
@@ -642,7 +212,7 @@ meal13 = {
     "totalcarbs": 17
   },
   "favmeal": False,
-  "datestamp": "2023-05-09"
+  "datestamp": "2023-05-25"
 }
 
 meal14 = {
@@ -666,7 +236,7 @@ meal14 = {
     "totalcarbs": 21
   },
   "favmeal": False,
-  "datestamp": "2023-05-09"
+  "datestamp": "2023-05-25"
 }
 
 meal15 = {
@@ -699,8 +269,8 @@ meal15 = {
     "totalfat": 37,
     "totalcarbs": 73
   },
-  "favmeal": False,
-  "datestamp": "2023-05-09"
+  "favmeal": True,
+  "datestamp": "2023-05-25"
 }
 
 meal16 = {
@@ -1051,12 +621,12 @@ meal25 = {
 
 
 # Define user ID
-user_id = "user1"  # Replace with the actual user ID
+user_id = "victoriatran2024@u.northwestern.edu"  # Replace with the actual user ID
 user_id2 = "user2"
 
-all_meals = [meal1, meal2, meal3, meal4, meal5, meal6, meal7, meal8]
+all_meals = [meal1, meal2, meal3]
 
-logged_meals = [meal4, meal5, meal8]
+logged_meals = [meal1, meal2, meal3]
 
 user_ref = db.collection("users").document(user_id)
 

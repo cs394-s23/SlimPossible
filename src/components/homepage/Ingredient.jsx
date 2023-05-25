@@ -8,9 +8,7 @@ const Ingredient = (props) => {
       <p>
         <span>{ingredient.name}:</span>
       </p>
-      <p>
-        {ingredient.num} {ingredient.unit}
-      </p>
+      <p>{ingredient.num} g</p>
       <p className="calories">{ingredient.calories} cal.</p>
     </div>
   );
