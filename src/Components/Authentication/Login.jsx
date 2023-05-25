@@ -36,8 +36,8 @@ const Login = () => {
             console.error("Error creating document: ", error);
           });
 
-        // navigate("/");
-        // window.location.reload();
+        navigate("/");
+        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
