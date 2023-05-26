@@ -426,7 +426,14 @@ const Homepage = () => {
       }
 
       console.log("User daily calorie goal: ", user.daily_calorie_goal);
-      setTotalDailyCalories(parseInt(user.daily_calorie_goal)); // set the total daily calories
+
+      const setTDCPromise = new Promise((resolve, reject) => {
+        setTotalDailyCalories(parseInt(user.daily_calorie_goal), () => {
+          resolve();
+        }));
+
+      return setTDCPromise;
+
     } catch (error) {
       console.log(error);
     }
@@ -455,8 +462,9 @@ const Homepage = () => {
 
   // Start up, fetch the calorie goal
   useEffect(() => {
-    fetchCalorieGoal();
-    fetchMealsAndData();
+    fetchCalorieGoal().then(() => {
+      fetchMealsAndData();
+    });
   }, []);
 
   // Update the calorie goal

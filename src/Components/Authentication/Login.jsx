@@ -27,7 +27,7 @@ const Login = () => {
         const userIdsDocRef = doc(db, "users", userEmail);
 
         const newData = {
-          userdailycalorie: null,
+          daily_calorie_goal: null,
         };
 
         setDoc(userIdsDocRef, newData)
