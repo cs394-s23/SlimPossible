@@ -397,6 +397,7 @@ const Homepage = () => {
 
   const fetchCalorieGoal = async () => {
     try {
+      setCaloriesFetched(true);
       const userId = localStorage.getItem("email");
       const userRef = doc(db, "users", userId);
 
@@ -447,7 +448,7 @@ const Homepage = () => {
     console.log("UDPATING CALORIES GOALS");
     updateCalorieGoal();
 
-    if (!caloriesFetched){
+    if (caloriesFetched) {
       fetchMealsAndData();
     }
   }, [totalDailyCalories]);
@@ -478,7 +479,9 @@ const Homepage = () => {
   function fetchMealsAndData() {
     changePieDataNew();
     changePieDataOld();
-    setCaloriesFetched(true);
+    setCaloriesFetched(false);
+    console.log("BEFORE FETCH TOTAL DAILY CALORIES");
+    console.log(totalDailyCalories);
     // uncomment later
     console.log("all meals after FLOW DATAFETCHED");
     console.log(allMeals);
@@ -496,7 +499,7 @@ const Homepage = () => {
 
   // Start up, fetch the calorie goal
   useEffect(() => {
-    fetchCalorieGoal()
+    fetchCalorieGoal();
   }, []);
 
   // 6. Initialize Data for the first time
