@@ -442,10 +442,14 @@ const Homepage = () => {
     }
   };
 
-  // Update the calorie goal
+  // Update the calorie goal, and also fetch data on startup after this is finished
   useEffect(() => {
     console.log("UDPATING CALORIES GOALS");
     updateCalorieGoal();
+
+    if (!caloriesFetched){
+      fetchMealsAndData();
+    }
   }, [totalDailyCalories]);
 
   // 5. Pie Chart Data
@@ -474,6 +478,7 @@ const Homepage = () => {
   function fetchMealsAndData() {
     changePieDataNew();
     changePieDataOld();
+    setCaloriesFetched(true);
     // uncomment later
     console.log("all meals after FLOW DATAFETCHED");
     console.log(allMeals);
@@ -491,9 +496,7 @@ const Homepage = () => {
 
   // Start up, fetch the calorie goal
   useEffect(() => {
-    fetchCalorieGoal().then(() => {
-      fetchMealsAndData();
-    });
+    fetchCalorieGoal()
   }, []);
 
   // 6. Initialize Data for the first time
