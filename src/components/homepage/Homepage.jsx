@@ -33,7 +33,7 @@ const Homepage = () => {
   const [pieDataOld, setPieDataOld] = useState({});
   const [diffData, setDiffData] = useState({});
 
-  const [dataFetched, setDataFetched] = useState(false);
+  const [caloriesFetched, setCaloriesFetched] = useState(false);
   const [dineOptions, setDineOptions] = useState([]);
 
   const [collectionName, setCollectionName] = useState(DbTitle);
@@ -232,8 +232,6 @@ const Homepage = () => {
   // Fetch data from firebase
   // Counting calories for all meals in logged_meal right now, NEED TO CONSIDER LOGGED_DATES LATER
   const Fetchdata = async () => {
-    setDataFetched(true);
-
     // TODO: MAKE SURE TO CHANGE THE USER NAME FROM "user1" to the current user's email
     const username = localStorage.getItem("email");
 
@@ -275,10 +273,6 @@ const Homepage = () => {
       // add the macros up too
       setBlocks(mealsToday);
       console.log("Total Calories Sum:", totalCaloriesSum);
-      console.log("all meals from async func");
-      console.log(allMeals);
-      console.log("----------");
-      // console.log(loggedMeals);
       return { allMeals: allMeals, totalCaloriesSum: totalCaloriesSum };
     } catch (error) {
       console.log(error);
@@ -302,12 +296,7 @@ const Homepage = () => {
       });
     }
 
-    console.log(validMeals);
     const slicedValidMeals = validMeals.slice(0, 3);
-    console.log("MEALS CHECK");
-    console.log(allMeals);
-    console.log(slicedValidMeals);
-    console.log("valid meals");
     setFilterInfo(slicedValidMeals);
     setDineOptions(filteredMeals);
     console.log(dineOptions);
@@ -427,7 +416,6 @@ const Homepage = () => {
 
       console.log("User daily calorie goal: ", user.daily_calorie_goal);
       setTotalDailyCalories(parseInt(user.daily_calorie_goal));
-
     } catch (error) {
       console.log(error);
     }
@@ -486,34 +474,27 @@ const Homepage = () => {
   function fetchMealsAndData() {
     changePieDataNew();
     changePieDataOld();
-    setDataFetched(true);
     // uncomment later
     console.log("all meals after FLOW DATAFETCHED");
     console.log(allMeals);
     Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
       // Save all meals here
       setAllMeals(allMeals);
-      console.log("all meals after running fetchdata.then() func");
-      console.log(allMeals);
-      console.log();
-      console.log("----------");
 
       // Data fetched, now call recommendMeals
       recommendMeals(allMeals, totalCaloriesSum);
-      console.log("?????????");
-      console.log(filteredMeals);
     });
-    console.log("next is all meals");
-    console.log(allMeals);
+    // console.log("next is all meals");
+    // console.log(allMeals);
     console.log("Pie data changed");
   }
 
-    // Start up, fetch the calorie goal
-    useEffect(() => {
-      fetchCalorieGoal().then(() => {
-        fetchMealsAndData();
-      });
-    }, []);
+  // Start up, fetch the calorie goal
+  useEffect(() => {
+    fetchCalorieGoal().then(() => {
+      fetchMealsAndData();
+    });
+  }, []);
 
   // 6. Initialize Data for the first time
   useEffect(() => {
