@@ -29,8 +29,8 @@ const Homepage = () => {
   const [blocks, setBlocks] = useState([]);
   // const [todayMeals, setTodayMeals] = useState([]);
 
-  const [pieDataNew, setPieDataNew] = useState({});
-  const [pieDataOld, setPieDataOld] = useState({});
+  const [pieDataNew, setPieDataNew] = useState([]);
+  const [pieDataOld, setPieDataOld] = useState([]);
   const [diffData, setDiffData] = useState({});
 
   const [caloriesFetched, setCaloriesFetched] = useState(false);
@@ -44,195 +44,19 @@ const Homepage = () => {
   const [totalDailyCalories, setTotalDailyCalories] = useState();
   const [renderSubmitBtn, setRenderSubmitBtn] = useState(false);
 
+  const [index, setIndex] = useState(0);
+  const [submit, setSubmit] = useState(false);
+  const [recommendedMealSelected, setRecommendedMealSelected] = useState(false);
+
   const colorForPieChart = {
     carbohydrates: "#245dff",
     protein: "#e0c342",
     fat: "#ff4766",
   };
 
-  // 2. Fake data
-  var block1 = {
-    title: "Breakfast",
-    ingredients: [
-      {
-        emoji: "🍞",
-        name: "Bread",
-        num: 100,
-        calories: 267,
-        protein: 8,
-        fat: 3,
-        carbohydrates: 51,
-        unit: "g",
-      },
-      {
-        emoji: "🥚",
-        name: "Egg",
-        num: 200,
-        calories: 310,
-        protein: 26,
-        fat: 23,
-        carbohydrates: 2,
-        unit: "g",
-      },
-    ],
-  };
-
-  var block2 = {
-    title: "Lunch",
-    ingredients: [
-      {
-        emoji: "🍔",
-        name: "Beef Patty",
-        num: 1,
-        calories: 250,
-        protein: 20,
-        fat: 20,
-        carbohydrates: 0,
-        unit: "serving",
-      },
-      {
-        emoji: "🍟",
-        name: "French Fries",
-        num: 150,
-        calories: 312,
-        protein: 4,
-        fat: 15,
-        carbohydrates: 42,
-        unit: "g",
-      },
-      {
-        emoji: "🥤",
-        name: "Soda",
-        num: 1,
-        calories: 150,
-        protein: 0,
-        fat: 0,
-        carbohydrates: 39,
-        unit: "can",
-      },
-    ],
-  };
-
-  var choice1 = {
-    emoji: "🥩",
-    title: "Steak Dinner",
-    ingredients: [
-      {
-        name: "Ribeye Steak",
-        num: 1,
-        unit: "serving",
-        calories: 700,
-        protein: 20,
-        fat: 300,
-        carbohydrates: 0,
-      },
-      {
-        name: "Baked Potato",
-        num: 1,
-        unit: "serving",
-        calories: 250,
-        protein: 1,
-        fat: 0,
-        carbohydrates: 50,
-      },
-      {
-        name: "Green Beans",
-        num: 1,
-        unit: "cup",
-        calories: 35,
-        protein: 2,
-        fat: 0,
-        carbohydrates: 7,
-      },
-      {
-        name: "Garlic Bread",
-        num: 1,
-        unit: "slice",
-        calories: 120,
-        protein: 3,
-        fat: 4,
-        carbohydrates: 500,
-      },
-      {
-        name: "Red Wine",
-        num: 1,
-        unit: "glass",
-        calories: 125,
-        protein: 0,
-        fat: 0,
-        carbohydrates: 4,
-      },
-    ],
-  };
-
-  var choice2 = {
-    emoji: "🍝",
-    title: "Spaghetti Bolognese",
-    ingredients: [
-      {
-        name: "Ground Beef",
-        num: 1,
-        unit: "serving",
-        calories: 250,
-        protein: 200,
-        fat: 12,
-        carbohydrates: 5,
-      },
-      {
-        name: "Spaghetti Noodles",
-        num: 2,
-        unit: "ounces",
-        calories: 210,
-        protein: 70,
-        fat: 1,
-        carbohydrates: 43,
-      },
-      {
-        name: "Tomato Sauce",
-        num: 0.5,
-        unit: "cup",
-        calories: 50,
-        protein: 2,
-        fat: 1,
-        carbohydrates: 10,
-      },
-      {
-        name: "Parmesan Cheese",
-        num: 2,
-        unit: "tablespoons",
-        calories: 44,
-        protein: 3,
-        fat: 3,
-        carbohydrates: 0,
-      },
-      {
-        name: "Olive Oil",
-        num: 1,
-        unit: "tablespoon",
-        calories: 120,
-        protein: 0,
-        fat: 140,
-        carbohydrates: 0,
-      },
-      {
-        name: "Garlic",
-        num: 2,
-        unit: "cloves",
-        calories: 8,
-        protein: 0,
-        fat: 0,
-        carbohydrates: 250,
-      },
-    ],
-  };
-
-  var blocks_new = [block1, block2];
-  var choices_new = [choice1, choice2];
-
   // Fetch data from firebase
   // Counting calories for all meals in logged_meal right now, NEED TO CONSIDER LOGGED_DATES LATER
   const Fetchdata = async () => {
-    // TODO: MAKE SURE TO CHANGE THE USER NAME FROM "user1" to the current user's email
     const username = localStorage.getItem("email");
 
     try {
@@ -258,7 +82,7 @@ const Homepage = () => {
         "0"
       )}`;
 
-      console.log(formattedDate);
+      // console.log(formattedDate);
       let totalCaloriesSum = 0;
       const mealsToday = [];
       loggedMeals.forEach((meal) => {
@@ -272,7 +96,7 @@ const Homepage = () => {
 
       // add the macros up too
       setBlocks(mealsToday);
-      console.log("Total Calories Sum:", totalCaloriesSum);
+      // console.log("Total Calories Sum:", totalCaloriesSum);
       return { allMeals: allMeals, totalCaloriesSum: totalCaloriesSum };
     } catch (error) {
       console.log(error);
@@ -280,12 +104,9 @@ const Homepage = () => {
   };
 
   // need to go through logged meals and get all meals matching today's date
-
-  // console.log(filteredMeals);
-
   const recommendMeals = (allMeals, totalCaloriesSum) => {
     const validMeals = [];
-    console.log("daily cals");
+    console.log("Daily Calories");
     console.log(totalDailyCalories);
     const remainingCalories = totalDailyCalories - totalCaloriesSum;
     if (Array.isArray(allMeals)) {
@@ -299,20 +120,9 @@ const Homepage = () => {
     const slicedValidMeals = validMeals.slice(0, 3);
     setFilterInfo(slicedValidMeals);
     setDineOptions(filteredMeals);
-    console.log(dineOptions);
   };
 
-  // if (blocks.length == 0) {
-  //   setBlocks(blocks_new);
-  // }
-
-  // if (dineOptions.length == 0) {
-  //   setDineOptions(choices_new);
-  // }
-
   // 4. Some Helper Functions
-  const [index, setIndex] = useState(0);
-
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
   };
@@ -330,7 +140,6 @@ const Homepage = () => {
       ["Fat", 560],
       ["Carbohydrates", 320],
     ];
-
     setPieDataNew(data);
   };
 
@@ -341,7 +150,6 @@ const Homepage = () => {
       ["Fat", 560],
       ["Carbohydrates", 320],
     ];
-
     setPieDataOld(data);
   };
 
@@ -394,7 +202,6 @@ const Homepage = () => {
   }
 
   // Function to fetch data from the database regarding user daily calorie goal
-
   const fetchCalorieGoal = async () => {
     try {
       setCaloriesFetched(true);
@@ -449,6 +256,7 @@ const Homepage = () => {
     updateCalorieGoal();
 
     if (caloriesFetched) {
+      console.log("CALORIES FINISHED FETCHING");
       fetchMealsAndData();
     }
   }, [totalDailyCalories]);
@@ -479,12 +287,9 @@ const Homepage = () => {
   function fetchMealsAndData() {
     changePieDataNew();
     changePieDataOld();
+    
     setCaloriesFetched(false);
-    console.log("BEFORE FETCH TOTAL DAILY CALORIES");
-    console.log(totalDailyCalories);
     // uncomment later
-    console.log("all meals after FLOW DATAFETCHED");
-    console.log(allMeals);
     Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
       // Save all meals here
       setAllMeals(allMeals);
@@ -492,9 +297,6 @@ const Homepage = () => {
       // Data fetched, now call recommendMeals
       recommendMeals(allMeals, totalCaloriesSum);
     });
-    // console.log("next is all meals");
-    // console.log(allMeals);
-    console.log("Pie data changed");
   }
 
   // Start up, fetch the calorie goal
@@ -504,12 +306,10 @@ const Homepage = () => {
 
   // 6. Initialize Data for the first time
   useEffect(() => {
-    if (Object.keys(diffData).length === 0) {
       setDiffData({
         old: pieDataOld,
         new: pieDataNew,
-      });
-    }
+  });
   }, [pieDataNew, pieDataOld]);
 
   // Render the variables by extracting data from the blocks
@@ -536,37 +336,88 @@ const Homepage = () => {
     setProtein(protein);
     setFat(fat);
     setCarbohydrates(carbohydrates);
+
+    // Change diff data here as well
+
+
   }, [blocks]);
 
   // Change dining options
   useEffect(() => {
     setDineOptions(filteredMeals);
-    console.log(filteredMeals);
   }, [filteredMeals]);
 
   // submit meal option
-  const [submit, setSubmit] = useState(false);
-  const handleSubmit = () => {
-    setSubmit(!submit);
+  async function handleSubmit(e, obj) {
+
+    // Submit data to firebase
+    // Date format: YYYY-MM-DD
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const date = new Date().toLocaleDateString("en-US", {
+      timeZone: userTimeZone,
+    });
+
+    const [month, day, year] = date.split("/"); // Assuming the default format is MM/DD/YYYY
+    const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+      2,
+      "0"
+    )}`;
+
+    // Now we get the data from the meals
+    const mealName = obj.name;
+    const mealIngredients = obj.ingredients;
+    const mealCalories = obj.totalCalories;
+    const mealMacros = obj.totalMacros;
+    const mealFavMeal = obj.favMeal;
+
+    // Now we submit the data to firebase
+    const userId = localStorage.getItem("email");
+    const userRef = doc(db, "users", userId);
+    const userRefAllMeals = collection(userRef, "all_meals");
+    const userRerLoggedMeals = collection(userRef, "logged_meals");
+
+    const submission = {
+      name: mealName,
+      ingredients: mealIngredients,
+      calories: mealCalories,
+      macros: mealMacros,
+      date: formattedDate,
+      favMeal: mealFavMeal,
+      datestamp: formattedData
+    }
+
+    const docRefAll = await addDoc(userRefAllMeals, submission);
+    const docRefLogged = await addDoc(userRerLoggedMeals, submission);
+
+    await setSubmit(!submit);
+
+    // Now remove all the dinner options
+    setDineOptions([]);
+    setRecommendedMealSelected(true);
   };
 
   useEffect(() => {
-    console.log(dineOptions);
-    console.log(dineOptions);
-  }, [dineOptions]);
+    console.log(diffData);
+  },[diffData]);
 
   return (
     <div className="homepage">
       <div className="upper">
         <div className="header">
-          <div id="calories_and_macro_graph">
-            <Chart
-              chartType="PieChart"
-              diffdata={diffData}
-              options={options}
-              id="calories_and_macro_graph"
-            />
-          </div>
+          {
+            pieDataNew.length != 0 && pieDataOld.length != 0 ? 
+            (
+            <div id="calories_and_macro_graph">
+              <Chart
+                chartType="PieChart"
+                diffdata={diffData}
+                options={options}
+                id="calories_and_macro_graph"
+              />
+            </div>
+          ):
+            ("")
+          }
 
           <div className="info">
             <div className="info_item">
@@ -602,7 +453,13 @@ const Homepage = () => {
         {blocks.map((obj, index) => (
           <Block key={index} block={obj} />
         ))}
-        <h3 className="dinner-recs-heading">Dinner recommendations:</h3>
+
+        {
+          !recommendedMealSelected ? 
+          (<h3 className="dinner-recs-heading">Dinner recommendations:</h3>)
+          :
+          ("")
+        }
 
         <Carousel
           activeIndex={index}
@@ -622,7 +479,7 @@ const Homepage = () => {
                 <Carousel.Caption>
                   {submit ? (
                     <button
-                      onClick={handleSubmit}
+                      onClick={(e) => handleSubmit(e, obj)}
                       className="slimPossibleSubmitted"
                     >
                       submitted!
@@ -630,7 +487,7 @@ const Homepage = () => {
                   ) : (
                     <button
                       className="slimPossibleSubmit"
-                      onClick={handleSubmit}
+                      onClick={(e) => handleSubmit(e, obj)}
                     >
                       submit
                     </button>

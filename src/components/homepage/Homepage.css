@@ -78,7 +78,7 @@ button {
   height: 200px;
   margin-bottom: 50px;
   width: 100%;
-  background-color: rgba(161, 118, 54, 0.6);
+  background-color: rgba(97, 70, 31, 0.6);
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
   padding-left: 10px;
   padding-right: 6px;
@@ -164,6 +164,7 @@ button {
   padding: 10px;
   border-radius: 10px;
   background-color: rgba(161, 118, 54, 0.5);
+  transition: all 0.3s ease-in-out;
 }
 
 .content {
@@ -270,6 +271,7 @@ button {
   #calories_and_macro_graph {
     margin-left: 10px;
     width: 40%;
+    animation: 1s ease-in;
   }
 
   .info_box {
