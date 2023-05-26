@@ -241,6 +241,15 @@ function SearchForm() {
     // Set the meal array now
     var mealArray = mealIngredientsArray;
 
+    // Check to see if the serving size unit is grams or not
+    var servingSizeData = null;
+
+    if (option.servingSizeUnit == "g") {
+      servingSizeData = option.servingSize * modalMultiplier;
+    } else {
+      servingSizeData = modalMultiplier
+    }
+
     // Now we add the object to the meal array, with multiplier
     var nutritionObject = {
       name: foodName,
@@ -248,7 +257,8 @@ function SearchForm() {
       carbohydrates: carbohydrates * modalMultiplier,
       protein: protein * modalMultiplier,
       fat: fat * modalMultiplier,
-      grams: option.servingSize * modalMultiplier,
+      amount: servingSizeData,
+      isGram: option.servingSizeUnit == "g",
       borderColor: { borderColor: randomHexColor() },
     };
 
@@ -309,7 +319,8 @@ function SearchForm() {
           protein: mealIngredientsArray[i].protein,
           fat: mealIngredientsArray[i].fat,
         },
-        grams: mealIngredientsArray[i].grams,
+        amount: mealIngredientsArray[i].amount,
+        isGram: mealIngredientsArray[i].isGram,
         calories: mealIngredientsArray[i].calories,
       };
 
