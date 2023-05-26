@@ -45,7 +45,9 @@ function SearchForm() {
       collection(db, "users", "user1", "all_meals")
     );
 
-    const allMealsFromFirebase = await allMealsSnapshot.docs.map((doc) => doc.data());
+    const allMealsFromFirebase = await allMealsSnapshot.docs.map((doc) =>
+      doc.data()
+    );
     console.log("All user meals fetched!");
     console.log(allMealsFromFirebase);
 
@@ -56,13 +58,11 @@ function SearchForm() {
     fetchAllMeals();
   }
 
-
   // Handle auto selection
-  const suggestOptions = (event) => { 
-
-    if (mealName == ""){
+  const suggestOptions = (event) => {
+    if (mealName == "") {
       setSuggestedMeals([]);
-      return
+      return;
     }
 
     var filteredOptions = [];
@@ -82,7 +82,10 @@ function SearchForm() {
       }
 
       // Check to see if the name is included in the meal name
-      if (!alreadyInFilteredOptions && option.name.toLowerCase().includes(mealName.toLowerCase())) {
+      if (
+        !alreadyInFilteredOptions &&
+        option.name.toLowerCase().includes(mealName.toLowerCase())
+      ) {
         filteredOptions.push(option);
       }
     }
@@ -101,14 +104,12 @@ function SearchForm() {
     // Add ingredients to the ingredients list
     var ingredients_arr = [];
     option.ingredients.forEach((ingredient) => {
-
       var servingSize = "n/a"; // default serving size, we may need to change this
 
       // Check if the serving size is null, if they are, set them to ""
       if (ingredient.grams != null) {
         servingSize = ingredient.grams;
       }
-
 
       ingredients_arr.push({
         name: ingredient.name,
@@ -121,7 +122,7 @@ function SearchForm() {
       });
     });
 
-    console.log("Updating ingredients array...")
+    console.log("Updating ingredients array...");
     setMealArray(ingredients_arr);
 
     // Check to see if meal is a favorite meal
@@ -129,7 +130,6 @@ function SearchForm() {
       setFavMeal(true);
     }
   }
-
 
   // Handle submission of the form
   const handleSubmit = (event) => {
@@ -198,11 +198,10 @@ function SearchForm() {
 
     // Set modal data
     setModalData(option);
-  }
+  };
 
   // Add the ingredient to the meal submit form
   const addItemToMeal = () => {
-
     var option = modalData;
 
     // Rest modal data
@@ -300,7 +299,16 @@ function SearchForm() {
 
     const name = mealName;
     // Now we need to get the current date
-    const date = new Date();
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const date = new Date().toLocaleDateString("en-US", {
+      timeZone: userTimeZone,
+    });
+
+    const [month, day, year] = date.split("/"); // Assuming the default format is MM/DD/YYYY
+    const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+      2,
+      "0"
+    )}`;
 
     // Now we need to get the meal ingredients
     var ingredients = [];
@@ -340,7 +348,7 @@ function SearchForm() {
       totalCalories: totalCalories,
       totalmacros: totalmacros,
       favmeal: favMeal,
-      date: date,
+      datestamp: formattedDate,
     };
 
     const submissionWithoutDate = {
@@ -363,10 +371,7 @@ function SearchForm() {
     await setSubmitButton("submitting...");
 
     const docRefAll = await addDoc(userRefAllMeals, submission);
-    const docRefLogged = await addDoc(
-      userRerLoggedMeals,
-      submissionWithoutDate
-    );
+    const docRefLogged = await addDoc(userRerLoggedMeals, submission);
 
     await setSubmitButton("submitted!");
 
@@ -384,26 +389,23 @@ function SearchForm() {
 
   return (
     <div className="overallForm">
-
       {/* Modal */}
       {modalOpen ? (
         <div className="modal-item">
           <div className="modal-content">
-            <span className="close" onClick={closeModal}>&times;</span>
+            <span className="close" onClick={closeModal}>
+              &times;
+            </span>
             <h2>{modalData.description}</h2>
-            {
-              modalData.brandOwner ? 
-                (<h6>{modalData.brandOwner}</h6>) 
-                : 
-                ("")
-            }
+            {modalData.brandOwner ? <h6>{modalData.brandOwner}</h6> : ""}
             <p></p>
-            {
-              modalData.servingSize && modalData.servingSizeUnit ?
-                (<p>{modalData.servingSize} {modalData.servingSizeUnit} per serving</p>)
-                :
-                (<p> No serving size/unit data aviailable</p>)
-            }
+            {modalData.servingSize && modalData.servingSizeUnit ? (
+              <p>
+                {modalData.servingSize} {modalData.servingSizeUnit} per serving
+              </p>
+            ) : (
+              <p> No serving size/unit data aviailable</p>
+            )}
             <p></p>
             <input
               type="number"
@@ -411,9 +413,9 @@ function SearchForm() {
               value={modalMultiplier || ""}
               onChange={(e) => setModalMultiplier(e.target.value)}
               placeholder={
-                modalData.servingSize && modalData.servingSizeUnit ? 
-                "Enter your serving size here" :
-                "Enter your amount here"
+                modalData.servingSize && modalData.servingSizeUnit
+                  ? "Enter your serving size here"
+                  : "Enter your amount here"
               }
             />
             <button
@@ -423,13 +425,15 @@ function SearchForm() {
                   : "slimPossibleSubmitted"
               }
               onClick={addItemToMeal}
-
-              > {modalSubmit} </button>
-
+            >
+              {" "}
+              {modalSubmit}{" "}
+            </button>
           </div>
         </div>
-      ):("")}
-
+      ) : (
+        ""
+      )}
 
       {errorMessages.length > 0
         ? errorMessages.map((x, idx) => (
@@ -471,18 +475,25 @@ function SearchForm() {
               className="option-meal-suggested"
               onClick={() => handleOptionClick(option)}
             >
-              <div> {option.favmeal? "❤️" : ""} {option.name} </div>
+              <div>
+                {" "}
+                {option.favmeal ? "❤️" : ""} {option.name}{" "}
+              </div>
               <h4> {option.totalCalories || option.totalcalories} kcal </h4>
             </div>
           ))}
         </div>
-        
-        {
-          suggestedMeals.length > 0 ?
-          (<button className="option-meal-suggested-close-button" onClick={handleRemoveSuggestedMeals}>x</button>)
-          :
-          ("")
-        }
+
+        {suggestedMeals.length > 0 ? (
+          <button
+            className="option-meal-suggested-close-button"
+            onClick={handleRemoveSuggestedMeals}
+          >
+            x
+          </button>
+        ) : (
+          ""
+        )}
 
         <div className="searchBar">
           <input
@@ -526,7 +537,11 @@ function SearchForm() {
       </div>
       <div className="search-results">
         {options.map((option) => (
-          <div key={option.fdcId} className="search-result-card" onClick={(e) => handleAddMeal(e, option)}>
+          <div
+            key={option.fdcId}
+            className="search-result-card"
+            onClick={(e) => handleAddMeal(e, option)}
+          >
             <div className="src-title">
               {option.brandOwner != null && option.brandOwner != "" ? (
                 <h3>{titleCase(option.description)}</h3>

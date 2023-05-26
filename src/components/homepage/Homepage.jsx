@@ -275,7 +275,9 @@ const Homepage = () => {
       // add the macros up too
       setBlocks(mealsToday);
       console.log("Total Calories Sum:", totalCaloriesSum);
-      // console.log(allMeals);
+      console.log("all meals from async func");
+      console.log(allMeals);
+      console.log("----------");
       // console.log(loggedMeals);
       return { allMeals: allMeals, totalCaloriesSum: totalCaloriesSum };
     } catch (error) {
@@ -288,18 +290,27 @@ const Homepage = () => {
   // console.log(filteredMeals);
 
   const recommendMeals = (allMeals, totalCaloriesSum) => {
+    const validMeals = [];
+    console.log("daily cals");
+    console.log(totalDailyCalories);
     const remainingCalories = totalDailyCalories - totalCaloriesSum;
     if (Array.isArray(allMeals)) {
       allMeals.forEach((meal) => {
         if (meal.totalcalories <= remainingCalories) {
-          recMeals.push(meal);
+          validMeals.push(meal);
         }
       });
     }
 
-    const slicedRecMeals = recMeals.slice(0, 3);
-    setFilterInfo(slicedRecMeals);
+    console.log(validMeals);
+    const slicedValidMeals = validMeals.slice(0, 3);
+    console.log("MEALS CHECK");
+    console.log(allMeals);
+    console.log(slicedValidMeals);
+    console.log("valid meals");
+    setFilterInfo(slicedValidMeals);
     setDineOptions(filteredMeals);
+    console.log(dineOptions);
   };
 
   // if (blocks.length == 0) {
@@ -395,10 +406,6 @@ const Homepage = () => {
 
   // Function to fetch data from the database regarding user daily calorie goal
 
-  const handleCalorieGoalChange = (e) => {
-    setTotalDailyCalories(e.target.value);
-  };
-
   const fetchCalorieGoal = async () => {
     try {
       const userId = localStorage.getItem("email");
@@ -449,10 +456,12 @@ const Homepage = () => {
   // Start up, fetch the calorie goal
   useEffect(() => {
     fetchCalorieGoal();
+    fetchMealsAndData();
   }, []);
 
   // Update the calorie goal
   useEffect(() => {
+    console.log("UDPATING CALORIES GOALS");
     updateCalorieGoal();
   }, [totalDailyCalories]);
 
@@ -479,19 +488,28 @@ const Homepage = () => {
     options.chartArea.width = "90%";
   }
 
-  if (!dataFetched) {
+  function fetchMealsAndData() {
     changePieDataNew();
     changePieDataOld();
     setDataFetched(true);
     // uncomment later
+    console.log("all meals after FLOW DATAFETCHED");
+    console.log(allMeals);
     Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
       // Save all meals here
       setAllMeals(allMeals);
+      console.log("all meals after running fetchdata.then() func");
+      console.log(allMeals);
+      console.log();
+      console.log("----------");
 
       // Data fetched, now call recommendMeals
       recommendMeals(allMeals, totalCaloriesSum);
+      console.log("?????????");
+      console.log(filteredMeals);
     });
-
+    console.log("next is all meals");
+    console.log(allMeals);
     console.log("Pie data changed");
   }
 
@@ -542,6 +560,11 @@ const Homepage = () => {
   const handleSubmit = () => {
     setSubmit(!submit);
   };
+
+  useEffect(() => {
+    console.log(dineOptions);
+    console.log(dineOptions);
+  }, [dineOptions]);
 
   return (
     <div className="homepage">
