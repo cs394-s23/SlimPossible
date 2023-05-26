@@ -4,11 +4,13 @@ import Logo from "./Logo.png";
 import { auth, provider } from "../../../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import db from "../../../firebase.js";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const signinWithGoogle = () => {
     signInWithPopup(auth, provider)
@@ -31,13 +33,17 @@ const Login = () => {
         setDoc(userIdsDocRef, newData)
           .then(() => {
             console.log('Document "userIds" created successfully');
+            setErrorMessage("");
+
+            // navigate to homepage if login is successful
+            navigate("/");
+            window.location.reload();
           })
           .catch((error) => {
             console.error("Error creating document: ", error);
+            setErrorMessage("Error signing in. Please try again.")
           });
 
-        navigate("/");
-        window.location.reload();
       })
       .catch((error) => {
         console.log(error);
@@ -59,6 +65,7 @@ const Login = () => {
         >
           Sign in with Google
         </button>
+        <h3 className="errorMessage">{errorMessage}</h3>
       </form>
     </div>
   );
