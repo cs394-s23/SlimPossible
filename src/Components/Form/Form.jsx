@@ -327,7 +327,7 @@ function SearchForm() {
           protein: mealIngredientsArray[i].protein,
           fat: mealIngredientsArray[i].fat,
         },
-        amount: mealIngredientsArray[i].amount,
+        amount: parseFloat(mealIngredientsArray[i].amount).toFixed(2),
         isGram: mealIngredientsArray[i].isGram,
         calories: mealIngredientsArray[i].calories,
       };

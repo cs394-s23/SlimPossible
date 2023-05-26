@@ -5,11 +5,9 @@ const Ingredient = (props) => {
 
   return (
     <div className="Ingredient">
-      <p>
-        <span>{ingredient.name}:</span>
-      </p>
-      <p>{ingredient.amount} g</p>
-      <p className="calories">{ingredient.calories} cal.</p>
+      <p>{ingredient.name}:</p>
+      <p>{parseFloat(ingredient.amount).toFixed(2)} {ingredient.isGram ? ("g") : ("") }</p>
+      <p className="calories">{ingredient.calories.toFixed(2)} kcal.</p>
     </div>
   );
 };

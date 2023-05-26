@@ -136,9 +136,9 @@ const Homepage = () => {
   const changePieDataNew = () => {
     var data = [
       ["Type", "Item"],
-      ["Protein", 835],
-      ["Fat", 560],
-      ["Carbohydrates", 320],
+      ["Protein", 0],
+      ["Fat", 0],
+      ["Carbohydrates", 0],
     ];
     setPieDataNew(data);
   };
@@ -146,9 +146,9 @@ const Homepage = () => {
   const changePieDataOld = () => {
     var data = [
       ["Type", "Item"],
-      ["Protein", 835],
-      ["Fat", 560],
-      ["Carbohydrates", 320],
+      ["Protein", 0],
+      ["Fat", 0],
+      ["Carbohydrates", 0],
     ];
     setPieDataOld(data);
   };
@@ -189,10 +189,10 @@ const Homepage = () => {
     }
 
     // 3. Set new data
-    setProtein(protein);
-    setFat(fat);
-    setCarbohydrates(carbohydrates);
-    setCalories(calories);
+    setProtein(protein.toFixed(2));
+    setFat(fat.toFixed(2));
+    setCarbohydrates(carbohydrates.toFixed(2));
+    setCalories(calories.toFixed(2));
 
     setPieDataNew(data);
     setDiffData({
@@ -331,10 +331,10 @@ const Homepage = () => {
     }
 
     // Set the state variables here
-    setOldCalories(calories);
-    setCalories(calories);
-    setProtein(protein);
-    setFat(fat);
+    setOldCalories(calories.toFixed(2));
+    setCalories(calories.toFixed(2));
+    setProtein(protein.toFixed(2));
+    setFat(fat.toFixed(2));
     setCarbohydrates(carbohydrates);
 
     // Change diff data here as well

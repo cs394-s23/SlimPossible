@@ -45,7 +45,7 @@ const Block = (props) => {
   return (
     <div className="block" style={block.customStyle}>
       <div className="block-title1">
-        <h1>{block.title}</h1>
+        <h1>{block.name}</h1>
       </div>
       <div className="block-content">
         <div className="strings" style={block.stringsStyle}>
