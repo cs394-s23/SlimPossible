@@ -426,13 +426,7 @@ const Homepage = () => {
       }
 
       console.log("User daily calorie goal: ", user.daily_calorie_goal);
-
-      const setTDCPromise = new Promise((resolve, reject) => {
-        setTotalDailyCalories(parseInt(user.daily_calorie_goal), () => {
-          resolve();
-        })});
-
-      return setTDCPromise;
+      setTotalDailyCalories(parseInt(user.daily_calorie_goal));
 
     } catch (error) {
       console.log(error);
@@ -453,19 +447,12 @@ const Homepage = () => {
       console.log("Updating data base with calorie goal: ", totalDailyCalories);
 
       const userSnap = await updateDoc(userRef, {
-        daily_calorie_goal: totalDailyCalories,
+        daily_calorie_goal: parseInt(totalDailyCalories),
       });
     } catch (error) {
       console.log(error);
     }
   };
-
-  // Start up, fetch the calorie goal
-  useEffect(() => {
-    fetchCalorieGoal().then(() => {
-      fetchMealsAndData();
-    });
-  }, []);
 
   // Update the calorie goal
   useEffect(() => {
@@ -520,6 +507,13 @@ const Homepage = () => {
     console.log(allMeals);
     console.log("Pie data changed");
   }
+
+    // Start up, fetch the calorie goal
+    useEffect(() => {
+      fetchCalorieGoal().then(() => {
+        fetchMealsAndData();
+      });
+    }, []);
 
   // 6. Initialize Data for the first time
   useEffect(() => {
