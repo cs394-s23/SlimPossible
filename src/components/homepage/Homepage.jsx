@@ -430,7 +430,7 @@ const Homepage = () => {
       const setTDCPromise = new Promise((resolve, reject) => {
         setTotalDailyCalories(parseInt(user.daily_calorie_goal), () => {
           resolve();
-        }));
+        })});
 
       return setTDCPromise;
 
