@@ -6,11 +6,17 @@ import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import db from "../../../firebase.js";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, getDoc } from "firebase/firestore";
 
 const Login = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+
+  const getUserFromFirebase = async (userEmail) => {
+    const userIdsDocRef = doc(db, "users", userEmail);
+    const docSnap = await getDoc(userIdsDocRef);
+    return docSnap.data() == null;
+  }
 
   const signinWithGoogle = () => {
     signInWithPopup(auth, provider)
@@ -23,13 +29,21 @@ const Login = () => {
         localStorage.setItem("image", imgUrl);
         localStorage.setItem("email", userEmail);
 
+        // see if the user exists in the database
+        const foundUser = getUserFromFirebase(userEmail);
+
+        if (foundUser) {
+          // navigate to homepage if login is successful
+          navigate("/");
+          window.location.reload();
+          return;
+        }
+
         // create a document firebase;
         const userIdsDocRef = doc(db, "users", userEmail);
-
         const newData = {
           daily_calorie_goal: null,
         };
-
         setDoc(userIdsDocRef, newData)
           .then(() => {
             console.log('Document "userIds" created successfully');
