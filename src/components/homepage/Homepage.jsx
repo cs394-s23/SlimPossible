@@ -330,11 +330,28 @@ const Homepage = () => {
       });
     }
 
+    // See if thd variables are null, if not, set them to 2 decimal places
+    if (protein != null) {
+      protein = protein.toFixed(2);
+    }
+
+    if (fat != null) {
+      fat = fat.toFixed(2);
+    }
+
+    if (carbohydrates != null) {
+      carbohydrates = carbohydrates.toFixed(2);
+    }
+
+    if (calories != null) {
+      calories = calories.toFixed(2);
+    }
+
     // Set the state variables here
-    setOldCalories(calories.toFixed(2));
-    setCalories(calories.toFixed(2));
-    setProtein(protein.toFixed(2));
-    setFat(fat.toFixed(2));
+    setOldCalories(calories);
+    setCalories(calories);
+    setProtein(protein);
+    setFat(fat);
     setCarbohydrates(carbohydrates);
 
     // Change diff data here as well
