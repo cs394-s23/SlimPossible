@@ -244,19 +244,24 @@ function SearchForm() {
     var servingSizeData = null;
 
     if (option.servingSizeUnit == "g") {
-      servingSizeData = option.servingSize * modalMultiplier;
+      servingSizeData = ption.servingSize * modalMultiplier;
     } else {
       servingSizeData = modalMultiplier
     }
 
+    console.log(modalMultiplier);
+    console.log(typeof(modalMultiplier));
+    console.log(servingSizeData);
+    console.log(typeof(servingSizeData));
+
     // Now we add the object to the meal array, with multiplier
     var nutritionObject = {
       name: foodName,
-      calories: calories * modalMultiplier,
-      carbohydrates: carbohydrates * modalMultiplier,
-      protein: protein * modalMultiplier,
-      fat: fat * modalMultiplier,
-      amount: servingSizeData,
+      calories: parseFloat((calories * modalMultiplier).toFixed(2)),
+      carbohydrates: parseFloat((carbohydrates * modalMultiplier).toFixed(2)),
+      protein: parseFloat((protein * modalMultiplier).toFixed(2)),
+      fat: parseFloat((fat * modalMultiplier).toFixed(2)),
+      amount: parseFloat(servingSizeData.toFixed(2)),
       isGram: option.servingSizeUnit == "g",
       borderColor: { borderColor: randomHexColor() },
     };
@@ -327,7 +332,7 @@ function SearchForm() {
           protein: mealIngredientsArray[i].protein,
           fat: mealIngredientsArray[i].fat,
         },
-        amount: parseFloat(mealIngredientsArray[i].amount).toFixed(2),
+        amount: mealIngredientsArray[i].amount,
         isGram: mealIngredientsArray[i].isGram,
         calories: mealIngredientsArray[i].calories,
       };
@@ -411,7 +416,7 @@ function SearchForm() {
               type="number"
               className="modal-search-input"
               value={modalMultiplier || ""}
-              onChange={(e) => setModalMultiplier(e.target.value)}
+              onChange={(e) => setModalMultiplier(parseFloat(e.target.value))}
               placeholder={
                 modalData.servingSize && modalData.servingSizeUnit
                   ? "Enter your serving size here"

@@ -57,6 +57,7 @@ const Homepage = () => {
   // Fetch data from firebase
   // Counting calories for all meals in logged_meal right now, NEED TO CONSIDER LOGGED_DATES LATER
   const Fetchdata = async () => {
+    console.log("FETCHING DATA FROM FIREBASE");
     const username = localStorage.getItem("email");
 
     try {
@@ -84,10 +85,17 @@ const Homepage = () => {
 
       // console.log(formattedDate);
       let totalCaloriesSum = 0;
+      let totalProteinSum = 0;
+      let totalFatSum = 0;
+      let totalCarbsSum = 0;
+
       const mealsToday = [];
       loggedMeals.forEach((meal) => {
         const totalcalories = meal.totalcalories;
         totalCaloriesSum += totalcalories;
+        totalProteinSum += meal.totalmacros.protein;
+        totalFatSum += meal.totalmacros.fat;
+        totalCarbsSum += meal.totalmacros.carbs;
         // add today's meals
         if (meal.datestamp === formattedDate) {
           mealsToday.push(meal);
@@ -96,6 +104,18 @@ const Homepage = () => {
 
       // add the macros up too
       setBlocks(mealsToday);
+
+      // Change the data for the pie chart
+      var data = [
+        ["Type", "Item"],
+        ["Protein", totalProteinSum],
+        ["Fat", totalFatSum],
+        ["Carbohydrates", totalCarbsSum],
+      ];
+
+      setPieDataOld(data);
+      setPieDataNew(data);
+
       // console.log("Total Calories Sum:", totalCaloriesSum);
       return { allMeals: allMeals, totalCaloriesSum: totalCaloriesSum };
     } catch (error) {
@@ -138,7 +158,7 @@ const Homepage = () => {
       ["Type", "Item"],
       ["Protein", 0],
       ["Fat", 0],
-      ["Carbohydrates", 0],
+      ["Carbohydrates", 1],
     ];
     setPieDataNew(data);
   };
@@ -148,7 +168,7 @@ const Homepage = () => {
       ["Type", "Item"],
       ["Protein", 0],
       ["Fat", 0],
-      ["Carbohydrates", 0],
+      ["Carbohydrates", 1],
     ];
     setPieDataOld(data);
   };
@@ -194,11 +214,7 @@ const Homepage = () => {
     setCarbohydrates(carbohydrates.toFixed(2));
     setCalories(calories.toFixed(2));
 
-    setPieDataNew(data);
-    setDiffData({
-      old: pieDataOld,
-      new: data,
-    });
+    setPieDataNew(data); // diff data will change automatically in the useEffect
   }
 
   // Function to fetch data from the database regarding user daily calorie goal
@@ -251,6 +267,7 @@ const Homepage = () => {
   };
 
   // Update the calorie goal, and also fetch data on startup after this is finished
+  // NOTE: On recommendation selection, refresh page automatically to update the data
   useEffect(() => {
     console.log("UDPATING CALORIES GOALS");
     updateCalorieGoal();
@@ -285,8 +302,13 @@ const Homepage = () => {
   }
 
   function fetchMealsAndData() {
-    changePieDataNew();
-    changePieDataOld();
+    if (pieDataNew.length == 0){
+      changePieDataNew();
+    }
+
+    if (pieDataOld.lenthg == 0){
+      changePieDataOld();
+    }
     
     setCaloriesFetched(false);
     // uncomment later
@@ -299,12 +321,17 @@ const Homepage = () => {
     });
   }
 
+  useEffect(() => {
+    console.log("ALL MEALS UPDATED");
+    console.log(allMeals);
+  }, [allMeals]);
+
   // Start up, fetch the calorie goal
   useEffect(() => {
     fetchCalorieGoal();
   }, []);
 
-  // 6. Initialize Data for the first time
+  // Always change diff data when pie data changes
   useEffect(() => {
       setDiffData({
         old: pieDataOld,
@@ -328,23 +355,6 @@ const Homepage = () => {
           calories += ingredient.calories;
         });
       });
-    }
-
-    // See if thd variables are null, if not, set them to 2 decimal places
-    if (protein != null) {
-      protein = protein.toFixed(2);
-    }
-
-    if (fat != null) {
-      fat = fat.toFixed(2);
-    }
-
-    if (carbohydrates != null) {
-      carbohydrates = carbohydrates.toFixed(2);
-    }
-
-    if (calories != null) {
-      calories = calories.toFixed(2);
     }
 
     // Set the state variables here
@@ -443,17 +453,17 @@ const Homepage = () => {
             </div>
             <div className="info_item">
               <h3 style={{ color: colorForPieChart.carbohydrates }}>
-                Carbohydrates:{" "}
+                Carbohydrates:
               </h3>
-              <p>{carbohydrates}</p>
+              <p>{carbohydrates} g</p>
             </div>
             <div className="info_item">
               <h3 style={{ color: colorForPieChart.fat }}>Fat: </h3>
-              <p>{fat}</p>
+              <p>{fat} g</p>
             </div>
             <div className="info_item">
               <h3 style={{ color: colorForPieChart.protein }}>Protein: </h3>
-              <p>{protein}</p>
+              <p>{protein} g</p>
             </div>
           </div>
         </div>
