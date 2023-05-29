@@ -317,7 +317,7 @@ function SearchForm() {
 
     // Now we need to get the meal ingredients
     var ingredients = [];
-    var totalCalories = 0;
+    var totalcalories = 0;
     var totalmacros = {
       carbs: 0,
       protein: 0,
@@ -340,7 +340,7 @@ function SearchForm() {
       ingredients.push(ingredient);
 
       // Update total counts
-      totalCalories += ingredient.calories;
+      totalcalories += ingredient.calories;
       totalmacros.carbs += ingredient.macros.carbs;
       totalmacros.protein += ingredient.macros.protein;
       totalmacros.fat += ingredient.macros.fat;
@@ -350,7 +350,7 @@ function SearchForm() {
     const submission = {
       name: name,
       ingredients: ingredients,
-      totalCalories: totalCalories,
+      totalcalories: totalcalories,
       totalmacros: totalmacros,
       favmeal: favMeal,
       datestamp: formattedDate,
@@ -359,7 +359,7 @@ function SearchForm() {
     const submissionWithoutDate = {
       name: name,
       ingredients: ingredients,
-      totalCalories: totalCalories,
+      totalcalories: totalcalories,
       totalmacros: totalmacros,
       favmeal: favMeal,
     };
@@ -484,7 +484,7 @@ function SearchForm() {
                 {" "}
                 {option.favmeal ? "❤️" : ""} {option.name}{" "}
               </div>
-              <h4> {option.totalCalories || option.totalcalories} kcal </h4>
+              <h4> {option.totalcalories || option.totalcalories} kcal </h4>
             </div>
           ))}
         </div>
