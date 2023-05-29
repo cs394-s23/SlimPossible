@@ -47,11 +47,24 @@ const Homepage = () => {
   const [index, setIndex] = useState(0);
   const [submit, setSubmit] = useState(false);
   const [recommendedMealSelected, setRecommendedMealSelected] = useState(false);
+  const [recommendedMealName, setRecommendedMealName] = useState();
+
+  const [submitButton, setSubmitButton] = useState("submit");
 
   const colorForPieChart = {
     carbohydrates: "#245dff",
     protein: "#e0c342",
     fat: "#ff4766",
+  };
+
+  // formatting numbers
+  const formatNumDisplay = (num) => {
+
+    if (num == null) {
+      return 0;
+    }
+
+    return parseFloat(parseFloat(num).toFixed(2));
   };
 
   // Fetch data from firebase
@@ -129,7 +142,19 @@ const Homepage = () => {
     const validMeals = [];
     console.log("Daily Calories");
     console.log(totalDailyCalories);
+
     const remainingCalories = totalDailyCalories - totalCaloriesSum;
+    const dailyAverageGlobal = 1000;
+
+    var benchmarkCalories = dailyAverageGlobal;
+
+    if (dailyAverageGlobal > remainingCalories) {
+      benchmarkCalories = remainingCalories;
+    }
+
+    // 1. Added smart recommendation method here
+    // - Filter either by just remaining calories
+    // - Or, it if it is next meal, then we just use a lower calorie count
     if (Array.isArray(allMeals)) {
       allMeals.forEach((meal) => {
         if (meal.totalcalories <= remainingCalories) {
@@ -154,7 +179,7 @@ const Homepage = () => {
     window.location.reload();
   };
 
-  const changePieDataNew = () => {
+  const changePieDataNewDefault = () => {
     var data = [
       ["Type", "Item"],
       ["Protein", 0],
@@ -164,7 +189,7 @@ const Homepage = () => {
     setPieDataNew(data);
   };
 
-  const changePieDataOld = () => {
+  const changePieDataOldDefault = () => {
     var data = [
       ["Type", "Item"],
       ["Protein", 0],
@@ -177,37 +202,48 @@ const Homepage = () => {
   function mealOptionChange(newData) {
     setRenderSubmitBtn(!renderSubmitBtn);
 
+    console.log("Checking new data input")
+    console.log(newData)
+    console.log(Object.keys(newData).length === 0)
+
     var data = {};
 
     var protein = 0;
     var fat = 0;
     var carbohydrates = 0;
     var calories = 0;
+    var name = null;
 
     // If the box was unchecked
     if (Object.keys(newData).length === 0) {
-      data = pieDataOld;
 
+      console.log("Changing to old data");
+
+      // Change back to old meal data
       protein = pieDataOld[1][1];
       fat = pieDataOld[2][1];
       carbohydrates = pieDataOld[3][1];
       calories = oldCalories;
     } else {
+
+      console.log("Changing to new data");
+
       // Change meal data
       // 1. Get all calories
       protein = pieDataOld[1][1] + newData.protein;
       fat = pieDataOld[2][1] + newData.fat;
       carbohydrates = pieDataOld[3][1] + newData.carbohydrates;
       calories = newData.calories + oldCalories;
-
-      // 2. Change the pie chart data withe the previous data values as well
-      var data = [
-        ["Type", "Item"],
-        ["Protein", protein],
-        ["Fat", fat],
-        ["Carbohydrates", carbohydrates],
-      ];
+      name = newData.name;
     }
+
+    // 2. Change the pie chart data withe the previous data values as well
+    data = [
+      ["Type", "Item"],
+      ["Protein", protein],
+      ["Fat", fat],
+      ["Carbohydrates", carbohydrates],
+    ];
 
     // 3. Set new data
     setProtein(protein.toFixed(2));
@@ -216,6 +252,7 @@ const Homepage = () => {
     setCalories(calories.toFixed(2));
 
     setPieDataNew(data); // diff data will change automatically in the useEffect
+    setRecommendedMealName(name); // change meal name as well
   }
 
   // Function to fetch data from the database regarding user daily calorie goal
@@ -304,11 +341,11 @@ const Homepage = () => {
 
   function fetchMealsAndData() {
     if (pieDataNew.length == 0){
-      changePieDataNew();
+      changePieDataNewDefault();
     }
 
     if (pieDataOld.lenthg == 0){
-      changePieDataOld();
+      changePieDataOldDefault();
     }
     
     setCaloriesFetched(false);
@@ -334,11 +371,17 @@ const Homepage = () => {
 
   // Always change diff data when pie data changes
   useEffect(() => {
-      setDiffData({
+    console.log("Pie Data Changed")
+    setDiffData({
         old: pieDataOld,
         new: pieDataNew,
-  });
+    });
   }, [pieDataNew, pieDataOld]);
+
+  useEffect(() => {
+    console.log("Diffdata Changed")
+    console.log(diffData);
+  }, [diffData]);
 
   // Render the variables by extracting data from the blocks
   useEffect(() => {
@@ -364,10 +407,6 @@ const Homepage = () => {
     setProtein(protein);
     setFat(fat);
     setCarbohydrates(carbohydrates);
-
-    // Change diff data here as well
-
-
   }, [blocks]);
 
   // Change dining options
@@ -392,7 +431,8 @@ const Homepage = () => {
     )}`;
 
     // Now we get the data from the meals
-    const mealName = obj.name;
+    // Must change meal name to a custom one
+    const mealName = recommendedMealName;
     const mealIngredients = obj.ingredients;
     const mealCalories = obj.totalcalories;
     const mealMacros = obj.totalmacros;
@@ -404,29 +444,42 @@ const Homepage = () => {
     const userRefAllMeals = collection(userRef, "all_meals");
     const userRerLoggedMeals = collection(userRef, "logged_meals");
 
+    // Check items in ingredients
+    mealIngredients.forEach((ingredient) => {
+      if (ingredient.servingUnit == null) {
+        ingredient.servingUnit = "";
+      }
+    });
+
     const submission = {
       name: mealName,
       ingredients: mealIngredients,
       totalcalories: mealCalories,
       totalmacros: mealMacros,
       date: formattedDate,
-      favMeal: mealFavMeal,
+      favmeal: mealFavMeal,
       datestamp: formattedDate
     }
 
-    const docRefAll = await addDoc(userRefAllMeals, submission);
-    const docRefLogged = await addDoc(userRerLoggedMeals, submission);
+    console.log(submission);
 
-    await setSubmit(!submit);
+    await setSubmitButton("submitting...");
+
+    const docRefAll = await addDoc(userRefAllMeals, submission);
+    const docRefLogged = await addDoc(userRerLoggedMeals, submission); // TODO: Change flash submit issue here
+
+    await setSubmit(true);
+    await setSubmitButton("submitted!");
+
+    await setTimeout(() => {
+      console.log("Delayed for 1 seconds");
+      window.location.href = "/";
+    }, "2000");
 
     // Now remove all the dinner options
     setDineOptions([]);
     setRecommendedMealSelected(true);
   };
-
-  useEffect(() => {
-    console.log(diffData);
-  },[diffData]);
 
   return (
     <div className="homepage">
@@ -450,21 +503,21 @@ const Homepage = () => {
           <div className="info">
             <div className="info_item">
               <h3>Calories: </h3>
-              <p>{calories}</p>
+              <p>{formatNumDisplay(calories)} kcal</p>
             </div>
             <div className="info_item">
               <h3 style={{ color: colorForPieChart.carbohydrates }}>
-                Carbohydrates:
+                Carbs:
               </h3>
-              <p>{carbohydrates} g</p>
+              <p>{formatNumDisplay(carbohydrates)} g</p>
             </div>
             <div className="info_item">
               <h3 style={{ color: colorForPieChart.fat }}>Fat: </h3>
-              <p>{fat} g</p>
+              <p>{formatNumDisplay(fat)} g</p>
             </div>
             <div className="info_item">
               <h3 style={{ color: colorForPieChart.protein }}>Protein: </h3>
-              <p>{protein} g</p>
+              <p>{formatNumDisplay(protein)} g</p>
             </div>
           </div>
         </div>
@@ -484,7 +537,16 @@ const Homepage = () => {
 
         {
           !recommendedMealSelected ? 
-          (<h3 className="dinner-recs-heading">Dinner recommendations:</h3>)
+          (<div className="recommendation-section">
+            <div className="recommendation-seperator"></div>
+            <h3 className="dinner-recs-heading"> Meal Recommendations:</h3>
+            <input type="text" 
+              placeholder="New Meal Name" 
+              value={recommendedMealName? (recommendedMealName) : ("")}
+              onChange={(e) => setRecommendedMealName(e.target.value)}
+            ></input>
+           </div>
+          )
           :
           ("")
         }
@@ -505,21 +567,12 @@ const Homepage = () => {
               />
               {renderSubmitBtn ? (
                 <Carousel.Caption>
-                  {submit ? (
                     <button
                       onClick={(e) => handleSubmit(e, obj)}
-                      className="slimPossibleSubmitted"
+                      className={submit ? ("slimPossibleSubmitted") : ("slimPossibleSubmit")}
                     >
-                      submitted!
+                      {submitButton}
                     </button>
-                  ) : (
-                    <button
-                      className="slimPossibleSubmit"
-                      onClick={(e) => handleSubmit(e, obj)}
-                    >
-                      submit
-                    </button>
-                  )}
                 </Carousel.Caption>
               ) : (
                 ""

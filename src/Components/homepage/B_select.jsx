@@ -27,9 +27,9 @@ const B_select = (props) => {
 
     ingredients.forEach((ingredient) => {
       totalCalories += ingredient.calories;
-      totalCarbohydrates += ingredient.carbohydrates;
-      totalProtein += ingredient.protein;
-      totalFat += ingredient.fat;
+      totalCarbohydrates += ingredient.macros.carbs;
+      totalProtein += ingredient.macros.protein;
+      totalFat += ingredient.macros.fat;
     });
 
     if (e.target.checked) {
@@ -39,6 +39,7 @@ const B_select = (props) => {
       newData.carbohydrates = totalCarbohydrates;
       newData.protein = totalProtein;
       newData.fat = totalFat;
+      newData.name = option.name;
     } else if (!e.target.checked) {
       console.log("unchecked");
     }
@@ -50,7 +51,7 @@ const B_select = (props) => {
   return (
     <div className="block">
       <div className="block-title">
-        <h1>{option.title}</h1>
+        <h1>{option.name}</h1>
         <input
           id="mealCheckBox"
           type="checkbox"

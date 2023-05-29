@@ -242,11 +242,13 @@ function SearchForm() {
 
     // Check to see if the serving size unit is grams or not
     var servingSizeData = null;
+    var servingUnit = null;
 
-    if (option.servingSizeUnit == "g") {
-      servingSizeData = ption.servingSize * modalMultiplier;
+    if (option.servingSizeUnit == "g" || option.servingSizeUnit == "ml") {
+      servingSizeData = option.servingSize * modalMultiplier;
+      servingUnit = option.servingSizeUnit;
     } else {
-      servingSizeData = modalMultiplier
+      servingSizeData = modalMultiplier;
     }
 
     console.log(modalMultiplier);
@@ -262,7 +264,7 @@ function SearchForm() {
       protein: parseFloat((protein * modalMultiplier).toFixed(2)),
       fat: parseFloat((fat * modalMultiplier).toFixed(2)),
       amount: parseFloat(servingSizeData.toFixed(2)),
-      isGram: option.servingSizeUnit == "g",
+      servingUnit: servingUnit,
       borderColor: { borderColor: randomHexColor() },
     };
 
@@ -325,6 +327,15 @@ function SearchForm() {
     };
 
     for (var i = 0; i < mealIngredientsArray.length; i++) {
+
+      // Check if serving unit is null
+      var servingUnit = "";
+
+      if (mealIngredientsArray[i].servingUnit != null) {
+        servingUnit = mealIngredientsArray[i].servingUnit;
+      }
+
+
       const ingredient = {
         name: mealIngredientsArray[i].name,
         macros: {
@@ -333,7 +344,7 @@ function SearchForm() {
           fat: mealIngredientsArray[i].fat,
         },
         amount: mealIngredientsArray[i].amount,
-        isGram: mealIngredientsArray[i].isGram,
+        servingUnit: servingUnit,
         calories: mealIngredientsArray[i].calories,
       };
 
@@ -350,7 +361,7 @@ function SearchForm() {
     const submission = {
       name: name,
       ingredients: ingredients,
-      totalcalories: totalcalories,
+      totalcalories: parseFloat(totalcalories.toFixed(2)),
       totalmacros: totalmacros,
       favmeal: favMeal,
       datestamp: formattedDate,
@@ -359,7 +370,7 @@ function SearchForm() {
     const submissionWithoutDate = {
       name: name,
       ingredients: ingredients,
-      totalcalories: totalcalories,
+      totalcalories: parseFloat(totalcalories.toFixed(2)),
       totalmacros: totalmacros,
       favmeal: favMeal,
     };
