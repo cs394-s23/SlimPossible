@@ -99,6 +99,7 @@ const Homepage = () => {
         // add today's meals
         if (meal.datestamp === formattedDate) {
           mealsToday.push(meal);
+          console.log("today", mealsToday);
         }
       });
 
@@ -393,9 +394,9 @@ const Homepage = () => {
     // Now we get the data from the meals
     const mealName = obj.name;
     const mealIngredients = obj.ingredients;
-    const mealCalories = obj.totalCalories;
-    const mealMacros = obj.totalMacros;
-    const mealFavMeal = obj.favMeal;
+    const mealCalories = obj.totalcalories;
+    const mealMacros = obj.totalmacros;
+    const mealFavMeal = obj.favmeal;
 
     // Now we submit the data to firebase
     const userId = localStorage.getItem("email");
@@ -406,11 +407,11 @@ const Homepage = () => {
     const submission = {
       name: mealName,
       ingredients: mealIngredients,
-      calories: mealCalories,
-      macros: mealMacros,
+      totalcalories: mealCalories,
+      totalmacros: mealMacros,
       date: formattedDate,
       favMeal: mealFavMeal,
-      datestamp: formattedData
+      datestamp: formattedDate
     }
 
     const docRefAll = await addDoc(userRefAllMeals, submission);

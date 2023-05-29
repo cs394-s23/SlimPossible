@@ -621,7 +621,7 @@ meal25 = {
 
 
 # Define user ID
-user_id = "victoriatran2024@u.northwestern.edu"  # Replace with the actual user ID
+user_id = "ruiwen2024@u.northwestern.edu"  # Replace with the actual user ID
 user_id2 = "user2"
 
 all_meals = [meal1, meal2, meal3]
@@ -633,8 +633,8 @@ user_ref = db.collection("users").document(user_id)
 for meal in all_meals:
     user_ref.collection("all_meals").add(meal)
 
-for meal in logged_meals:
-    user_ref.collection("logged_meals").add(meal)
+# for meal in logged_meals:
+#     user_ref.collection("logged_meals").add(meal)
 
 
 user_ref = db.collection("users").document(user_id2)

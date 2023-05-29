@@ -13,28 +13,28 @@ app = firebase_admin.initialize_app(cred)
 # Create a Firestore client
 db = firestore.client()
 
-# meal1 = {
-#     "name": "Costco Cheese Pizza Slice",
-#     "ingredients": [
-#         {
-#             "name": "Pizza Slice",
-#             "macros": {
-#                 "protein": 40,
-#                 "fat": 30,
-#                 "carbs": 80
-#             },
-#             "calories": 760
-#         }
-#     ],
-#     "totalcalories": 760,
-#     "totalmacros": {
-#         "totalprotein": 40,
-#         "totalfat": 30,
-#         "totalcarbs": 80
-#     },
-#     "favmeal": True,
-#     "datestamp": datetime.now().date().isoformat()
-# }
+meal0 = {
+    "name": "Costco Cheese Pizza Slice",
+    "ingredients": [
+        {
+            "name": "Pizza Slice",
+            "macros": {
+                "protein": 40,
+                "fat": 30,
+                "carbs": 80
+            },
+            "calories": 760
+        }
+    ],
+    "totalcalories": 760,
+    "totalmacros": {
+        "totalprotein": 40,
+        "totalfat": 30,
+        "totalcarbs": 80
+    },
+    "favmeal": True,
+    "datestamp": datetime.now().date().isoformat()
+}
 
 meal1 = {
     "name": "Eggs Benedict",
