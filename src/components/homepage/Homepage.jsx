@@ -59,15 +59,12 @@ const Homepage = () => {
 
   // formatting numbers
   const formatNumDisplay = (num) => {
-
     if (num == null) {
       return 0;
     }
 
     return parseFloat(parseFloat(num).toFixed(2));
   };
-
-  
 
   // Fetch data from firebase
   // Counting calories for all meals in logged_meal right now, NEED TO CONSIDER LOGGED_DATES LATER
@@ -138,7 +135,11 @@ const Homepage = () => {
       }
 
       // console.log("Total Calories Sum:", totalCaloriesSum);
-      return { allMeals: allMeals, totalCaloriesSum: totalCaloriesSum, AlamMeals: AlamMeals };
+      return {
+        allMeals: allMeals,
+        totalCaloriesSum: totalCaloriesSum,
+        AlamMeals: AlamMeals,
+      };
     } catch (error) {
       console.log(error);
     }
@@ -166,22 +167,20 @@ const Homepage = () => {
     if (Array.isArray(allMeals)) {
       if (allMeals.length < 5) {
         AlamMeals.forEach((meal) => {
-            if (meal.totalcalories <= remainingCalories) {
-              validMeals.push(meal);
-            }
-          });
-      }
-      else{
+          if (meal.totalcalories <= remainingCalories) {
+            validMeals.push(meal);
+          }
+        });
+      } else {
         console.log("allmeals", allMeals);
         console.log(remainingCalories);
         allMeals.forEach((meal) => {
-            if (meal.totalcalories <= remainingCalories) {
-              validMeals.push(meal);
-            }
-          });
-          console.log("valid",validMeals);
+          if (meal.totalcalories <= remainingCalories) {
+            validMeals.push(meal);
+          }
+        });
+        console.log("valid", validMeals);
       }
-      
     }
 
     const slicedValidMeals = validMeals.slice(0, 4);
@@ -223,9 +222,9 @@ const Homepage = () => {
   function mealOptionChange(newData) {
     setRenderSubmitBtn(!renderSubmitBtn);
 
-    console.log("Checking new data input")
-    console.log(newData)
-    console.log(Object.keys(newData).length === 0)
+    console.log("Checking new data input");
+    console.log(newData);
+    console.log(Object.keys(newData).length === 0);
 
     var data = {};
 
@@ -237,7 +236,6 @@ const Homepage = () => {
 
     // If the box was unchecked
     if (Object.keys(newData).length === 0) {
-
       console.log("Changing to old data");
 
       // Change back to old meal data
@@ -246,7 +244,6 @@ const Homepage = () => {
       carbohydrates = pieDataOld[3][1];
       calories = oldCalories;
     } else {
-
       console.log("Changing to new data");
 
       // Change meal data
@@ -361,14 +358,14 @@ const Homepage = () => {
   }
 
   function fetchMealsAndData() {
-    if (pieDataNew.length == 0){
+    if (pieDataNew.length == 0) {
       changePieDataNewDefault();
     }
 
-    if (pieDataOld.length == 0){
+    if (pieDataOld.length == 0) {
       changePieDataOldDefault();
     }
-    
+
     setCaloriesFetched(false);
     // uncomment later
     Fetchdata().then(({ allMeals, totalCaloriesSum, AlamMeals }) => {
@@ -392,15 +389,15 @@ const Homepage = () => {
 
   // Always change diff data when pie data changes
   useEffect(() => {
-    console.log("Pie Data Changed")
+    console.log("Pie Data Changed");
     setDiffData({
-        old: pieDataOld,
-        new: pieDataNew,
+      old: pieDataOld,
+      new: pieDataNew,
     });
   }, [pieDataNew, pieDataOld]);
 
   useEffect(() => {
-    console.log("Diffdata Changed")
+    console.log("Diffdata Changed");
     console.log(diffData);
   }, [diffData]);
 
@@ -437,7 +434,6 @@ const Homepage = () => {
 
   // submit meal option
   async function handleSubmit(e, obj) {
-
     // Submit data to firebase
     // Date format: YYYY-MM-DD
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -479,8 +475,8 @@ const Homepage = () => {
       totalmacros: mealMacros,
       date: formattedDate,
       favmeal: mealFavMeal,
-      datestamp: formattedDate
-    }
+      datestamp: formattedDate,
+    };
 
     console.log(submission);
 
@@ -500,15 +496,13 @@ const Homepage = () => {
     // Now remove all the dinner options
     setDineOptions([]);
     setRecommendedMealSelected(true);
-  };
+  }
 
   return (
     <div className="homepage">
       <div className="upper">
         <div className="header">
-          {
-            pieDataNew.length != 0 && pieDataOld.length != 0 ? 
-            (
+          {pieDataNew.length != 0 && pieDataOld.length != 0 ? (
             <div id="calories_and_macro_graph">
               <Chart
                 chartType="PieChart"
@@ -517,9 +511,9 @@ const Homepage = () => {
                 id="calories_and_macro_graph"
               />
             </div>
-          ):
-            ("")
-          }
+          ) : (
+            ""
+          )}
 
           <div className="info">
             <div className="info_item">
@@ -527,9 +521,7 @@ const Homepage = () => {
               <p>{formatNumDisplay(calories)} kcal</p>
             </div>
             <div className="info_item">
-              <h3 style={{ color: colorForPieChart.carbohydrates }}>
-                Carbs:
-              </h3>
+              <h3 style={{ color: colorForPieChart.carbohydrates }}>Carbs:</h3>
               <p>{formatNumDisplay(carbohydrates)} g</p>
             </div>
             <div className="info_item">
@@ -556,21 +548,20 @@ const Homepage = () => {
           <Block key={index} block={obj} />
         ))}
 
-        {
-          !recommendedMealSelected ? 
-          (<div className="recommendation-section">
+        {!recommendedMealSelected ? (
+          <div className="recommendation-section">
             <div className="recommendation-seperator"></div>
             <h3 className="dinner-recs-heading"> Meal Recommendations:</h3>
-            <input type="text" 
-              placeholder="New Meal Name" 
-              value={recommendedMealName? (recommendedMealName) : ("")}
+            <input
+              type="text"
+              placeholder="New Meal Name"
+              value={recommendedMealName ? recommendedMealName : ""}
               onChange={(e) => setRecommendedMealName(e.target.value)}
             ></input>
-           </div>
-          )
-          :
-          ("")
-        }
+          </div>
+        ) : (
+          ""
+        )}
 
         <Carousel
           activeIndex={index}
@@ -580,7 +571,7 @@ const Homepage = () => {
           touch="true"
         >
           {dineOptions.map((obj, index) => (
-            <Carousel.Item>
+            <Carousel.Item key={index}>
               <B_select
                 key={index}
                 option={obj}
@@ -588,12 +579,14 @@ const Homepage = () => {
               />
               {renderSubmitBtn ? (
                 <Carousel.Caption>
-                    <button
-                      onClick={(e) => handleSubmit(e, obj)}
-                      className={submit ? ("slimPossibleSubmitted") : ("slimPossibleSubmit")}
-                    >
-                      {submitButton}
-                    </button>
+                  <button
+                    onClick={(e) => handleSubmit(e, obj)}
+                    className={
+                      submit ? "slimPossibleSubmitted" : "slimPossibleSubmit"
+                    }
+                  >
+                    {submitButton}
+                  </button>
                 </Carousel.Caption>
               ) : (
                 ""
