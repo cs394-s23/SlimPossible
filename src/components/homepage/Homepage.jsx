@@ -263,11 +263,28 @@ const Homepage = () => {
       ["Carbohydrates", carbohydrates],
     ];
 
-    // 3. Set new data
-    setProtein(protein.toFixed(2));
-    setFat(fat.toFixed(2));
-    setCarbohydrates(carbohydrates.toFixed(2));
-    setCalories(calories.toFixed(2));
+    // 3. Set new data, needs to account for possible 0's here
+    if (protein != 0){
+      protein = protein.toFixed(2);
+    }
+
+    if (fat != 0){
+      fat = fat.toFixed(2);
+    }
+
+    if (carbohydrates != 0){
+      carbohydrates = carbohydrates.toFixed(2);
+    }
+
+    if (calories != 0){
+      calories = calories.toFixed(2);
+    }
+
+
+    setProtein(protein);
+    setFat(fat);
+    setCarbohydrates(carbohydrates);
+    setCalories(calories);
 
     setPieDataNew(data); // diff data will change automatically in the useEffect
     setRecommendedMealName(name); // change meal name as well
