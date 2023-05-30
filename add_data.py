@@ -13,7 +13,7 @@ app = firebase_admin.initialize_app(cred)
 # Create a Firestore client
 db = firestore.client()
 
-meal0 = {
+meal1 = {
   "name": "Malabar Parantha with Beef Roast",
   "ingredients": [
     {
@@ -41,47 +41,13 @@ meal0 = {
   ],
   "totalcalories": 302,
   "totalmacros": {
-    "totalprotein": 32,
-    "totalfat": 33,
-    "totalcarbs": 6
+    "protein": 32,
+    "fat": 33,
+    "carbs": 6
   },
   "favmeal": False,
   "datestamp": "2023-05-25",
   "date": "2023-05-25"
-}
-
-meal1 = {
-  "name": "Malabar Parantha with Beef Roast",
-  "ingredients": [
-    {
-      "name": "Beef Chuck Roast",
-      "macros": {
-        "protein": 26,
-        "fat": 3,
-        "carbs": 0
-      },
-      "oz": 3,
-      "calories": 106
-    },
-    {
-      "name": "Malabar Paratha",
-      "macros": {
-        "protein": 6,
-        "fat": 30,
-        "carbs": 6
-      },
-      "oz": 2.12,
-      "calories": 196
-    }
-  ],
-  "totalcalories": 302,
-  "totalmacros": {
-    "totalprotein": 32,
-    "totalfat": 33,
-    "totalcarbs": 6
-  },
-  "favmeal": False,
-  "datestamp": "2023-05-25"
 }
 
 
@@ -95,7 +61,8 @@ meal2 = {
         "fat": 4,
         "carbs": 0
       },
-      "oz": 0.25,
+      "servingUnit": "ml",
+      "amount": 7.39,
       "calories": 30
     },
     {
@@ -105,7 +72,8 @@ meal2 = {
         "fat": 0,
         "carbs": 1
       },
-      "oz": 0.1,
+      "servingUnit": "g",
+      "amount": 2.83,
       "calories": 20
     },
     {
@@ -115,7 +83,8 @@ meal2 = {
         "fat": 0,
         "carbs": 3
       },
-      "oz": 2.5,
+      "servingUnit": "g",
+      "amount": 70.88,
       "calories": 360
     },
     {
@@ -125,20 +94,20 @@ meal2 = {
         "fat": 11,
         "carbs": 0
       },
-      "oz": 2,
+      "servingUnit": "g",
+      "amount": 56.7,
       "calories": 42
     }
   ],
   "totalcalories": 452,
   "totalmacros": {
-    "totalprotein": 11,
-    "totalfat": 15,
-    "totalcarbs": 4
+    "protein": 11,
+    "fat": 15,
+    "carbs": 4
   },
   "favmeal": True,
   "datestamp": "2023-05-25"
 }
-
 
 meal3 = {
   "name": "PF Chang's Chicken Chow Mein with Vegetables",
@@ -150,7 +119,8 @@ meal3 = {
         "fat": 2,
         "carbs": 7
       },
-      "oz": 3,
+      "servingUnit": "g",
+      "amount": 85.05,
       "calories": 95
     },
     {
@@ -160,15 +130,16 @@ meal3 = {
         "fat": 20,
         "carbs": 2
       },
-      "oz": 9,
+      "servingUnit": "g",
+      "amount": 255.15,
       "calories": 509
     }
   ],
   "totalcalories": 604,
   "totalmacros": {
-    "totalprotein": 67,
-    "totalfat": 22,
-    "totalcarbs": 9
+    "protein": 67,
+    "fat": 22,
+    "carbs": 9
   },
   "favmeal": False,
   "datestamp": "2023-05-25"
@@ -184,15 +155,16 @@ meal12 = {
         "fat": 47,
         "carbs": 0
       },
-      "oz": 3,
+      "servingUnit": "g",
+      "amount": 85.05,
       "calories": 281
     }
   ],
   "totalcalories": 281,
   "totalmacros": {
-    "totalprotein": 9,
-    "totalfat": 47,
-    "totalcarbs": 0
+    "protein": 9,
+    "fat": 47,
+    "carbs": 0
   },
   "favmeal": False,
   "datestamp": "2023-05-09"
@@ -208,7 +180,8 @@ meal13 = {
         "fat": 8,
         "carbs": 3
       },
-      "oz": 1,
+      "servingUnit": "g",
+      "amount": 28.35,
       "calories": 47
     },
     {
@@ -218,7 +191,8 @@ meal13 = {
         "fat": 4,
         "carbs": 2
       },
-      "oz": 0.2,
+      "servingUnit": "g",
+      "amount": 5.67,
       "calories": 48
     },
     {
@@ -228,7 +202,8 @@ meal13 = {
         "fat": 5,
         "carbs": 2
       },
-      "oz": 1,
+      "servingUnit": "g",
+      "amount": 28.35,
       "calories": 80
     },
     {
@@ -238,15 +213,16 @@ meal13 = {
         "fat": 26,
         "carbs": 10
       },
-      "oz": 7.6,
+      "servingUnit": "g",
+      "amount": 215.46,
       "calories": 480
     }
   ],
   "totalcalories": 655,
   "totalmacros": {
-    "totalprotein": 50,
-    "totalfat": 43,
-    "totalcarbs": 17
+    "protein": 50,
+    "fat": 43,
+    "carbs": 17
   },
   "favmeal": False,
   "datestamp": "2023-05-25"
@@ -662,17 +638,17 @@ meal25 = {
 user_id = "ruiwen2024@u.northwestern.edu"
 user_id2 = "user2"
 
-all_meals = [meal22]
+all_meals = [meal2, meal3, meal12, meal12]
 
 logged_meals = [meal1, meal2, meal3]
 
 user_ref = db.collection("users").document(user_id)
 
-# for meal in all_meals:
-#     db.collection(u'AlamData').add(meal)
-
 for meal in all_meals:
-    user_ref.collection("all_meals").add(meal)
+    db.collection(u'AlamData').add(meal)
+
+# for meal in all_meals:
+#     user_ref.collection("all_meals").add(meal)
 
 # for meal in logged_meals:
 #     user_ref.collection("logged_meals").add(meal)
