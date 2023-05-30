@@ -478,6 +478,13 @@ const Homepage = () => {
     const userRefAllMeals = collection(userRef, "all_meals");
     const userRerLoggedMeals = collection(userRef, "logged_meals");
 
+    
+   // if (mealFavMeal.hasOwnProperty('count')) {
+   //   mealFavMeal.count = mealFavMeal.count + 1
+    //} else {
+    //  mealFavMeal = {isFavorite: obj.favmeal, count: 1}
+   // }
+  
     // Check items in ingredients
     mealIngredients.forEach((ingredient) => {
       if (ingredient.servingUnit == null) {
