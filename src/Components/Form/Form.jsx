@@ -5,10 +5,12 @@ import {
   doc,
   getFirestore,
   addDoc,
+  getDoc,
   getDocs,
 } from "firebase/firestore";
 import "./Form.css";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function SearchForm() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -29,6 +31,25 @@ function SearchForm() {
   const [modalData, setModalData] = useState({});
   const [modalMultiplier, setModalMultiplier] = useState();
   const [modalSubmit, setModalSubmit] = useState("Add to meal");
+
+  const navigate = useNavigate();
+
+  // Startup Login Check
+  useEffect(() => {
+    async function checkIfUserExists() {
+      const userId = localStorage.getItem("email");
+
+      // Pull from firebase to see if user exists
+      const userIdsDocRef = doc(db, "users", userId);
+      const docSnap = await getDoc(userIdsDocRef);
+      if (docSnap.data() == undefined) {
+        console.log("User not found");
+        navigate("/login");
+        window.location.reload();
+      }
+    }
+    checkIfUserExists();
+  }, []);
 
   const openModal = () => {
     setModalOpen(true);

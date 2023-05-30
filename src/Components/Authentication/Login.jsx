@@ -15,9 +15,6 @@ const Login = () => {
   const getUserFromFirebase = async (userEmail) => {
     const userIdsDocRef = doc(db, "users", userEmail);
     const docSnap = await getDoc(userIdsDocRef);
-    console.log("Seeing docsnap data");
-    console.log(docSnap.data());
-    console.log(docSnap.data() != null);
     return docSnap.data() != null;
   }
 
