@@ -42,7 +42,7 @@ function SearchForm() {
     const username = localStorage.getItem("email");
 
     const allMealsSnapshot = await getDocs(
-      collection(db, "users", "user1", "all_meals")
+      collection(db, "users", username, "all_meals")
     );
 
     const allMealsFromFirebase = await allMealsSnapshot.docs.map((doc) =>
