@@ -34,6 +34,7 @@ const Login = () => {
 
         if (foundUser) {
           // navigate to homepage if login is successful
+          console.log("User Found!");
           navigate("/");
           window.location.reload();
           return;

@@ -124,16 +124,18 @@ const Homepage = () => {
       // add the macros up too
       setBlocks(mealsToday);
 
-      // Change the data for the pie chart
-      var data = [
-        ["Type", "Item"],
-        ["Protein", totalProteinSum],
-        ["Fat", totalFatSum],
-        ["Carbohydrates", totalCarbsSum],
-      ];
+      // Change the data for the pie chart if all of them are non zeros
+      if (totalProteinSum != 0 && totalFatSum != 0 && totalCarbsSum != 0) {
+        var data = [
+          ["Type", "Item"],
+          ["Protein", totalProteinSum],
+          ["Fat", totalFatSum],
+          ["Carbohydrates", totalCarbsSum],
+        ];
 
-      setPieDataOld(data);
-      setPieDataNew(data);
+        setPieDataOld(data);
+        setPieDataNew(data);
+      }
 
       // console.log("Total Calories Sum:", totalCaloriesSum);
       return { allMeals: allMeals, totalCaloriesSum: totalCaloriesSum, AlamMeals: AlamMeals };
