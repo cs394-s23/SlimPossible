@@ -15,12 +15,15 @@ const Login = () => {
   const getUserFromFirebase = async (userEmail) => {
     const userIdsDocRef = doc(db, "users", userEmail);
     const docSnap = await getDoc(userIdsDocRef);
-    return docSnap.data() == null;
+    console.log("Seeing docsnap data");
+    console.log(docSnap.data());
+    console.log(docSnap.data() != null);
+    return docSnap.data() != null;
   }
 
   const signinWithGoogle = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
+      .then(async function(result) {
         var userName = result.user.displayName;
         var userEmail = result.user.email;
         var imgUrl = result.user.photoURL;
@@ -30,7 +33,7 @@ const Login = () => {
         localStorage.setItem("email", userEmail);
 
         // see if the user exists in the database
-        const foundUser = getUserFromFirebase(userEmail);
+        const foundUser = await getUserFromFirebase(userEmail);
 
         if (foundUser) {
           // navigate to homepage if login is successful
@@ -39,6 +42,8 @@ const Login = () => {
           window.location.reload();
           return;
         }
+
+        console.log("User not found");
 
         // create a document firebase;
         const userIdsDocRef = doc(db, "users", userEmail);
