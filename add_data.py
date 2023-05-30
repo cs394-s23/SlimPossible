@@ -13,6 +13,43 @@ app = firebase_admin.initialize_app(cred)
 # Create a Firestore client
 db = firestore.client()
 
+meal0 = {
+  "name": "Malabar Parantha with Beef Roast",
+  "ingredients": [
+    {
+      "name": "Beef Chuck Roast",
+      "macros": {
+        "protein": 26,
+        "fat": 3,
+        "carbs": 0
+      },
+      "servingUnit": "g",
+      "amount": 85,
+      "calories": 106
+    },
+    {
+      "name": "Malabar Paratha",
+      "macros": {
+        "protein": 6,
+        "fat": 30,
+        "carbs": 6
+      },
+      "servingUnit": "g",
+      "amount": 60,
+      "calories": 196
+    }
+  ],
+  "totalcalories": 302,
+  "totalmacros": {
+    "totalprotein": 32,
+    "totalfat": 33,
+    "totalcarbs": 6
+  },
+  "favmeal": False,
+  "datestamp": "2023-05-25",
+  "date": "2023-05-25"
+}
+
 meal1 = {
   "name": "Malabar Parantha with Beef Roast",
   "ingredients": [
@@ -621,14 +658,18 @@ meal25 = {
 
 
 # Define user ID
-user_id = "ruiwen2024@u.northwestern.edu"  # Replace with the actual user ID
+#user_id = "namansinghal2024@u.northwestern.edu"  # Replace with the actual user ID
+user_id = "ruiwen2024@u.northwestern.edu"
 user_id2 = "user2"
 
-all_meals = [meal1, meal2, meal3]
+all_meals = [meal22]
 
 logged_meals = [meal1, meal2, meal3]
 
 user_ref = db.collection("users").document(user_id)
+
+# for meal in all_meals:
+#     db.collection(u'AlamData').add(meal)
 
 for meal in all_meals:
     user_ref.collection("all_meals").add(meal)

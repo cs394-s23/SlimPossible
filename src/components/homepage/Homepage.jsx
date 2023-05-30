@@ -67,6 +67,8 @@ const Homepage = () => {
     return parseFloat(parseFloat(num).toFixed(2));
   };
 
+  
+
   // Fetch data from firebase
   // Counting calories for all meals in logged_meal right now, NEED TO CONSIDER LOGGED_DATES LATER
   const Fetchdata = async () => {
@@ -74,6 +76,9 @@ const Homepage = () => {
     const username = localStorage.getItem("email");
 
     try {
+      const AlamMealsSnapshot = await getDocs(collection(db, "AlamData"));
+      const AlamMeals = AlamMealsSnapshot.docs.map((doc) => doc.data());
+
       const allMealsSnapshot = await getDocs(
         collection(db, "users", username, "all_meals")
       );
@@ -104,15 +109,15 @@ const Homepage = () => {
 
       const mealsToday = [];
       loggedMeals.forEach((meal) => {
-        const totalcalories = meal.totalcalories;
-        totalCaloriesSum += totalcalories;
-        totalProteinSum += meal.totalmacros.protein;
-        totalFatSum += meal.totalmacros.fat;
-        totalCarbsSum += meal.totalmacros.carbs;
         // add today's meals
         if (meal.datestamp === formattedDate) {
           mealsToday.push(meal);
           console.log("today", mealsToday);
+          const totalcalories = meal.totalcalories;
+          totalCaloriesSum += totalcalories;
+          totalProteinSum += meal.totalmacros.protein;
+          totalFatSum += meal.totalmacros.fat;
+          totalCarbsSum += meal.totalmacros.carbs;
         }
       });
 
@@ -131,14 +136,14 @@ const Homepage = () => {
       setPieDataNew(data);
 
       // console.log("Total Calories Sum:", totalCaloriesSum);
-      return { allMeals: allMeals, totalCaloriesSum: totalCaloriesSum };
+      return { allMeals: allMeals, totalCaloriesSum: totalCaloriesSum, AlamMeals: AlamMeals };
     } catch (error) {
       console.log(error);
     }
   };
 
   // need to go through logged meals and get all meals matching today's date
-  const recommendMeals = (allMeals, totalCaloriesSum) => {
+  const recommendMeals = (allMeals, totalCaloriesSum, AlamMeals) => {
     const validMeals = [];
     console.log("Daily Calories");
     console.log(totalDailyCalories);
@@ -151,19 +156,33 @@ const Homepage = () => {
     if (dailyAverageGlobal > remainingCalories) {
       benchmarkCalories = remainingCalories;
     }
+    console.log("alam data", AlamMeals);
 
     // 1. Added smart recommendation method here
     // - Filter either by just remaining calories
     // - Or, it if it is next meal, then we just use a lower calorie count
     if (Array.isArray(allMeals)) {
-      allMeals.forEach((meal) => {
-        if (meal.totalcalories <= remainingCalories) {
-          validMeals.push(meal);
-        }
-      });
+      if (allMeals.length < 5) {
+        AlamMeals.forEach((meal) => {
+            if (meal.totalcalories <= remainingCalories) {
+              validMeals.push(meal);
+            }
+          });
+      }
+      else{
+        console.log("allmeals", allMeals);
+        console.log(remainingCalories);
+        allMeals.forEach((meal) => {
+            if (meal.totalcalories <= remainingCalories) {
+              validMeals.push(meal);
+            }
+          });
+          console.log("valid",validMeals);
+      }
+      
     }
 
-    const slicedValidMeals = validMeals.slice(0, 3);
+    const slicedValidMeals = validMeals.slice(0, 4);
     setFilterInfo(slicedValidMeals);
     setDineOptions(filteredMeals);
   };
@@ -344,18 +363,18 @@ const Homepage = () => {
       changePieDataNewDefault();
     }
 
-    if (pieDataOld.lenthg == 0){
+    if (pieDataOld.length == 0){
       changePieDataOldDefault();
     }
     
     setCaloriesFetched(false);
     // uncomment later
-    Fetchdata().then(({ allMeals, totalCaloriesSum }) => {
+    Fetchdata().then(({ allMeals, totalCaloriesSum, AlamMeals }) => {
       // Save all meals here
       setAllMeals(allMeals);
 
       // Data fetched, now call recommendMeals
-      recommendMeals(allMeals, totalCaloriesSum);
+      recommendMeals(allMeals, totalCaloriesSum, AlamMeals);
     });
   }
 
