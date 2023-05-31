@@ -224,7 +224,7 @@ const Homepage = () => {
       ["Type", "Item"],
       ["Protein", 0],
       ["Fat", 0],
-      ["Carbohydrates", 1],
+      ["Carbohydrates", 0.1],
     ];
     setPieDataNew(data);
   };
@@ -234,7 +234,7 @@ const Homepage = () => {
       ["Type", "Item"],
       ["Protein", 0],
       ["Fat", 0],
-      ["Carbohydrates", 1],
+      ["Carbohydrates", 0.1],
     ];
     setPieDataOld(data);
   };
@@ -284,6 +284,11 @@ const Homepage = () => {
     ];
 
     // 3. Set new data, needs to account for possible 0's here
+    console.log("Protein: ", protein);
+    console.log("Fat: ", fat);
+    console.log("Carbohydrates: ", carbohydrates);
+    console.log("Calories: ", calories);
+
     if (protein != 0){
       protein = protein.toFixed(2);
     }
@@ -292,11 +297,11 @@ const Homepage = () => {
       fat = fat.toFixed(2);
     }
 
-    if (carbohydrates != 0){
+    if (carbohydrates != 0 && carbohydrates != 0.1){
       carbohydrates = carbohydrates.toFixed(2);
     }
 
-    if (calories != 0){
+    if (calories != undefined && calories != 0){
       calories = calories.toFixed(2);
     }
 
@@ -365,10 +370,8 @@ const Homepage = () => {
     console.log("UDPATING CALORIES GOALS");
     updateCalorieGoal();
 
-    if (caloriesFetched) {
-      console.log("CALORIES FINISHED FETCHING");
-      fetchMealsAndData();
-    }
+    console.log("CALORIES FINISHED FETCHING");
+    fetchMealsAndData();
   }, [totalDailyCalories]);
 
   // 5. Pie Chart Data

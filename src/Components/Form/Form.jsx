@@ -138,7 +138,8 @@ function SearchForm() {
         carbohydrates: ingredient.macros.carbs,
         protein: ingredient.macros.protein,
         fat: ingredient.macros.fat,
-        grams: servingSize,
+        amount: ingredient.amount,
+        servingUnit: ingredient.servingUnit,
         borderColor: { borderColor: randomHexColor() },
       });
     });
