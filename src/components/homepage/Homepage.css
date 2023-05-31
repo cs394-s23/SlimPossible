@@ -259,10 +259,12 @@ button {
 
 .exit-app img {
   width: 60%;
+  content: url("exit.png");
 }
 
 #add_img {
   width: 60%;
+  content: url("add.png");
 }
 
 .recommendation-section{

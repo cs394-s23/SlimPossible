@@ -280,6 +280,7 @@
 
 #ret_home_img {
   width: 60%;
+  content: url("home.png");
 }
 
 #dropdown-menu {

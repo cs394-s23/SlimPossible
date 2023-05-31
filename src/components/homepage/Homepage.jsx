@@ -689,10 +689,10 @@ const Homepage = () => {
         onClick={handleLogOut}
         style={{ marginTop: "10px" }}
       >
-        <img className="add_img" src="src/components/homepage/exit.png"></img>
+        <img className="add_img"></img>
       </Link>
       <Link className="form_add" to="/form">
-        <img id="add_img" src="src/components/homepage/add.png"></img>
+        <img id="add_img"></img>
       </Link>
     </div>
   );
