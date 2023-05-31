@@ -253,6 +253,13 @@ const Homepage = () => {
     var carbohydrates = 0;
     var calories = 0;
     var name = null;
+    var oldCaloriesParsed = oldCalories;
+
+    // Old calories parsing
+    if (oldCaloriesParsed == null || oldCaloriesParsed == undefined) {
+      oldCaloriesParsed = 0;
+    }
+
 
     // If the box was unchecked
     if (Object.keys(newData).length === 0) {
@@ -262,7 +269,7 @@ const Homepage = () => {
       protein = pieDataOld[1][1];
       fat = pieDataOld[2][1];
       carbohydrates = pieDataOld[3][1];
-      calories = oldCalories;
+      calories = oldCaloriesParsed;
     } else {
       console.log("Changing to new data");
 
@@ -271,7 +278,7 @@ const Homepage = () => {
       protein = pieDataOld[1][1] + newData.protein;
       fat = pieDataOld[2][1] + newData.fat;
       carbohydrates = pieDataOld[3][1] + newData.carbohydrates;
-      calories = newData.calories + oldCalories;
+      calories = newData.calories + oldCaloriesParsed;
       name = newData.name;
     }
 
