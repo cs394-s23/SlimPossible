@@ -259,7 +259,6 @@ const Homepage = () => {
   };
 
   function mealOptionChange(newData) {
-    setRenderSubmitBtn(!renderSubmitBtn);
 
     console.log("Checking new data input");
     console.log(newData);
@@ -288,6 +287,9 @@ const Homepage = () => {
       fat = pieDataOld[2][1];
       carbohydrates = pieDataOld[3][1];
       calories = oldCaloriesParsed;
+
+      setRenderSubmitBtn(false);
+
     } else {
       console.log("Changing to new data");
 
@@ -298,6 +300,8 @@ const Homepage = () => {
       carbohydrates = pieDataOld[3][1] + newData.carbohydrates;
       calories = newData.calories + oldCaloriesParsed;
       name = newData.name;
+
+      setRenderSubmitBtn(true);
     }
 
     // 2. Change the pie chart data withe the previous data values as well
@@ -336,7 +340,11 @@ const Homepage = () => {
     setCalories(calories);
 
     setPieDataNew(data); // diff data will change automatically in the useEffect
-    setRecommendedMealName(name); // change meal name as well
+
+    // Only when there are no names typed 
+    if (recommendedMealName == null || recommendedMealName == undefined || recommendedMealName == "") {
+      setRecommendedMealName(name);
+    }
   }
 
   // Function to fetch data from the database regarding user daily calorie goal
@@ -561,16 +569,15 @@ const Homepage = () => {
     // Refetch all the data again
     setTimeout(() => {
       fetchMealsAndData();
+
+      // Now reset the button
+      // setDineOptions([]);
+      // await setRecommendedMealSelected(true);
+      setRecommendedMealName("");
+      setSubmitButton("submit");
+      setRenderSubmitBtn(false);
+      setSubmit(false);
     }, 1000);
-
-    // Now reset the button
-    // setDineOptions([]);
-    // await setRecommendedMealSelected(true);
-    await setRecommendedMealName("");
-    await setSubmitButton("submit");
-    await setRenderSubmitBtn(false);
-    await setSubmit(false);
-
   }
 
   return (
