@@ -49,8 +49,6 @@ const B_select = (props) => {
     tryMealOption(newData);
   };
 
-  rerender_reset();
-
   return (
     <div className="block">
       <div className="block-title">
