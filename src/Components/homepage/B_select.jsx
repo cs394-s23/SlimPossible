@@ -1,6 +1,6 @@
 import "./B_select.css";
 import Ingredient from "./Ingredient";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 
 const B_select = (props) => {
@@ -40,6 +40,7 @@ const B_select = (props) => {
       newData.protein = totalProtein;
       newData.fat = totalFat;
       newData.name = option.name;
+
     } else if (!e.target.checked) {
       console.log("unchecked");
     }
@@ -47,6 +48,8 @@ const B_select = (props) => {
     // Provide updated carbohydrate, protein, fat, and calories values to the parent component
     tryMealOption(newData);
   };
+
+  rerender_reset();
 
   return (
     <div className="block">

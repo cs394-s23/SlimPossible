@@ -227,6 +227,8 @@ const Homepage = () => {
 
   // 4. Some Helper Functions
   const handleSelect = (selectedIndex, e) => {
+    // NOTE: Carousel rerenders on every change
+    console.log("Carousel is changing...")
     setIndex(selectedIndex);
   };
 
