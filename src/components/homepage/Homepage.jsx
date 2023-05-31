@@ -558,14 +558,19 @@ const Homepage = () => {
     await setSubmit(true);
     await setSubmitButton("submitted!");
 
-    await setTimeout(() => {
-      console.log("Delayed for 1 seconds");
-      window.location.href = "/";
-    }, "2000");
+    // Refetch all the data again
+    setTimeout(() => {
+      fetchMealsAndData();
+    }, 1000);
 
-    // Now remove all the dinner options
-    setDineOptions([]);
-    setRecommendedMealSelected(true);
+    // Now reset the button
+    // setDineOptions([]);
+    // await setRecommendedMealSelected(true);
+    await setRecommendedMealName("");
+    await setSubmitButton("submit");
+    await setRenderSubmitBtn(false);
+    await setSubmit(false);
+
   }
 
   return (
@@ -613,58 +618,63 @@ const Homepage = () => {
           />
         </div>
       </div>
+        
       <div className="content">
         {blocks.map((obj, index) => (
           <Block key={index} block={obj} />
         ))}
-
-        {!recommendedMealSelected ? (
-          <div className="recommendation-section">
-            <div className="recommendation-seperator"></div>
-            <h3 className="dinner-recs-heading"> Meal Recommendations:</h3>
-            <input
-              type="text"
-              placeholder="New Meal Name"
-              value={recommendedMealName ? recommendedMealName : ""}
-              onChange={(e) => setRecommendedMealName(e.target.value)}
-            ></input>
-          </div>
-        ) : (
-          ""
-        )}
-
-        <Carousel
-          activeIndex={index}
-          onSelect={handleSelect}
-          slide="false"
-          interval={null}
-          touch="true"
-        >
-          {dineOptions.map((obj, index) => (
-            <Carousel.Item key={index}>
-              <B_select
-                key={index}
-                option={obj}
-                tryMealOption={mealOptionChange}
-              />
-              {renderSubmitBtn ? (
-                <Carousel.Caption>
-                  <button
-                    onClick={(e) => handleSubmit(e, obj)}
-                    className={
-                      submit ? "slimPossibleSubmitted" : "slimPossibleSubmit"
-                    }
-                  >
-                    {submitButton}
-                  </button>
-                </Carousel.Caption>
-              ) : (
-                ""
-              )}
-            </Carousel.Item>
-          ))}
-        </Carousel>
       </div>
+
+      {dineOptions.length == 0 ?
+          (<h3 className="dinner-recs-heading"> No meals available, daily calorie goal exceeded</h3>)
+          :
+          (<div className="carousel-section">
+            {!recommendedMealSelected ? (
+              <div className="recommendation-section">
+                <div className="recommendation-seperator"></div>
+                <h3 className="dinner-recs-heading"> Meal Recommendations:</h3>
+                <input
+                  type="text"
+                  placeholder="New Meal Name"
+                  value={recommendedMealName ? recommendedMealName : ""}
+                  onChange={(e) => setRecommendedMealName(e.target.value)}
+                ></input>
+              </div>
+            ) : ("")}
+  
+            <Carousel
+              activeIndex={index}
+              onSelect={handleSelect}
+              slide="false"
+              interval={null}
+              touch="true"
+            >
+              {dineOptions.map((obj, index) => (
+                <Carousel.Item key={index}>
+                  <B_select
+                    key={index}
+                    option={obj}
+                    tryMealOption={mealOptionChange}
+                  />
+                  {renderSubmitBtn ? (
+                    <Carousel.Caption>
+                      <button
+                        onClick={(e) => handleSubmit(e, obj)}
+                        className={
+                          submit ? "slimPossibleSubmitted" : "slimPossibleSubmit"
+                        }
+                      >
+                        {submitButton}
+                      </button>
+                    </Carousel.Caption>
+                  ) : (
+                    ""
+                  )}
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          </div>)
+      }
 
       <Link
         className="exit-app"

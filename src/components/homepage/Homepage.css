@@ -40,6 +40,12 @@ button {
   background-position: 50%;
   background-size: 100% 100%;
 }
+
+.carousel-section{
+  width: 100%;
+  margin-bottom: 100px;
+}
+
 .upper {
   position: fixed;
   top: 0;
