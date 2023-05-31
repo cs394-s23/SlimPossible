@@ -167,7 +167,7 @@ const Homepage = () => {
 
   // need to go through logged meals and get all meals matching today's date
   const recommendMeals = (allMeals, totalCaloriesSum, AlamMeals) => {
-    const validMeals = [];
+    var validMeals = [];
     console.log("Daily Calories");
     console.log(totalDailyCalories);
 
@@ -211,14 +211,11 @@ const Homepage = () => {
       return array;
     }
 
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
+    function removeDuplicates(array) {
+      return array.filter((a, b) => array.indexOf(a) === b);
     }
 
+    validMeals = removeDuplicates(validMeals);
     const randomizedValidMeals = shuffleArray(validMeals);
     const slicedValidMeals = randomizedValidMeals.slice(0, 3);
     setFilterInfo(slicedValidMeals);
