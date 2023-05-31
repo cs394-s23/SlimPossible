@@ -187,7 +187,7 @@ const Homepage = () => {
     if (Array.isArray(allMeals)) {
       if (allMeals.length < 5) {
         AlamMeals.forEach((meal) => {
-          if (meal.totalcalories <= remainingCalories) {
+          if (meal.totalcalories <= remainingCalories + 300) {
             validMeals.push(meal);
           }
         });
