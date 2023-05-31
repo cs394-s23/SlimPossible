@@ -203,7 +203,16 @@ const Homepage = () => {
       }
     }
 
-    const slicedValidMeals = validMeals.slice(0, 4);
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    const randomizedValidMeals = shuffleArray(validMeals);
+    const slicedValidMeals = randomizedValidMeals.slice(0, 3);
     setFilterInfo(slicedValidMeals);
     setDineOptions(filteredMeals);
   };
@@ -296,22 +305,21 @@ const Homepage = () => {
     console.log("Carbohydrates: ", carbohydrates);
     console.log("Calories: ", calories);
 
-    if (protein != 0){
+    if (protein != 0) {
       protein = protein.toFixed(2);
     }
 
-    if (fat != 0){
+    if (fat != 0) {
       fat = fat.toFixed(2);
     }
 
-    if (carbohydrates != 0 && carbohydrates != 0.1){
+    if (carbohydrates != 0 && carbohydrates != 0.1) {
       carbohydrates = carbohydrates.toFixed(2);
     }
 
-    if (calories != undefined && calories != 0){
+    if (calories != undefined && calories != 0) {
       calories = calories.toFixed(2);
     }
-
 
     setProtein(protein);
     setFat(fat);
@@ -508,13 +516,12 @@ const Homepage = () => {
     const userRefAllMeals = collection(userRef, "all_meals");
     const userRerLoggedMeals = collection(userRef, "logged_meals");
 
-    
-   // if (mealFavMeal.hasOwnProperty('count')) {
-   //   mealFavMeal.count = mealFavMeal.count + 1
+    // if (mealFavMeal.hasOwnProperty('count')) {
+    //   mealFavMeal.count = mealFavMeal.count + 1
     //} else {
     //  mealFavMeal = {isFavorite: obj.favmeal, count: 1}
-   // }
-  
+    // }
+
     // Check items in ingredients
     mealIngredients.forEach((ingredient) => {
       if (ingredient.servingUnit == null) {
