@@ -211,6 +211,14 @@ const Homepage = () => {
       return array;
     }
 
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
     const randomizedValidMeals = shuffleArray(validMeals);
     const slicedValidMeals = randomizedValidMeals.slice(0, 3);
     setFilterInfo(slicedValidMeals);
@@ -268,7 +276,6 @@ const Homepage = () => {
     if (oldCaloriesParsed == null || oldCaloriesParsed == undefined) {
       oldCaloriesParsed = 0;
     }
-
 
     // If the box was unchecked
     if (Object.keys(newData).length === 0) {
