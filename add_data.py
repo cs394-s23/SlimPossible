@@ -244,9 +244,9 @@ meal14 = {
   ],
   "totalcalories": 490,
   "totalmacros": {
-    "totalprotein": 44,
-    "totalfat": 26,
-    "totalcarbs": 21
+    "protein": 44,
+    "fat": 26,
+    "carbs": 21
   },
   "favmeal": False,
   "datestamp": "2023-05-25"
@@ -278,9 +278,9 @@ meal15 = {
   ],
   "totalcalories": 907,
   "totalmacros": {
-    "totalprotein": 71,
-    "totalfat": 37,
-    "totalcarbs": 73
+    "protein": 71,
+    "fat": 37,
+    "carbs": 73
   },
   "favmeal": True,
   "datestamp": "2023-05-25"
@@ -312,9 +312,9 @@ meal16 = {
   ],
   "totalcalories": 1325,
   "totalmacros": {
-    "totalprotein": 3,
-    "totalfat": 98,
-    "totalcarbs": 89
+    "protein": 3,
+    "fat": 98,
+    "carbs": 89
   },
   "favmeal": False,
   "datestamp": "2023-05-09"
@@ -336,13 +336,14 @@ meal17 = {
   ],
   "totalcalories": 1060,
   "totalmacros": {
-    "totalprotein": 88,
-    "totalfat": 60,
-    "totalcarbs": 42
+    "protein": 88,
+    "fat": 60,
+    "carbs": 42
   },
   "favmeal": False,
   "datestamp": "2023-05-09"
 }
+
 
 meal18 = {
   "name": "Steak Fajitas with Corn on the Cob",
@@ -638,7 +639,7 @@ meal25 = {
 user_id = "ruiwen2024@u.northwestern.edu"
 user_id2 = "user2"
 
-all_meals = [meal2, meal3, meal12, meal12]
+all_meals = [meal14, meal15, meal16, meal17]
 
 logged_meals = [meal1, meal2, meal3]
 
