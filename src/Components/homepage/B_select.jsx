@@ -11,8 +11,6 @@ const B_select = (props) => {
   const ingredients = option.ingredients;
   const tryMealOption = props.tryMealOption;
 
-  console.log("ingredients", ingredients);
-
   // find the data for the pie chart
   var tCal = 0;
   var tCarbohyDr = 0;

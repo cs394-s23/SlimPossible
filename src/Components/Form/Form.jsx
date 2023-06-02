@@ -585,16 +585,16 @@ function SearchForm() {
           let mapNutrients = {};
           for (let i = 0; i < Nutrients.length; i++) {
             let foodType = Nutrients[i].nutrientName;
+            let cal_ = Nutrients[i].value;
+
             if (foodType == "Protein") {
-              mapNutrients[foodType] =
-                (Nutrients[i].value / totalCalories) * 1000;
+              mapNutrients[foodType] = (cal_ / totalCalories) * 1000;
             }
             if (foodType == "Total lipid (fat)") {
-              mapNutrients["Fat"] = (Nutrients[i].value / totalCalories) * 100;
+              mapNutrients["Fat"] = (cal_ / totalCalories) * 100;
             }
             if (foodType == "Carbohydrate, by difference") {
-              mapNutrients["Carbohydrate"] =
-                (Nutrients[i].value / totalCalories) * 1000;
+              mapNutrients["Carbohydrate"] = (cal_ / totalCalories) * 1000;
             }
           }
 
@@ -624,11 +624,15 @@ function SearchForm() {
                   <p>{titleCase(option.description)}</p>
                 )}
                 {option.brandOwner != null && option.brandOwner != "" ? (
-                  <p>{option.brandOwner}</p>
+                  <p style={{ fontStyle: "italic" }}>{option.brandOwner}</p>
                 ) : (
                   ""
                 )}
               </div>
+
+              <h2 className="total-calories" style={{ fontSize: "16px" }}>
+                Total Calories: {Math.floor(totalCalories)}
+              </h2>
 
               <div className="ingredient-Composition-Chart">
                 <Pie data={data} />
