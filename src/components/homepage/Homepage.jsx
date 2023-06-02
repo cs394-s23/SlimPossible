@@ -86,6 +86,17 @@ const Homepage = () => {
     return parseFloat(parseFloat(num).toFixed(2));
   };
 
+  const formatPercDisplay = (num1, num2, num3) => {
+    if (num1 == null) {
+      return 0;
+    }
+    
+    var totalNum = parseFloat(num1) + parseFloat(num2) +parseFloat(num3);
+    var num = (num1/totalNum)*100;
+
+    return parseFloat(parseFloat(num).toFixed(0));
+  };
+
   // Fetch data from firebase
   // Counting calories for all meals in logged_meal right now, NEED TO CONSIDER LOGGED_DATES LATER
   const Fetchdata = async () => {
@@ -601,15 +612,15 @@ const Homepage = () => {
             </div>
             <div className="info_item">
               <h3 style={{ color: colorForPieChart.carbohydrates }}>Carbs:</h3>
-              <p>{formatNumDisplay(carbohydrates)} g</p>
+              <p>{formatPercDisplay(carbohydrates, fat, protein)} %</p>
             </div>
             <div className="info_item">
               <h3 style={{ color: colorForPieChart.fat }}>Fat: </h3>
-              <p>{formatNumDisplay(fat)} g</p>
+              <p>{formatPercDisplay(fat, carbohydrates, protein)} %</p>
             </div>
             <div className="info_item">
               <h3 style={{ color: colorForPieChart.protein }}>Protein: </h3>
-              <p>{formatNumDisplay(protein)} g</p>
+              <p>{formatPercDisplay(protein, fat, carbohydrates)} %</p>
             </div>
           </div>
         </div>
