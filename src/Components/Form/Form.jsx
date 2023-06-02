@@ -11,6 +11,10 @@ import {
 import "./Form.css";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function SearchForm() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -274,9 +278,9 @@ function SearchForm() {
     }
 
     console.log(modalMultiplier);
-    console.log(typeof(modalMultiplier));
+    console.log(typeof modalMultiplier);
     console.log(servingSizeData);
-    console.log(typeof(servingSizeData));
+    console.log(typeof servingSizeData);
 
     // Now we add the object to the meal array, with multiplier
     var nutritionObject = {
@@ -349,14 +353,12 @@ function SearchForm() {
     };
 
     for (var i = 0; i < mealIngredientsArray.length; i++) {
-
       // Check if serving unit is null
       var servingUnit = "";
 
       if (mealIngredientsArray[i].servingUnit != null) {
         servingUnit = mealIngredientsArray[i].servingUnit;
       }
-
 
       const ingredient = {
         name: mealIngredientsArray[i].name,
@@ -574,28 +576,66 @@ function SearchForm() {
         ))}
       </div>
       <div className="search-results">
-        {options.map((option) => (
-          <div
-            key={option.fdcId}
-            className="search-result-card"
-            onClick={(e) => handleAddMeal(e, option)}
-          >
-            <div className="src-title">
-              {option.brandOwner != null && option.brandOwner != "" ? (
-                <h3>{titleCase(option.description)}</h3>
-              ) : (
-                <h3 style={{ width: "68%" }}>
-                  {titleCase(option.description)}
-                </h3>
-              )}
-              {option.brandOwner != null && option.brandOwner != "" ? (
-                <p>{option.brandOwner}</p>
-              ) : (
-                ""
-              )}
+        {options.map(function (option) {
+          const Nutrients = option.foodNutrients;
+          const totalCalories = Nutrients.reduce(
+            (sum, num) => sum + num.value,
+            0
+          );
+          let mapNutrients = {};
+          for (let i = 0; i < Nutrients.length; i++) {
+            let foodType = Nutrients[i].nutrientName;
+            if (foodType == "Protein") {
+              mapNutrients[foodType] =
+                (Nutrients[i].value / totalCalories) * 1000;
+            }
+            if (foodType == "Total lipid (fat)") {
+              mapNutrients["Fat"] = (Nutrients[i].value / totalCalories) * 100;
+            }
+            if (foodType == "Carbohydrate, by difference") {
+              mapNutrients["Carbohydrate"] =
+                (Nutrients[i].value / totalCalories) * 1000;
+            }
+          }
+
+          const data = {
+            labels: Object.keys(mapNutrients),
+            datasets: [
+              {
+                label: "# of Calories",
+                data: Object.values(mapNutrients),
+                backgroundColor: ["#e0c342", "#ff4766", "#245dff"],
+                borderColor: "black",
+                borderWidth: 1,
+              },
+            ],
+          };
+
+          return (
+            <div
+              key={option.fdcId}
+              className="search-result-card"
+              onClick={(e) => handleAddMeal(e, option)}
+            >
+              <div className="src-title">
+                {option.brandOwner != null && option.brandOwner != "" ? (
+                  <p>{titleCase(option.description)}</p>
+                ) : (
+                  <p>{titleCase(option.description)}</p>
+                )}
+                {option.brandOwner != null && option.brandOwner != "" ? (
+                  <p>{option.brandOwner}</p>
+                ) : (
+                  ""
+                )}
+              </div>
+
+              <div className="ingredient-Composition-Chart">
+                <Pie data={data} />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

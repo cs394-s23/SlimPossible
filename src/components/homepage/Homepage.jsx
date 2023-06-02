@@ -236,7 +236,7 @@ const Homepage = () => {
   // 4. Some Helper Functions
   const handleSelect = (selectedIndex, e) => {
     // NOTE: Carousel rerenders on every change
-    console.log("Carousel is changing...")
+    console.log("Carousel is changing...");
     setIndex(selectedIndex);
   };
 
@@ -267,7 +267,6 @@ const Homepage = () => {
   };
 
   function mealOptionChange(newData) {
-
     console.log("Checking new data input");
     console.log(newData);
     console.log(Object.keys(newData).length === 0);
@@ -297,7 +296,6 @@ const Homepage = () => {
       calories = oldCaloriesParsed;
 
       setRenderSubmitBtn(false);
-
     } else {
       console.log("Changing to new data");
 
@@ -349,8 +347,12 @@ const Homepage = () => {
 
     setPieDataNew(data); // diff data will change automatically in the useEffect
 
-    // Only when there are no names typed 
-    if (recommendedMealName == null || recommendedMealName == undefined || recommendedMealName == "") {
+    // Only when there are no names typed
+    if (
+      recommendedMealName == null ||
+      recommendedMealName == undefined ||
+      recommendedMealName == ""
+    ) {
       setRecommendedMealName(name);
     }
   }
@@ -633,63 +635,68 @@ const Homepage = () => {
           />
         </div>
       </div>
-        
+
       <div className="content">
         {blocks.map((obj, index) => (
           <Block key={index} block={obj} />
         ))}
       </div>
 
-      {dineOptions.length == 0 ?
-          (<h3 className="dinner-recs-heading"> No meals available, daily calorie goal exceeded</h3>)
-          :
-          (<div className="carousel-section">
-            {!recommendedMealSelected ? (
-              <div className="recommendation-section">
-                <div className="recommendation-seperator"></div>
-                <h3 className="dinner-recs-heading"> Meal Recommendations:</h3>
-                <input
-                  type="text"
-                  placeholder="New Meal Name"
-                  value={recommendedMealName ? recommendedMealName : ""}
-                  onChange={(e) => setRecommendedMealName(e.target.value)}
-                ></input>
-              </div>
-            ) : ("")}
-  
-            <Carousel
-              activeIndex={index}
-              onSelect={handleSelect}
-              slide="false"
-              interval={null}
-              touch="true"
-            >
-              {dineOptions.map((obj, index) => (
-                <Carousel.Item key={index}>
-                  <B_select
-                    key={index}
-                    option={obj}
-                    tryMealOption={mealOptionChange}
-                  />
-                  {renderSubmitBtn ? (
-                    <Carousel.Caption>
-                      <button
-                        onClick={(e) => handleSubmit(e, obj)}
-                        className={
-                          submit ? "slimPossibleSubmitted" : "slimPossibleSubmit"
-                        }
-                      >
-                        {submitButton}
-                      </button>
-                    </Carousel.Caption>
-                  ) : (
-                    ""
-                  )}
-                </Carousel.Item>
-              ))}
-            </Carousel>
-          </div>)
-      }
+      {dineOptions.length == 0 ? (
+        <h3 className="dinner-recs-heading">
+          {" "}
+          No meals available, daily calorie goal exceeded
+        </h3>
+      ) : (
+        <div className="carousel-section">
+          {!recommendedMealSelected ? (
+            <div className="recommendation-section">
+              <div className="recommendation-seperator"></div>
+              <h3 className="dinner-recs-heading"> Meal Recommendations:</h3>
+              <input
+                type="text"
+                placeholder="New Meal Name"
+                value={recommendedMealName ? recommendedMealName : ""}
+                onChange={(e) => setRecommendedMealName(e.target.value)}
+              ></input>
+            </div>
+          ) : (
+            ""
+          )}
+
+          <Carousel
+            activeIndex={index}
+            onSelect={handleSelect}
+            slide="false"
+            interval={null}
+            touch="true"
+          >
+            {dineOptions.map((obj, index) => (
+              <Carousel.Item key={index}>
+                <B_select
+                  key={index}
+                  option={obj}
+                  tryMealOption={mealOptionChange}
+                />
+                {renderSubmitBtn ? (
+                  <Carousel.Caption>
+                    <button
+                      onClick={(e) => handleSubmit(e, obj)}
+                      className={
+                        submit ? "slimPossibleSubmitted" : "slimPossibleSubmit"
+                      }
+                    >
+                      {submitButton}
+                    </button>
+                  </Carousel.Caption>
+                ) : (
+                  ""
+                )}
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        </div>
+      )}
 
       <Link
         className="exit-app"

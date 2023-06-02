@@ -224,9 +224,14 @@
 }
 
 .search-result-card p {
-  margin: 0;
   padding: 0;
-  width: 50%;
+  margin-right: 5px;
+}
+
+/* search result pie chart */
+.ingredient-Composition-Chart {
+  height: 200px;
+  width: 200px;
 }
 
 .search-result-card h2 {
@@ -293,7 +298,7 @@
   align-items: center;
 }
 
-.option-meal-suggested{
+.option-meal-suggested {
   width: 82%;
   margin: 5px;
   padding: 5px;
@@ -309,12 +314,11 @@
   text-align: center;
 }
 
-.option-meal-suggested div{
+.option-meal-suggested div {
   font-size: 20px;
 }
 
-
-.option-meal-suggested-close-button{
+.option-meal-suggested-close-button {
   position: absolute;
   top: 11.45%;
   left: 82%;
@@ -325,7 +329,7 @@
   color: rgb(165, 165, 165);
 }
 
-.modal-item{
+.modal-item {
   position: fixed;
   z-index: 9999;
   left: 0;
@@ -344,6 +348,8 @@
   width: 80%;
   max-width: 600px;
 }
+
+/* search result pie chart */
 
 .close {
   color: #aaa;

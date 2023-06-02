@@ -1,17 +1,46 @@
 import "./B_select.css";
 import Ingredient from "./Ingredient";
-import { useState, useEffect } from "react";
 import React from "react";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const B_select = (props) => {
-  // state variables initialization
-  const [pieData, setPieData] = useState([]);
-
   // other constants
   const option = props.option;
   const ingredients = option.ingredients;
   const tryMealOption = props.tryMealOption;
 
+  console.log("ingredients", ingredients);
+
+  // find the data for the pie chart
+  var tCal = 0;
+  var tCarbohyDr = 0;
+  var tProtein = 0;
+  var tFat = 0;
+
+  ingredients.forEach((ingredient) => {
+    tCal += ingredient.calories;
+    tCarbohyDr += ingredient.macros.carbs;
+    tProtein += ingredient.macros.protein;
+    tFat += ingredient.macros.fat;
+  });
+
+  var keyLabels = ["carbs", "proteins", "fats"];
+  let dataValues = [tCarbohyDr, tProtein, tFat];
+
+  const pieData = {
+    labels: keyLabels,
+    datasets: [
+      {
+        label: "# of Calories",
+        data: dataValues,
+        backgroundColor: ["#245dff", "#e0c342", "#ff4766"],
+        borderColor: "black",
+        borderWidth: 1,
+      },
+    ],
+  };
   const ingredients_html = ingredients.map((ingredient, index) => (
     <Ingredient key={index} ingredient={ingredient} />
   ));
@@ -34,13 +63,11 @@ const B_select = (props) => {
 
     if (e.target.checked) {
       console.log("checked");
-
       newData.calories = totalCalories;
       newData.carbohydrates = totalCarbohydrates;
       newData.protein = totalProtein;
       newData.fat = totalFat;
       newData.name = option.name;
-
     } else if (!e.target.checked) {
       console.log("unchecked");
     }
@@ -61,6 +88,10 @@ const B_select = (props) => {
       </div>
       <div className="block-content">
         <div className="strings">{ingredients_html}</div>
+      </div>
+
+      <div className="ingredient-Composition-Chart">
+        <Pie data={pieData} />
       </div>
     </div>
   );
