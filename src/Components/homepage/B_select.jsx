@@ -90,6 +90,11 @@ const B_select = (props) => {
         <div className="strings">{ingredients_html}</div>
       </div>
 
+      {/* total Calories && pie chart */}
+      <h2 className="total-calories" style={{ fontSize: "16px" }}>
+        Total Calories: {tCal}
+      </h2>
+
       <div className="ingredient-Composition-Chart">
         <Pie data={pieData} />
       </div>
