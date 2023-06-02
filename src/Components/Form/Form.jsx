@@ -634,7 +634,7 @@ function SearchForm() {
                 Total Calories: {Math.floor(totalCalories)}
               </h2>
 
-              <div className="ingredient-Composition-Chart">
+              <div className="ingredient-Composition-Chart-form">
                 <Pie data={data} />
               </div>
             </div>

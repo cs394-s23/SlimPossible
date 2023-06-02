@@ -364,3 +364,7 @@
 .close:focus {
   color: black;
 }
+
+.ingredient-Composition-Chart-form{
+  width: 30px;
+}

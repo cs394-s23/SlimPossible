@@ -223,7 +223,22 @@ const Homepage = () => {
     }
 
     function removeDuplicates(array) {
-      return array.filter((a, b) => array.indexOf(a) === b);
+      let uniqueArray = [];
+      for (let i = 0; i < array.length; i++) {
+
+        let contains = false;
+
+        for (let j = 0; j < uniqueArray.length; j++) {
+          if (array[i].name.toLowerCase() === uniqueArray[j].name.toLowerCase()) {
+            contains = true;
+          }
+        }
+
+        if (!contains) {
+          uniqueArray.push(array[i]);
+        }
+      }
+      return uniqueArray;
     }
 
     validMeals = removeDuplicates(validMeals);

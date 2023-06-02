@@ -39,6 +39,22 @@ const B_select = (props) => {
       },
     ],
   };
+
+  const options = {
+    plugins: {
+      legend: {
+        labels: {
+          // This more specific font property overrides the global property
+          font: {
+            size: 15,
+          },
+        },
+        position: "right",
+      },
+    },
+  }
+
+
   const ingredients_html = ingredients.map((ingredient, index) => (
     <Ingredient key={index} ingredient={ingredient} />
   ));
@@ -84,17 +100,22 @@ const B_select = (props) => {
           onChange={tryMealOptionThis}
         ></input>
       </div>
-      <div className="block-content">
-        <div className="strings">{ingredients_html}</div>
-      </div>
+
+      <div className="spacer"></div>
 
       {/* total Calories && pie chart */}
       <h2 className="total-calories" style={{ fontSize: "16px" }}>
-        Total Calories: {tCal}
+        -- Total Calories: {tCal} kcal. -- 
       </h2>
 
+      <div className="spacer"></div>
+
+      <div className="block-content">
+        <div className="strings">{ingredients_html}</div>
+      </div>
+      
       <div className="ingredient-Composition-Chart">
-        <Pie data={pieData} />
+        <Pie data={pieData} options={options} />
       </div>
     </div>
   );
