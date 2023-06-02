@@ -477,7 +477,7 @@ function SearchForm() {
 
       {errorMessages.length > 0
         ? errorMessages.map((x, idx) => (
-            <p key={idx} style={{ color: "red" }}>
+            <p className="errorMessage" key={idx}>
               {x}
             </p>
           ))
@@ -639,18 +639,17 @@ function SearchForm() {
                   <p>{titleCase(option.description)}</p>
                 )}
                 {option.brandOwner != null && option.brandOwner != "" ? (
-                  <p style={{ fontStyle: "italic" }}>{option.brandOwner}</p>
+                  <p className="brandName">{option.brandOwner}</p>
                 ) : (
                   ""
                 )}
               </div>
-
-              <h2 className="total-calories" style={{ fontSize: "16px" }}>
+              <h2 className="total-calories">
                 Total Calories: {Math.floor(totalCalories)}
               </h2>
 
               <div className="ingredient-Composition-Chart-form">
-                <Pie data={data} options={config}/>
+                <Pie data={data} options={config} />
               </div>
             </div>
           );

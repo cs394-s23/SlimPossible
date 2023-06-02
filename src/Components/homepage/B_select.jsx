@@ -52,8 +52,7 @@ const B_select = (props) => {
         position: "right",
       },
     },
-  }
-
+  };
 
   const ingredients_html = ingredients.map((ingredient, index) => (
     <Ingredient key={index} ingredient={ingredient} />
@@ -101,19 +100,17 @@ const B_select = (props) => {
         ></input>
       </div>
 
-      <div className="spacer"></div>
+      {/* <div className="spacer"></div> */}
 
       {/* total Calories && pie chart */}
       <h2 className="total-calories" style={{ fontSize: "16px" }}>
-        -- Total Calories: {tCal} kcal. -- 
+        -- Total Calories: {tCal} kcal. --
       </h2>
 
-      <div className="spacer"></div>
-
-      <div className="block-content">
+      {/* <div className="block-content">
         <div className="strings">{ingredients_html}</div>
-      </div>
-      
+      </div> */}
+
       <div className="ingredient-Composition-Chart">
         <Pie data={pieData} options={options} />
       </div>
