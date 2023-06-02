@@ -611,6 +611,21 @@ function SearchForm() {
             ],
           };
 
+          const config = {
+            plugins: {
+              legend: {
+                labels: {
+                  // This more specific font property overrides the global property
+                  font: {
+                    size: 15,
+                  },
+                  usePointStyle: true,
+                },
+                position: "right",
+              },
+            },
+          };
+
           return (
             <div
               key={option.fdcId}
@@ -635,7 +650,7 @@ function SearchForm() {
               </h2>
 
               <div className="ingredient-Composition-Chart-form">
-                <Pie data={data} />
+                <Pie data={data} options={config}/>
               </div>
             </div>
           );
