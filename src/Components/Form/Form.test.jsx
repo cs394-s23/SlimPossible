@@ -5,7 +5,11 @@ import Homepage from "../homepage/Homepage";
 import { BrowserRouter } from "react-router-dom";
 
 it("If text exists", async () => {
-  render(<BrowserRouter> <SearchForm /> </BrowserRouter>);
+  render(
+    <BrowserRouter>
+      <SearchForm />
+    </BrowserRouter>
+  );
   await screen.findByText("Submit");
   await screen.findByText("✨ Favourite Meal?");
   await screen.findByPlaceholderText("Your meal name");
@@ -13,25 +17,31 @@ it("If text exists", async () => {
 });
 
 it("If ingredient search returns (Egg), and result stays", async () => {
-    render(<BrowserRouter> <SearchForm /> </BrowserRouter>);
-    await screen.findByText("Submit");
-    await screen.findByText("✨ Favourite Meal?");
-    await fireEvent.change(screen.getByTestId("ingredient-search-input"), {
-        target: { value: "egg" },
-    });
-    await fireEvent.click(screen.getByTestId("ingredient-search-button"));
-    await waitFor(() => expect(screen.findByText("egg")));
+  render(
+    <BrowserRouter>
+      <SearchForm />
+    </BrowserRouter>
+  );
+  await screen.findByText("Submit");
+  await screen.findByText("✨ Favourite Meal?");
+  await fireEvent.change(screen.getByTestId("ingredient-search-input"), {
+    target: { value: "egg" },
+  });
+  await fireEvent.click(screen.getByTestId("ingredient-search-button"));
+  await waitFor(() => expect(screen.findByText("egg")));
 });
 
 it("If ingredient search returns (White Bread)", async () => {
-    render(<BrowserRouter> <SearchForm /> </BrowserRouter>);
-    await screen.findByText("Submit");
-    await screen.findByText("✨ Favourite Meal?");
-    await fireEvent.change(screen.getByTestId("ingredient-search-input"), {
-        target: { value: "White Bread" },
-    });
-    await fireEvent.click(screen.getByTestId("ingredient-search-button"));
-    await waitFor(() => expect(screen.findByText("Target Stores")));
-    }
-);
-
+  render(
+    <BrowserRouter>
+      <SearchForm />
+    </BrowserRouter>
+  );
+  await screen.findByText("Submit");
+  await screen.findByText("✨ Favourite Meal?");
+  await fireEvent.change(screen.getByTestId("ingredient-search-input"), {
+    target: { value: "White Bread" },
+  });
+  await fireEvent.click(screen.getByTestId("ingredient-search-button"));
+  await waitFor(() => expect(screen.findByText("Target Stores")));
+});
