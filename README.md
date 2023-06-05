@@ -8,7 +8,7 @@ git clone https://github.com/cs394-s23/SlimPossible.git
 ```
 Navigate to the project directory: Move into the project directory using the following command:
 ```
-cd your-repo
+cd SlimPossible
 ```
 Install dependencies: Make sure you have Node.js and npm (Node Package Manager) installed on your machine. Run the following command to install the project dependencies:
 ```
