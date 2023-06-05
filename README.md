@@ -2,19 +2,19 @@
 
 SlimPossible is developed with React. To install and run this React app, you can follow these steps:
 
-Clone the repository: Start by cloning the repository from GitHub onto your local machine using the following command:
+1. Clone the repository: Start by cloning the repository from GitHub onto your local machine using the following command:
 ```
 git clone https://github.com/cs394-s23/SlimPossible.git
 ```
-Navigate to the project directory: Move into the project directory using the following command:
+2. Navigate to the project directory: Move into the project directory using the following command:
 ```
 cd SlimPossible
 ```
-Install dependencies: Make sure you have Node.js and npm (Node Package Manager) installed on your machine. Run the following command to install the project dependencies:
+3. Install dependencies: Make sure you have Node.js and npm (Node Package Manager) installed on your machine. Run the following command to install the project dependencies:
 ```
 npm install
 ```
-Start the development server: Once the dependencies are installed, you can start the development server by running the following command:
+4. Start the development server: Once the dependencies are installed, you can start the development server by running the following command:
 ```
 npm start
 ```
