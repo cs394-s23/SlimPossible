@@ -4,7 +4,7 @@ SlimPossible is developed with React. To install and run this React app, you can
 
 Clone the repository: Start by cloning the repository from GitHub onto your local machine using the following command:
 ```
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/cs394-s23/SlimPossible.git
 ```
 Navigate to the project directory: Move into the project directory using the following command:
 ```
