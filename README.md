@@ -1,6 +1,6 @@
 
 # SlimPossible
-*SlimPossible* is a user-friendly application designed to help individuals log their meals and keep track of their calorie intake. This app allows users to maintain a record of the foods they consume throughout the day, helping them make informed decisions about their diet and achieve their health and fitness goals.
+*SlimPossible* is a user-friendly application designed to help individuals log their meals and keep track of their calorie intake. This app allows users to maintain a record of the foods they consume throughout the day, helping them make informed decisions about their diet and achieve their health and fitness goals. <br>
 
 ## Table of Contents
 <details>
@@ -11,7 +11,7 @@
     <li><a href="#setting-up-firebase">Setting Up Firebase</a></li>
     <li><a href="#src-and-components-file-structure">SRC and Components File Structure</a></li>
   </ol>
-</details> <br>
+</details> <br> 
 
 
 ## Features
@@ -58,7 +58,7 @@ npm install
 Please ensure you follow the steps in the section titled *“Setting Up Firebase”* to set up Firebase Cloud Firestore for this app. After you have set up firebase, please copy the corresponding app credentials into the file *“firebase.js”*. Fill in the variable **firebaseConfig** with the credentials from your Firebase project to ensure your client is able to connect to the Firebase database.
 
 5. **Setting up the API** <br>
-Please ensure to insert your USDA API into Form.jsx for the state variable **apiKey** to ensure the ingredient search function works.
+Please ensure to insert your USDA Search API into Form.jsx for the state variable **apiKey** to ensure the ingredient search function works.
 
 5. **Start the development server:**  <br>
 Once the dependencies are installed, you can start the development server by running the following command:
@@ -89,8 +89,10 @@ Follow the instructions to register your app.
 Copy the provided configuration data.
 5. **Use Firebase configuration data in your project:** <br>
 Replace placeholder values in your project's JavaScript file (web), google-services.json (Android), or GoogleService-Info.plist (iOS) with the copied configuration data.
+6. **Transfering Data** <br>
+If you plan to use completely new data or data from a different project, you can use the Firebase console to import and export data and you can ignore the following instructions. However, if you would like some test data to start, some examplar meals are stored as json files in the folder 'AlamData' for you to import into your database to help you get started.
 
-Firebase Cloud Firestore is now set up for your project. Refer to the official Firebase documentation for more details.
+Firebase Cloud Firestore is now set up for your project. Refer to the official Firebase documentation for more details. Please remember to remove any default firebase files you need to replace in this repository before ensuring the app works.
 
 <br>
 
