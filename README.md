@@ -1,6 +1,16 @@
 
 # SlimPossible
-Slim possible is a user-friendly application designed to help individuals log their meals and keep track of their calorie intake. This app allows users to maintain a record of the foods they consume throughout the day, helping them make informed decisions about their diet and achieve their health and fitness goals.
+*SlimPossible* is a user-friendly application designed to help individuals log their meals and keep track of their calorie intake. This app allows users to maintain a record of the foods they consume throughout the day, helping them make informed decisions about their diet and achieve their health and fitness goals.
+
+## Table of Contents
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#setting-up-firebase">Setting Up Firebase</a></li>
+  </ol>
+</details>
 
 
 ## Features
@@ -12,7 +22,7 @@ New users can create an account by signing in with Google.
 Users can log their meals by adding information about each food item consumed. Each meal entry includes the food name, quantity, and serving size. Users can add details such as meal time and any additional notes. The app provides a comprehensive database of food items and their corresponding nutritional information, enabling users to quickly search and select their meals.
 
 3. **Calorie Tracking** <br>
-The app calculates and displays the total calorie intake based on the logged meals. Users can set a daily calorie goal to monitor their progress towards maintaining a balanced diet. Visual representations - pie charts - help users visualize their calorie consumption.
+The app calculates and displays the total calorie intake based on the logged meals. Users can set a daily calorie goal to monitor their progress towards maintaining a balanced diet. We use pie charts to help users visualize their calorie consumption.
 
 4. **Nutritional Information** <br>
 The app provides nutritional information for each logged meal, including calories, macronutrients (protein, carbohydrates, and fat). Users can review their daily, weekly, or monthly nutritional breakdown to identify any imbalances or deficiencies in their diet.
@@ -36,7 +46,10 @@ Make sure you have Node.js and npm (Node Package Manager) installed on your mach
 ```
 npm install
 ```
-4. **Start the development server:**  <br>
+4. **Setting up Firebase** <br>
+Please ensure you follow the steps in the section titled *“Setting Up Firebase”* to set up Firebase Cloud Firestore for this app. After you have set up firebase, please copy the corresponding app credentials into the file *“firebase.js”*. Fill in the variable **firebaseConfig** with the credentials from your Firebase project to ensure your client is able to connect to the Firebase database.
+
+5. **Start the development server:**  <br>
 Once the dependencies are installed, you can start the development server by running the following command:
 ```
 npm start

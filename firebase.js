@@ -7,15 +7,8 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDE9nF_Ghno85E9jdPY3qf5ASxTc3odNVM",
-  authDomain: "slimpossible-34902.firebaseapp.com",
-  databaseURL: "https://slimpossible-34902-default-rtdb.firebaseio.com",
-  projectId: "slimpossible-34902",
-  storageBucket: "slimpossible-34902.appspot.com",
-  messagingSenderId: "858747206804",
-  appId: "1:858747206804:web:2567fcbd6f40a1fbcb0881",
-};
+// INSERT FIREBASE CONFIG HERE
+const firebaseConfig = {};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
