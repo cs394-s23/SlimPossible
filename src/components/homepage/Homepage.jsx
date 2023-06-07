@@ -90,9 +90,9 @@ const Homepage = () => {
     if (num1 == null) {
       return 0;
     }
-    
-    var totalNum = parseFloat(num1) + parseFloat(num2) +parseFloat(num3);
-    var num = (num1/totalNum)*100;
+
+    var totalNum = parseFloat(num1) + parseFloat(num2) + parseFloat(num3);
+    var num = (num1 / totalNum) * 100;
 
     return parseFloat(parseFloat(num).toFixed(0));
   };
@@ -225,11 +225,12 @@ const Homepage = () => {
     function removeDuplicates(array) {
       let uniqueArray = [];
       for (let i = 0; i < array.length; i++) {
-
         let contains = false;
 
         for (let j = 0; j < uniqueArray.length; j++) {
-          if (array[i].name.toLowerCase() === uniqueArray[j].name.toLowerCase()) {
+          if (
+            array[i].name.toLowerCase() === uniqueArray[j].name.toLowerCase()
+          ) {
             contains = true;
           }
         }
@@ -644,6 +645,7 @@ const Homepage = () => {
         <div className="calorie_goal">
           <input
             type="number"
+            data-testid="calorie-input"
             value={totalDailyCalories || ""}
             placeholder="Enter Your Calorie Goal Today (kcal)..."
             onChange={(e) => setTotalDailyCalories(e.target.value)}
