@@ -9,7 +9,7 @@ it("does homepage show meal recommendation text", async () => {
       <Homepage />
     </BrowserRouter>
   );
-  await screen.findByText("Carbs");
+  await screen.findByText("Meal Recommendations:");
 });
 
 
