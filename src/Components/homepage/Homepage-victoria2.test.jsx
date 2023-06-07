@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import Homepage from "./Homepage";
 import { BrowserRouter } from "react-router-dom";
 
-it("Check total macros/calorie data renders properly", async () => {
+it("Check calorie input", async () => {
   render(
     <BrowserRouter>
       <Homepage />
