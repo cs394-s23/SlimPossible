@@ -36,24 +36,60 @@ function SearchForm() {
   const [modalMultiplier, setModalMultiplier] = useState();
   const [modalSubmit, setModalSubmit] = useState("Add to meal");
 
+  const [pieDataNew, setPieDataNew] = useState([]);
+  const [pieDataOld, setPieDataOld] = useState([]);
+  const [diffData, setDiffData] = useState({});
+
+  const [calories, setCalories] = useState(0);
+  const [oldCalories, setOldCalories] = useState(0);
+  const [carbohydrates, setCarbohydrates] = useState(0);
+  const [protein, setProtein] = useState(0);
+  const [fat, setFat] = useState(0);
+
   const navigate = useNavigate();
 
-  // Startup Login Check
-  useEffect(() => {
-    async function checkIfUserExists() {
-      const userId = localStorage.getItem("email");
-
-      // Pull from firebase to see if user exists
-      const userIdsDocRef = doc(db, "users", userId);
-      const docSnap = await getDoc(userIdsDocRef);
-      if (docSnap.data() == undefined) {
-        console.log("User not found");
-        navigate("/login");
-        window.location.reload();
+    // Startup Login Check
+    useEffect(() => {
+      async function checkIfUserExists() {
+        const userId = localStorage.getItem("email");
+  
+        // Pull from firebase to see if user exists
+        const userIdsDocRef = doc(db, "users", userId);
+        const docSnap = await getDoc(userIdsDocRef);
+        if (docSnap.data() == undefined) {
+          console.log("User not found");
+          navigate("/login");
+          window.location.reload();
+        }
       }
+      checkIfUserExists();
+    }, []);
+
+  const colorForPieChart = {
+    carbohydrates: "#245dff",
+    protein: "#e0c342",
+    fat: "#ff4766",
+  };
+
+  // formatting numbers
+  const formatNumDisplay = (num) => {
+    if (num == null) {
+      return 0;
     }
-    checkIfUserExists();
-  }, []);
+
+    return parseFloat(parseFloat(num).toFixed(2));
+  };
+
+  const formatPercDisplay = (num1, num2, num3) => {
+    if (num1 == null) {
+      return 0;
+    }
+    
+    var totalNum = parseFloat(num1) + parseFloat(num2) +parseFloat(num3);
+    var num = (num1/totalNum)*100;
+
+    return parseFloat(parseFloat(num).toFixed(0));
+  };
 
   const openModal = () => {
     setModalOpen(true);
@@ -486,6 +522,40 @@ function SearchForm() {
       <Link className="ret_home" to="/">
         <img id="ret_home_img"></img>
       </Link>
+
+      <div className="form-header">
+          {pieDataNew.length != 0 && pieDataOld.length != 0 ? (
+            <div id="calories_and_macro_graph">
+              <Chart
+                chartType="PieChart"
+                diffdata={diffData}
+                options={options}
+                id="calories_and_macro_graph"
+              />
+            </div>
+          ) : (
+            ""
+          )}
+
+          <div className="form-info">
+            <div className="form_info_item">
+              <h3>Calories: </h3>
+              <p>{formatNumDisplay(calories)} kcal</p>
+            </div>
+            <div className="form_info_item">
+              <h3 style={{ color: colorForPieChart.carbohydrates }}>Carbs:</h3>
+              <p>{formatPercDisplay(carbohydrates, fat, protein)} %</p>
+            </div>
+            <div className="form_info_item">
+              <h3 style={{ color: colorForPieChart.fat }}>Fat: </h3>
+              <p>{formatPercDisplay(fat, carbohydrates, protein)} %</p>
+            </div>
+            <div className="form_info_item">
+              <h3 style={{ color: colorForPieChart.protein }}>Protein: </h3>
+              <p>{formatPercDisplay(protein, fat, carbohydrates)} %</p>
+            </div>
+          </div>
+        </div>
 
       <form className="submitForm" onSubmit={handleSubmit}>
         <button

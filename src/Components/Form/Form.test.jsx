@@ -22,6 +22,7 @@ it("If ingredient search returns (Egg), and result stays", async () => {
       <SearchForm />
     </BrowserRouter>
   );
+
   await screen.findByText("Submit");
   await screen.findByText("✨ Favourite Meal?");
   await fireEvent.change(screen.getByTestId("ingredient-search-input"), {
@@ -30,6 +31,8 @@ it("If ingredient search returns (Egg), and result stays", async () => {
   await fireEvent.click(screen.getByTestId("ingredient-search-button"));
   await waitFor(() => expect(screen.findByText("egg")));
 });
+
+
 
 it("If ingredient search returns (White Bread)", async () => {
   render(
