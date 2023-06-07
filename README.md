@@ -10,7 +10,7 @@
     <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#setting-up-firebase">Setting Up Firebase</a></li>
   </ol>
-</details>
+</details> <br>
 
 
 ## Features
@@ -80,3 +80,48 @@ Copy the provided configuration data.
 Replace placeholder values in your project's JavaScript file (web), google-services.json (Android), or GoogleService-Info.plist (iOS) with the copied configuration data.
 
 Firebase Cloud Firestore is now set up for your project. Refer to the official Firebase documentation for more details.
+
+## File Structure
+The src folder contains all react components, and has the following structure:
+```
+├── App.css
+├── App.jsx
+├── App.test.jsx
+├── components
+│   ├── Authentication
+│   │   ├── Login.css
+│   │   ├── Login.jsx
+│   │   ├── Login.test.jsx
+│   │   └── logo.png
+│   ├── form
+│   │   ├── 25694.png
+│   │   ├── Form-Rui.test.jsx
+│   │   ├── Form.css
+│   │   ├── Form.jsx
+│   │   ├── Form.test.jsx
+│   │   ├── Form_fetch.test.jsx
+│   │   ├── bg.jpg
+│   │   └── home.png
+│   └── homepage
+│       ├── B_select.css
+│       ├── B_select.jsx
+│       ├── B_select.test.jsx
+│       ├── Block.css
+│       ├── Block.jsx
+│       ├── Homepage-Rui.test.jsx
+│       ├── Homepage-victoria.test.jsx
+│       ├── Homepage-victoria2.test.jsx
+│       ├── Homepage.css
+│       ├── Homepage.jsx
+│       ├── Homepage.test.jsx
+│       ├── Ingredient.css
+│       ├── Ingredient.jsx
+│       ├── add 2.png
+│       ├── add.png
+│       ├── bg.jpg
+│       └── exit.png
+├── index.css
+├── index.jsx
+└── testing_related
+    └── add_data.py
+    ```
