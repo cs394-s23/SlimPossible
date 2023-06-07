@@ -33,6 +33,7 @@ Based on the user’s daily calorie goal, the app provides meal recommendations 
 
 6. **Dynamic Calories and Macros** <br>
 This features enables the user to test out how the addition of a meal or an ingredient impacts their daily goal, granting them more information and allowing the users to choose how they want to meet their daily goal.
+<br>
 
 ## Getting Started
 
@@ -66,7 +67,7 @@ npm start
 ```
 
 In addition, you will need to create a Firebase collection to store some common meal options for initial meal recommendations when there are not enough meals in the database (right now the initial meals are stored in a collection called “AlamData”.) 
-
+<br>
 
 ## Setting Up Firebase
 To set up Firebase Cloud Firestore for this app, follow these steps:
@@ -90,6 +91,8 @@ Copy the provided configuration data.
 Replace placeholder values in your project's JavaScript file (web), google-services.json (Android), or GoogleService-Info.plist (iOS) with the copied configuration data.
 
 Firebase Cloud Firestore is now set up for your project. Refer to the official Firebase documentation for more details.
+
+<br>
 
 ## SRC and Components File Structure
 The src folder contains all react components, and has the following structure:
