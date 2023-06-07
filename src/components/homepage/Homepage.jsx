@@ -282,6 +282,7 @@ const Homepage = () => {
     setPieDataOld(data);
   };
 
+  // Called upon when a meal option is selected, and the pie data will see changes as well
   function mealOptionChange(newData) {
     console.log("Checking new data input");
     console.log(newData);

@@ -9,6 +9,7 @@
     <li><a href="#features">Features</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#setting-up-firebase">Setting Up Firebase</a></li>
+    <li><a href="#src-and-components-file-structure">SRC and Components File Structure</a></li>
   </ol>
 </details> <br>
 
@@ -26,6 +27,12 @@ The app calculates and displays the total calorie intake based on the logged mea
 
 4. **Nutritional Information** <br>
 The app provides nutritional information for each logged meal, including calories, macronutrients (protein, carbohydrates, and fat). Users can review their daily, weekly, or monthly nutritional breakdown to identify any imbalances or deficiencies in their diet.
+
+5. **Meal Recommendations** <br>
+Based on the user’s daily calorie goal, the app provides meal recommendations to help users meet their daily calorie intake. Users can view the recommended meals on their homepage, test how it will impact their daily macros and calories, and add them to their meal log.
+
+6. **Dynamic Calories and Macros** <br>
+This features enables the user to test out how the addition of a meal or an ingredient impacts their daily goal, granting them more information and allowing the users to choose how they want to meet their daily goal.
 
 ## Getting Started
 
@@ -48,6 +55,9 @@ npm install
 ```
 4. **Setting up Firebase** <br>
 Please ensure you follow the steps in the section titled *“Setting Up Firebase”* to set up Firebase Cloud Firestore for this app. After you have set up firebase, please copy the corresponding app credentials into the file *“firebase.js”*. Fill in the variable **firebaseConfig** with the credentials from your Firebase project to ensure your client is able to connect to the Firebase database.
+
+5. **Setting up the API** <br>
+Please ensure to insert your USDA API into Form.jsx for the state variable **apiKey** to ensure the ingredient search function works.
 
 5. **Start the development server:**  <br>
 Once the dependencies are installed, you can start the development server by running the following command:
@@ -81,7 +91,7 @@ Replace placeholder values in your project's JavaScript file (web), google-servi
 
 Firebase Cloud Firestore is now set up for your project. Refer to the official Firebase documentation for more details.
 
-## File Structure
+## SRC and Components File Structure
 The src folder contains all react components, and has the following structure:
 ```
 ├── App.css

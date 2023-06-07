@@ -21,7 +21,7 @@ function SearchForm() {
   const [searchQuery, setSearchQuery] = useState("");
   const [options, setOptions] = useState([]);
   const [apiKey, setApiKey] = useState(
-    "7PjqZ2PBp4plWIxuk3AtA6KUTsYooEKx9ospWyLG"
+    // INSERT YOUR USDA API KEY HERE
   );
   const [mealIngredientsArray, setMealIngredientsArray] = useState([]);
   const [mealName, setMealName] = useState("");
@@ -66,6 +66,7 @@ function SearchForm() {
     checkIfUserExists();
   }, []);
 
+  // Miscellaneous items for the pie chart
   const colorForPieChart = {
     carbohydrates: "#245dff",
     protein: "#e0c342",
@@ -92,7 +93,7 @@ function SearchForm() {
     setPieDataOld(data);
   };
 
-  // Pie Chart Data
+  // Pie Chart Options
   const chartOptions = {
     width: "100%",
     height: "130px",
@@ -130,6 +131,7 @@ function SearchForm() {
     return parseFloat(parseFloat(num).toFixed(0));
   };
 
+  // Modal functions
   const openModal = () => {
     setModalOpen(true);
   };
@@ -138,6 +140,7 @@ function SearchForm() {
     setModalOpen(false);
   };
 
+  // Fetch all meals from firebase
   const fetchAllMeals = async () => {
     const username = localStorage.getItem("email");
 
@@ -368,7 +371,7 @@ function SearchForm() {
     // Set modal data
     setModalData(option);
   };
-  
+
 
   // Always change pie data when meal ingredients array changes
   function changeHeaderData(item) {
