@@ -67,7 +67,7 @@ npm start
 ```
 
 In addition, you will need to create a Firebase collection to store some common meal options for initial meal recommendations when there are not enough meals in the database (right now the initial meals are stored in a collection called “AlamData”.) 
-<br>
+<br><br>
 
 ## Setting Up Firebase
 To set up Firebase Cloud Firestore for this app, follow these steps:
