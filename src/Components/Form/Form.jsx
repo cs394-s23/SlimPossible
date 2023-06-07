@@ -13,6 +13,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart } from "react-google-charts";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -22,7 +23,7 @@ function SearchForm() {
   const [apiKey, setApiKey] = useState(
     "7PjqZ2PBp4plWIxuk3AtA6KUTsYooEKx9ospWyLG"
   );
-  const [mealIngredientsArray, setMealArray] = useState([]);
+  const [mealIngredientsArray, setMealIngredientsArray] = useState([]);
   const [mealName, setMealName] = useState("");
   const [favMeal, setFavMeal] = useState(false);
   const [errorMessages, setErrorMessages] = useState([]);
@@ -48,27 +49,65 @@ function SearchForm() {
 
   const navigate = useNavigate();
 
-    // Startup Login Check
-    useEffect(() => {
-      async function checkIfUserExists() {
-        const userId = localStorage.getItem("email");
-  
-        // Pull from firebase to see if user exists
-        const userIdsDocRef = doc(db, "users", userId);
-        const docSnap = await getDoc(userIdsDocRef);
-        if (docSnap.data() == undefined) {
-          console.log("User not found");
-          navigate("/login");
-          window.location.reload();
-        }
+  // Startup Login Check
+  useEffect(() => {
+    async function checkIfUserExists() {
+      const userId = localStorage.getItem("email");
+
+      // Pull from firebase to see if user exists
+      const userIdsDocRef = doc(db, "users", userId);
+      const docSnap = await getDoc(userIdsDocRef);
+      if (docSnap.data() == undefined) {
+        console.log("User not found");
+        navigate("/login");
+        window.location.reload();
       }
-      checkIfUserExists();
-    }, []);
+    }
+    checkIfUserExists();
+  }, []);
 
   const colorForPieChart = {
     carbohydrates: "#245dff",
     protein: "#e0c342",
     fat: "#ff4766",
+  };
+
+  const changePieDataNewDefault = () => {
+    var data = [
+      ["Type", "Item"],
+      ["Protein", 0],
+      ["Fat", 0],
+      ["Carbohydrates", 0.1],
+    ];
+    setPieDataNew(data);
+  };
+
+  const changePieDataOldDefault = () => {
+    var data = [
+      ["Type", "Item"],
+      ["Protein", 0],
+      ["Fat", 0],
+      ["Carbohydrates", 0.1],
+    ];
+    setPieDataOld(data);
+  };
+
+  // Pie Chart Data
+  const chartOptions = {
+    width: "100%",
+    height: "130px",
+    legend: "none",
+    pieSliceText: "none",
+    backgroundColor: "transparent",
+    chartArea: { width: "100%", height: "90%" },
+    slices: {
+      0: { color: colorForPieChart.protein },
+      1: { color: colorForPieChart.fat },
+      2: { color: colorForPieChart.carbohydrates },
+      3: { color: colorForPieChart.protein }, // more slices for inner slices
+      4: { color: colorForPieChart.fat },
+      5: { color: colorForPieChart.carbohydrates },
+    },
   };
 
   // formatting numbers
@@ -112,7 +151,75 @@ function SearchForm() {
     console.log("All user meals fetched!");
     console.log(allMealsFromFirebase);
 
+    const loggedMealsSnapshot = await getDocs(
+      collection(db, "users", username, "logged_meals")
+    );
+    const loggedMeals = loggedMealsSnapshot.docs.map((doc) => doc.data());
+
+    console.log("All user logged meals fetched!");
+    console.log(loggedMeals);
+
     setAllMeals(allMealsFromFirebase);
+
+    // Now update the numbers
+    // get all the meals eaten today from logged meals
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const today = new Date().toLocaleDateString("en-US", {
+      timeZone: userTimeZone,
+    });
+
+    const [month, day, year] = today.split("/"); // Assuming the default format is MM/DD/YYYY
+    const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+      2,
+      "0"
+    )}`;
+
+    // console.log(formattedDate);
+    let totalCaloriesSum = 0;
+    let totalProteinSum = 0;
+    let totalFatSum = 0;
+    let totalCarbsSum = 0;
+
+    const mealsToday = [];
+    loggedMeals.forEach((meal) => {
+      // add today's meals
+      if (meal.datestamp === formattedDate) {
+        mealsToday.push(meal);
+        console.log("today", mealsToday);
+        const totalcalories = meal.totalcalories;
+        totalCaloriesSum += totalcalories;
+        totalProteinSum += meal.totalmacros.protein;
+        totalFatSum += meal.totalmacros.fat;
+        totalCarbsSum += meal.totalmacros.carbs;
+      }
+    });
+
+    console.log("totalCaloriesSum", totalCaloriesSum);
+    console.log("totalProteinSum", totalProteinSum);
+    console.log("totalFatSum", totalFatSum);
+    console.log("totalCarbsSum", totalCarbsSum);
+
+    // Change the data for the pie chart if all of them are non zeros
+    if (totalProteinSum != 0 || totalFatSum != 0 || totalCarbsSum != 0) {
+      var data = [
+        ["Type", "Item"],
+        ["Protein", totalProteinSum],
+        ["Fat", totalFatSum],
+        ["Carbohydrates", totalCarbsSum],
+      ];
+
+      setPieDataOld(data);
+      setPieDataNew(data);
+    }
+
+    // Now change the calories too
+    setCalories(totalCaloriesSum);
+    setOldCalories(totalCaloriesSum);
+
+    // Now change the macros
+    setProtein(totalProteinSum);
+    setFat(totalFatSum);
+    setCarbohydrates(totalCarbsSum);
   };
 
   if (allMeals.length == 0) {
@@ -185,7 +292,7 @@ function SearchForm() {
     });
 
     console.log("Updating ingredients array...");
-    setMealArray(ingredients_arr);
+    setMealIngredientsArray(ingredients_arr);
 
     // Check to see if meal is a favorite meal
     if (option.favmeal) {
@@ -261,6 +368,69 @@ function SearchForm() {
     // Set modal data
     setModalData(option);
   };
+  
+
+  // Always change pie data when meal ingredients array changes
+  function changeHeaderData(item) {
+
+    // Add the macronutrients and calories
+    var totalCaloriesSum = calories;
+    var totalProteinSum = protein;
+    var totalFatSum = fat;
+    var totalCarbsSum = carbohydrates;
+
+    // Add the last item in the meal ingredients array to the pie chart
+    totalCaloriesSum += item.calories;
+    totalProteinSum += item.protein;
+    totalFatSum += item.fat;
+    totalCarbsSum += item.carbohydrates;
+
+    // Change the data for the pie chart if all of them are non zeros
+    if (totalProteinSum != 0 || totalFatSum != 0 || totalCarbsSum != 0) {
+      var data = [
+        ["Type", "Item"],
+        ["Protein", totalProteinSum],
+        ["Fat", totalFatSum],
+        ["Carbohydrates", totalCarbsSum],
+      ];
+
+      setPieDataNew(data);
+    }
+
+    // Now change the calories and macros
+    setCalories(totalCaloriesSum);
+    setProtein(totalProteinSum);
+    setFat(totalFatSum);
+    setCarbohydrates(totalCarbsSum);
+
+  };
+
+  function deleteIngredient(item) {
+    // Remove the item from the meal ingredients array
+    var mealArray = [...mealIngredientsArray];
+
+    // Find the index of the item
+    var index = mealArray.indexOf(item);
+
+    if (index > -1) {
+      mealArray.splice(index, 1);
+    }
+
+    // Now we need to update everything
+    setMealIngredientsArray(mealArray);
+
+
+    // Change item data to negative
+    item.calories = -item.calories;
+    item.protein = -item.protein;
+    item.fat = -item.fat;
+    item.carbohydrates = -item.carbohydrates;
+
+    changeHeaderData(item);
+  };
+
+
+
 
   // Add the ingredient to the meal submit form
   const addItemToMeal = () => {
@@ -300,7 +470,7 @@ function SearchForm() {
     });
 
     // Set the meal array now
-    var mealArray = mealIngredientsArray;
+    var mealArray = [...mealIngredientsArray];
 
     // Check to see if the serving size unit is grams or not
     var servingSizeData = null;
@@ -332,15 +502,16 @@ function SearchForm() {
 
     mealArray.push(nutritionObject);
 
-    setMealArray(mealArray);
-
     console.log(mealArray);
+
+    setMealIngredientsArray(mealArray);
+    changeHeaderData(nutritionObject);
 
     // Now we change the state of the check box and CLEAR the options
     setTimeout(() => {
       setOptions([]);
       setSearchQuery("");
-    }, 500);
+    }, 300);
   };
 
   async function submitFormToFirebase(e) {
@@ -463,6 +634,16 @@ function SearchForm() {
     return string[0].toUpperCase() + string.slice(1).toLowerCase();
   };
 
+  // Always change diff data when pie data changes
+  useEffect(() => {
+    console.log("Pie Data Changed");
+    setDiffData({
+      old: pieDataOld,
+      new: pieDataNew,
+    });
+  }, [pieDataNew, pieDataOld]);
+    
+
   return (
     <div className="overallForm">
       {/* Modal */}
@@ -529,7 +710,7 @@ function SearchForm() {
               <Chart
                 chartType="PieChart"
                 diffdata={diffData}
-                options={options}
+                options={chartOptions}
                 id="calories_and_macro_graph"
               />
             </div>
@@ -537,7 +718,7 @@ function SearchForm() {
             ""
           )}
 
-          <div className="form-info">
+          <div className="form_info">
             <div className="form_info_item">
               <h3>Calories: </h3>
               <p>{formatNumDisplay(calories)} kcal</p>
@@ -639,6 +820,7 @@ function SearchForm() {
             key={ingredient.name}
             className="ingredient-option"
             style={ingredient.borderColor}
+            onClick={() => deleteIngredient(ingredient)}
           >
             <h2>{ingredient.name}:</h2>
             <p>{ingredient.calories} kcal</p>

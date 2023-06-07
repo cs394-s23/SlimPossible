@@ -153,7 +153,7 @@ const Homepage = () => {
       setBlocks(mealsToday);
 
       // Change the data for the pie chart if all of them are non zeros
-      if (totalProteinSum != 0 && totalFatSum != 0 && totalCarbsSum != 0) {
+      if (totalProteinSum != 0 || totalFatSum != 0 || totalCarbsSum != 0) {
         var data = [
           ["Type", "Item"],
           ["Protein", totalProteinSum],
